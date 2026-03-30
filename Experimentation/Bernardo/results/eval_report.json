@@ -1,0 +1,1567 @@
+{
+  "score": 0.394,
+  "subscores": {
+    "structure": 0.72,
+    "numbers": 0.09999999999999998,
+    "text": 0.19999999999999996
+  },
+  "category_penalties": {
+    "numbers": 0.9,
+    "text": 0.8,
+    "structure": 0.28
+  },
+  "counts_by_category": {
+    "numbers": 72,
+    "structure": 6,
+    "text": 50
+  },
+  "counts_by_kind": {
+    "missing": 9,
+    "type": 63,
+    "value": 48,
+    "extra": 8
+  },
+  "issues": [
+    {
+      "category": "numbers",
+      "kind": "missing",
+      "path": "sections[4].content.job[0].subtotal",
+      "expected": 0.0,
+      "got": null,
+      "detail": "missing key",
+      "penalty": 0.08,
+      "severity": "high"
+    },
+    {
+      "category": "numbers",
+      "kind": "missing",
+      "path": "sections[4].content.job[0].total",
+      "expected": 27.0,
+      "got": null,
+      "detail": "missing key",
+      "penalty": 0.08,
+      "severity": "high"
+    },
+    {
+      "category": "numbers",
+      "kind": "missing",
+      "path": "sections[4].content.job[0].total_labor",
+      "expected": 27.0,
+      "got": null,
+      "detail": "missing key",
+      "penalty": 0.08,
+      "severity": "high"
+    },
+    {
+      "category": "numbers",
+      "kind": "missing",
+      "path": "sections[4].content.job[0].total_lub",
+      "expected": 0.0,
+      "got": null,
+      "detail": "missing key",
+      "penalty": 0.08,
+      "severity": "high"
+    },
+    {
+      "category": "numbers",
+      "kind": "missing",
+      "path": "sections[4].content.job[0].total_other",
+      "expected": 0.0,
+      "got": null,
+      "detail": "missing key",
+      "penalty": 0.08,
+      "severity": "high"
+    },
+    {
+      "category": "numbers",
+      "kind": "missing",
+      "path": "sections[4].content.job[0].total_parts",
+      "expected": 0.0,
+      "got": null,
+      "detail": "missing key",
+      "penalty": 0.08,
+      "severity": "high"
+    },
+    {
+      "category": "structure",
+      "kind": "missing",
+      "path": "sections[4].content.job[0].wsi_labor",
+      "expected": [
+        {
+          "tech": 1392,
+          "a_hrs": 0.95,
+          "s_hrs": 1.0
+        }
+      ],
+      "got": null,
+      "detail": "missing key",
+      "penalty": 0.08,
+      "severity": "high"
+    },
+    {
+      "category": "structure",
+      "kind": "missing",
+      "path": "sections[4].content.wsi_labor",
+      "expected": [
+        {
+          "tech": 1392,
+          "a_hrs": 0.95,
+          "s_hrs": 1.0
+        }
+      ],
+      "got": null,
+      "detail": "missing key",
+      "penalty": 0.08,
+      "severity": "high"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[0].content.acct_split[0].acct",
+      "expected": 4541,
+      "got": "4541",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "value",
+      "path": "sections[0].content.acct_split[0].cost",
+      "expected": 2700,
+      "got": 27.0,
+      "detail": "",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "value",
+      "path": "sections[0].content.acct_split[0].sale",
+      "expected": 15080,
+      "got": 150.8,
+      "detail": "",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[0].content.acct_split[1].acct",
+      "expected": 2220,
+      "got": "2220",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[0].content.acct_split[1].cost",
+      "expected": 0,
+      "got": null,
+      "detail": "int \u2192 NoneType",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "value",
+      "path": "sections[0].content.acct_split[1].sale",
+      "expected": 15080,
+      "got": 150.8,
+      "detail": "",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "value",
+      "path": "sections[0].content.job[0].labor_cost",
+      "expected": 2700,
+      "got": 27.0,
+      "detail": "",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "value",
+      "path": "sections[0].content.job[0].labor_sale",
+      "expected": 15080,
+      "got": 150.8,
+      "detail": "",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[0].content.job[0].log[0].miles",
+      "expected": 3,
+      "got": null,
+      "detail": "int \u2192 NoneType",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[0].content.job[0].log[0].tech",
+      "expected": 3006,
+      "got": "1392",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[0].content.job[0].op[0].labor",
+      "expected": [
+        {
+          "tech": 1392,
+          "type": "WPDI",
+          "a_hrs": 0.95,
+          "s_hrs": 1.0,
+          "cost": 2700,
+          "sale": 15080,
+          "comp": null,
+          "list": null,
+          "net": 150.8,
+          "total": 150.8
+        }
+      ],
+      "got": 150.8,
+      "detail": "list \u2192 float",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[0].content.job[0].op[0].parts",
+      "expected": [],
+      "got": 0.0,
+      "detail": "list \u2192 float",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[0].content.labor[0].tech",
+      "expected": 1392,
+      "got": "1392",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[0].content.labor[1].tech",
+      "expected": 1392,
+      "got": "1392",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[0].content.total_comp",
+      "expected": 0,
+      "got": null,
+      "detail": "int \u2192 NoneType",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "value",
+      "path": "sections[0].content.total_cost",
+      "expected": 2700,
+      "got": 27.0,
+      "detail": "",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "value",
+      "path": "sections[0].content.total_sale",
+      "expected": 15080,
+      "got": 150.8,
+      "detail": "",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[0].header.advisor_id",
+      "expected": 6635,
+      "got": "6635",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[0].header.customer_number",
+      "expected": 498382,
+      "got": "498382",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[0].header.ro_number",
+      "expected": 201414,
+      "got": "201414",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[0].header.stock_number",
+      "expected": 57052,
+      "got": "57052",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[0].header.unit_number",
+      "expected": 57052,
+      "got": "57052",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "value",
+      "path": "sections[0].page_count",
+      "expected": 1,
+      "got": 2,
+      "detail": "",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[1].header.advisor_id",
+      "expected": 6635,
+      "got": null,
+      "detail": "int \u2192 NoneType",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[1].header.customer_number",
+      "expected": 498382,
+      "got": "498382",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[1].header.ro_number",
+      "expected": 201414,
+      "got": "201414",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[2].header.advisor_id",
+      "expected": 6635,
+      "got": "6635",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[2].header.customer_number",
+      "expected": 498382,
+      "got": "498382",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[2].header.ro_number",
+      "expected": 201414,
+      "got": "201414",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[2].header.stock_number",
+      "expected": 57052,
+      "got": "57052",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[2].header.unit_number",
+      "expected": 57052,
+      "got": "57052",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[3].header.advisor_id",
+      "expected": 6635,
+      "got": "6635",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[3].header.customer_number",
+      "expected": 498382,
+      "got": "498382",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[3].header.ro_number",
+      "expected": 201414,
+      "got": "201414",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[3].header.stock_number",
+      "expected": 57052,
+      "got": "57052",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[3].header.unit_number",
+      "expected": 57052,
+      "got": "57052",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "value",
+      "path": "sections[3].page_count",
+      "expected": 1,
+      "got": 2,
+      "detail": "",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[4].content.acct_split[0].acct",
+      "expected": 4541,
+      "got": "4541",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "value",
+      "path": "sections[4].content.acct_split[0].cost",
+      "expected": 2700,
+      "got": 27.0,
+      "detail": "",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "value",
+      "path": "sections[4].content.acct_split[0].sale",
+      "expected": 15080,
+      "got": 150.8,
+      "detail": "",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[4].content.acct_split[1].acct",
+      "expected": 2220,
+      "got": "2220",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[4].content.acct_split[1].cost",
+      "expected": 0,
+      "got": null,
+      "detail": "int \u2192 NoneType",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "value",
+      "path": "sections[4].content.acct_split[1].sale",
+      "expected": 15080,
+      "got": 150.8,
+      "detail": "",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "value",
+      "path": "sections[4].content.job[0].labor_cost",
+      "expected": 2700,
+      "got": 27.0,
+      "detail": "",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "value",
+      "path": "sections[4].content.job[0].labor_sale",
+      "expected": 15080,
+      "got": 150.8,
+      "detail": "",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[4].content.job[0].log[0].miles",
+      "expected": 3,
+      "got": null,
+      "detail": "int \u2192 NoneType",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[4].content.job[0].op[0].labor",
+      "expected": [
+        {
+          "tech": 1392,
+          "type": "WPDI",
+          "hours": 1.0,
+          "list": null,
+          "net": 150.8,
+          "total": 150.8
+        }
+      ],
+      "got": 150.8,
+      "detail": "list \u2192 float",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[4].content.labor[0].tech",
+      "expected": 1392,
+      "got": "1392",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[4].content.labor[1].tech",
+      "expected": 1392,
+      "got": "1392",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[4].content.subtotal",
+      "expected": 0.0,
+      "got": null,
+      "detail": "float \u2192 NoneType",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "value",
+      "path": "sections[4].content.total",
+      "expected": 27.0,
+      "got": 150.8,
+      "detail": "",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[4].content.total_comp",
+      "expected": 0,
+      "got": null,
+      "detail": "int \u2192 NoneType",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "value",
+      "path": "sections[4].content.total_cost",
+      "expected": 2700,
+      "got": 27.0,
+      "detail": "",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "value",
+      "path": "sections[4].content.total_labor",
+      "expected": 27.0,
+      "got": 150.8,
+      "detail": "",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "value",
+      "path": "sections[4].content.total_sale",
+      "expected": 15080,
+      "got": 150.8,
+      "detail": "",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[4].header.advisor_id",
+      "expected": 6635,
+      "got": "6635",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[4].header.customer_number",
+      "expected": 498382,
+      "got": "498382",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[4].header.ro_number",
+      "expected": 201414,
+      "got": "201414",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[4].header.stock_number",
+      "expected": 57052,
+      "got": "57052",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "numbers",
+      "kind": "type",
+      "path": "sections[4].header.unit_number",
+      "expected": 57052,
+      "got": "57052",
+      "detail": "int \u2192 str",
+      "penalty": 0.06,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "missing",
+      "path": "sections[1].header.date",
+      "expected": "2019-06-21",
+      "got": null,
+      "detail": "missing key",
+      "penalty": 0.05,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[0].content.job[0].log[0].text",
+      "expected": "INSPECTION COMPLETE",
+      "got": "VERSION 1 (EMP# 3006,25JUN19 07:10): 3 INSPECTION COMPLETE",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[0].content.job[0].op[0].code",
+      "expected": "0000012",
+      "got": "PDI",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[0].content.labor[0].type",
+      "expected": "W",
+      "got": "w",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[0].header.close_date",
+      "expected": "2019-06-21",
+      "got": "2019-06-25",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[0].header.deal_type",
+      "expected": "DD",
+      "got": "PRE-INVOICE",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[0].header.engine",
+      "expected": "3.0_Liter_Twin_Turbo",
+      "got": "3.0 Liter Twin Turbo",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[0].header.year",
+      "expected": "19",
+      "got": "2019",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[1].header.deal_type",
+      "expected": "DD",
+      "got": "WORKORDER",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[1].header.year",
+      "expected": "19",
+      "got": "2019",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[2].header.close_date",
+      "expected": "2019-06-21",
+      "got": "2019-06-25",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[2].header.deal_type",
+      "expected": "DD",
+      "got": "INVOICE",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[2].header.engine",
+      "expected": "3.0_Liter_Twin_Turbo",
+      "got": "3.0 Liter Twin Turbo",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[2].header.year",
+      "expected": "19",
+      "got": "2019",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[3].header.close_date",
+      "expected": "2019-06-21",
+      "got": "2019-06-25",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[3].header.deal_type",
+      "expected": "DD",
+      "got": "INVOICE",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[3].header.engine",
+      "expected": "3.0_Liter_Twin_Turbo",
+      "got": "3.0 Liter Twin Turbo",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[3].header.year",
+      "expected": "19",
+      "got": "2019",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[3].prefix",
+      "expected": "JSI",
+      "got": "ISI",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[3].section_id",
+      "expected": "JSI-201414",
+      "got": "ISI-201414",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[4].content.job[0].log[0].text",
+      "expected": "INSPECTION COMPLETE",
+      "got": "Inspection Complete",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[4].content.job[0].op[0].code",
+      "expected": "0000012",
+      "got": "PDI",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[4].content.labor[0].type",
+      "expected": "W",
+      "got": "w",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[4].header.close_date",
+      "expected": "2019-06-21",
+      "got": "2019-06-25",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[4].header.deal_type",
+      "expected": "DD",
+      "got": "WARRANTY",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[4].header.engine",
+      "expected": "3.0_Liter_Twin_Turbo",
+      "got": "3.0 Liter Twin Turbo",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "text",
+      "kind": "value",
+      "path": "sections[4].header.year",
+      "expected": "19",
+      "got": "2019",
+      "detail": "",
+      "penalty": 0.04,
+      "severity": "med"
+    },
+    {
+      "category": "structure",
+      "kind": "value",
+      "path": "sections[0].footer",
+      "expected": {
+        "labor_amount": 0.0,
+        "parts_amount": 0.0,
+        "gas_oil_lube": 0.0,
+        "sublet_amount": 0.0,
+        "misc_charges": 0.0,
+        "total_charges": 0.0,
+        "less_insurance": 0.0,
+        "sales_tax": 0.0,
+        "please_pay": 0.0
+      },
+      "got": {},
+      "detail": "",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "structure",
+      "kind": "value",
+      "path": "sections[1].content",
+      "expected": {
+        "job": [
+          {
+            "line_letter": "A",
+            "op_code": "PDI",
+            "type": "WPDI",
+            "text": "PRE DELIVERY INSPECTION"
+          }
+        ]
+      },
+      "got": {
+        "job": [
+          {
+            "line_letter": "A",
+            "text": "PRE DELIVERY INSPECTION",
+            "cause": null,
+            "op": [
+              {
+                "code": "PDI",
+                "text": "WPDI",
+                "labor": null,
+                "parts": null
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": null,
+            "claim_type": null,
+            "labor_cost": null,
+            "labor_sale": null,
+            "log": []
+          }
+        ],
+        "bar": null,
+        "epa": null,
+        "dealer_notes": null,
+        "labor": [],
+        "acct_split": [],
+        "total_cost": null,
+        "total_sale": null,
+        "total_comp": null,
+        "total_labor": null,
+        "total_parts": null,
+        "total_other": null,
+        "total_lub": null,
+        "subtotal": null,
+        "total": null
+      },
+      "detail": "",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "structure",
+      "kind": "value",
+      "path": "sections[2].content",
+      "expected": {
+        "job": [
+          {
+            "line_letter": "A",
+            "text": "PRE DELIVERY INSPECTION",
+            "cause": "PDI",
+            "op": [
+              {
+                "code": "0000012",
+                "text": "PDI SPOT CHECK",
+                "labor": [
+                  {
+                    "tech": 1392,
+                    "type": "WPDI",
+                    "hours": null,
+                    "list": null,
+                    "net": null,
+                    "total": 0.0
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": "11999977BV",
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": null,
+            "claim_type": "1W",
+            "auth_code": null,
+            "total_parts": 0.0,
+            "total_labor": 0.0,
+            "total_other": 0.0,
+            "total": 0.0,
+            "log": [
+              {
+                "tech": null,
+                "date": null,
+                "time": null,
+                "miles": 3,
+                "text": "INSPECTION COMPLETE"
+              }
+            ]
+          }
+        ],
+        "bar": "AG-054466",
+        "epa": "CAD982041154",
+        "dealer_notes": "At Niello BMW we pride ourselves in our dedication of keeping our customers completely satisfied. Soon you will be contacted by BMWNA regarding this service. If you cannot answer all the questions with an excellent rating, please let us know."
+      },
+      "got": {
+        "job": [
+          {
+            "line_letter": "A",
+            "text": "PRE DELIVERY INSPECTION",
+            "cause": "PDI",
+            "op": [
+              {
+                "code": "PDI",
+                "text": "PDI SPOT CHECK",
+                "labor": 0.0,
+                "parts": 0.0
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": 0.0,
+            "parts_sale": 0.0,
+            "claim_type": null,
+            "labor_cost": 0.0,
+            "labor_sale": 0.0,
+            "log": []
+          }
+        ],
+        "bar": "AG-054466",
+        "epa": "CAD982041154",
+        "dealer_notes": "At Niello BMW we pride ourselves in our dedication of keeping our customers completely satisfied. Soon you will be contacted by BMWNA regarding this service. If you cannot answer all the questions with an excellent rating, please let us know.",
+        "labor": [],
+        "acct_split": [],
+        "total_cost": null,
+        "total_sale": null,
+        "total_comp": null,
+        "total_labor": 0.0,
+        "total_parts": 0.0,
+        "total_other": 0.0,
+        "total_lub": null,
+        "subtotal": null,
+        "total": 0.0
+      },
+      "detail": "",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "structure",
+      "kind": "value",
+      "path": "sections[3].content",
+      "expected": {
+        "job": [
+          {
+            "line_letter": "A",
+            "text": "PRE DELIVERY INSPECTION",
+            "cause": "PDI",
+            "op": [
+              {
+                "code": "0000012",
+                "text": "PDI SPOT CHECK",
+                "labor": [
+                  {
+                    "tech": 1392,
+                    "type": "WPDI",
+                    "hours": null,
+                    "list": null,
+                    "net": null,
+                    "total": 0.0
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": "11999977BV",
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": null,
+            "claim_type": "1W",
+            "auth_code": null,
+            "total_parts": 0.0,
+            "total_labor": 0.0,
+            "total_other": 0.0,
+            "total": 0.0,
+            "log": [
+              {
+                "tech": null,
+                "date": null,
+                "time": null,
+                "miles": 3,
+                "text": "INSPECTION COMPLETE"
+              }
+            ]
+          }
+        ],
+        "bar": "AG-054466",
+        "epa": "CAD982041154",
+        "dealer_notes": "At Niello BMW we pride ourselves in our dedication of keeping our customers completely satisfied. Soon you will be contacted by BMWNA regarding this service. If you cannot answer all the questions with an excellent rating, please let us know."
+      },
+      "got": {
+        "job": [
+          {
+            "line_letter": "A",
+            "text": "PRE DELIVERY INSPECTION",
+            "cause": "PDI",
+            "op": [
+              {
+                "code": "PDI",
+                "text": "PDI SPOT CHECK",
+                "labor": 0.0,
+                "parts": 0.0
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": 0.0,
+            "parts_sale": 0.0,
+            "claim_type": null,
+            "labor_cost": 0.0,
+            "labor_sale": 0.0,
+            "log": []
+          }
+        ],
+        "bar": "AG-054466",
+        "epa": "CAD982041154",
+        "dealer_notes": "At Niello BMW we pride ourselves in our dedication of keeping our customers completely satisfied. Soon you will be contacted by BMWNA regarding this service. If you cannot answer all the questions with an excellent rating, please let us know.",
+        "labor": [],
+        "acct_split": [],
+        "total_cost": null,
+        "total_sale": null,
+        "total_comp": null,
+        "total_labor": 0.0,
+        "total_parts": 0.0,
+        "total_other": 0.0,
+        "total_lub": null,
+        "subtotal": null,
+        "total": 0.0
+      },
+      "detail": "",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[0].content.job[0].cause",
+      "expected": "PDI",
+      "got": null,
+      "detail": "str \u2192 NoneType",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[0].content.job[0].claim_type",
+      "expected": "1W",
+      "got": null,
+      "detail": "str \u2192 NoneType",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[0].content.job[0].log[0].date",
+      "expected": "2019-06-25",
+      "got": null,
+      "detail": "str \u2192 NoneType",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[0].content.job[0].log[0].time",
+      "expected": "07:10",
+      "got": null,
+      "detail": "str \u2192 NoneType",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[0].header.delivery_date",
+      "expected": "2019-06-25",
+      "got": null,
+      "detail": "str \u2192 NoneType",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[0].header.time_out",
+      "expected": "07:12",
+      "got": null,
+      "detail": "str \u2192 NoneType",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[1].header.advisor_name",
+      "expected": "Richard Aguirre",
+      "got": null,
+      "detail": "str \u2192 NoneType",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[1].header.close_date",
+      "expected": "2019-06-21",
+      "got": null,
+      "detail": "str \u2192 NoneType",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[1].header.color",
+      "expected": "BLACK",
+      "got": null,
+      "detail": "str \u2192 NoneType",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[1].header.customer_city_state_zip",
+      "expected": "West Elizabeth, IL 71179",
+      "got": null,
+      "detail": "str \u2192 NoneType",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[1].header.engine",
+      "expected": "3.0_Liter_Twin_Turbo",
+      "got": null,
+      "detail": "str \u2192 NoneType",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[2].header.delivery_date",
+      "expected": "2019-06-25",
+      "got": null,
+      "detail": "str \u2192 NoneType",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[2].header.time_out",
+      "expected": "07:12",
+      "got": null,
+      "detail": "str \u2192 NoneType",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[3].header.delivery_date",
+      "expected": "2019-06-25",
+      "got": null,
+      "detail": "str \u2192 NoneType",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[3].header.time_out",
+      "expected": "07:12",
+      "got": null,
+      "detail": "str \u2192 NoneType",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[4].content.job[0].cause",
+      "expected": "PDI",
+      "got": null,
+      "detail": "str \u2192 NoneType",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[4].content.job[0].claim_type",
+      "expected": "1W",
+      "got": null,
+      "detail": "str \u2192 NoneType",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[4].content.job[0].fc",
+      "expected": "11999977BV",
+      "got": null,
+      "detail": "str \u2192 NoneType",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[4].content.job[0].log[0].tech",
+      "expected": null,
+      "got": "1392",
+      "detail": "NoneType \u2192 str",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[4].header.delivery_date",
+      "expected": "2019-06-25",
+      "got": null,
+      "detail": "str \u2192 NoneType",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "type",
+      "path": "sections[4].header.time_out",
+      "expected": "07:12",
+      "got": null,
+      "detail": "str \u2192 NoneType",
+      "penalty": 0.03,
+      "severity": "low"
+    },
+    {
+      "category": "numbers",
+      "kind": "extra",
+      "path": "sections[0].content.total",
+      "expected": null,
+      "got": 150.8,
+      "detail": "extra key",
+      "penalty": 0.02,
+      "severity": "low"
+    },
+    {
+      "category": "numbers",
+      "kind": "extra",
+      "path": "sections[0].content.total_labor",
+      "expected": null,
+      "got": 150.8,
+      "detail": "extra key",
+      "penalty": 0.02,
+      "severity": "low"
+    },
+    {
+      "category": "numbers",
+      "kind": "extra",
+      "path": "sections[0].content.total_lub",
+      "expected": null,
+      "got": 0.0,
+      "detail": "extra key",
+      "penalty": 0.02,
+      "severity": "low"
+    },
+    {
+      "category": "numbers",
+      "kind": "extra",
+      "path": "sections[0].content.total_other",
+      "expected": null,
+      "got": 0.0,
+      "detail": "extra key",
+      "penalty": 0.02,
+      "severity": "low"
+    },
+    {
+      "category": "numbers",
+      "kind": "extra",
+      "path": "sections[0].content.total_parts",
+      "expected": null,
+      "got": 0.0,
+      "detail": "extra key",
+      "penalty": 0.02,
+      "severity": "low"
+    },
+    {
+      "category": "numbers",
+      "kind": "extra",
+      "path": "sections[4].content.job[0].op[0].parts",
+      "expected": null,
+      "got": 0.0,
+      "detail": "extra key",
+      "penalty": 0.02,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "extra",
+      "path": "sections[1].header.date_in",
+      "expected": null,
+      "got": "2019-06-21",
+      "detail": "extra key",
+      "penalty": 0.02,
+      "severity": "low"
+    },
+    {
+      "category": "text",
+      "kind": "extra",
+      "path": "sections[1].header.delivery_date",
+      "expected": null,
+      "got": "2019-06-21",
+      "detail": "extra key",
+      "penalty": 0.02,
+      "severity": "low"
+    }
+  ]
+}

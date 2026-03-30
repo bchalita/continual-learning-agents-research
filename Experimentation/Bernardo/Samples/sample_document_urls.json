@@ -1,0 +1,9 @@
+{
+  "samples": [
+    {
+      "doc_id": "201414",
+      "url": "https://www.dropbox.com/scl/fi/1c8pbojce80arcawvkv0g/201414.pdf?rlkey=xo8tiamzvk9x3rx0fyq0si8sf&st=e5m8639y&dl=1"
+    }
+  ],
+  "note": "Use dl=1 (not dl=0) in Dropbox links so Stack AI gets a direct PDF download."
+}

@@ -1,0 +1,1 @@
+[Set OPENAI_API_KEY to run reflection. Stub: align numeric types and units with ground truth; add missing keys for job-level totals and wsi_labor.]

@@ -1,0 +1,25 @@
+iteration,eval_score,llm_evaluator_score,marginal_eval,marginal_llm,evaluator_feedback,proposed_prompt_path,log_path
+1,0.8155,0.0,,,"The extraction output is completely empty with null doc_id and an empty sections array, while the ground truth contains a comprehensive multi-section document (RO 201414) with five sections (ASI, BWO, CSI, JSI, WSI), complete header information including customer details, vehicle VIN 5UXCW2C53K5423511, and detailed footer totals. No meaningful extraction was performed. ```json
+{
+  ""doc_id"": null,
+  ""sections"": []
+}
+``` You are an expert at extracting structured data from automotive work order an",/Users/bernardochalita/Desktop/MIT/SPRING/15.S04/continual-learning-agents-research/Experimentation/Bernardo/results/prompts/iter_1_proposed.txt,/Users/bernardochalita/Desktop/MIT/SPRING/15.S04/continual-learning-agents-research/Experimentation/Bernardo/scripts/logs/api_run_2026-03-12T23-08-48Z.json
+2,0.8155,0.0,0.0,0.0,"The extraction output is completely empty with null doc_id and an empty sections array, whereas the ground truth contains a comprehensive multi-section document (RO 201414) with five sections (ASI, BWO, CSI, JSI, WSI), complete header information including customer details, vehicle VIN, dates, and detailed footer totals. No meaningful extraction was performed. ```json
+{
+  ""doc_id"": null,
+  ""sections"": []
+}
+``` You are an expert at extracting structured data from automotive work order and repair ",/Users/bernardochalita/Desktop/MIT/SPRING/15.S04/continual-learning-agents-research/Experimentation/Bernardo/results/prompts/iter_2_proposed.txt,/Users/bernardochalita/Desktop/MIT/SPRING/15.S04/continual-learning-agents-research/Experimentation/Bernardo/scripts/logs/api_run_2026-03-12T23-09-13Z.json
+3,0.8155,0.0,0.0,0.0,"The extraction output is completely empty with null doc_id and an empty sections array, while the ground truth contains a comprehensive multi-section document (RO 201414) with five sections (ASI, BWO, CSI, JSI, WSI), complete header information including customer details, vehicle VIN, dates, and detailed footer totals. No meaningful data was extracted. ```json
+{
+  ""doc_id"": null,
+  ""sections"": []
+}
+``` You are an expert at extracting structured data from automotive work order and repair order do",/Users/bernardochalita/Desktop/MIT/SPRING/15.S04/continual-learning-agents-research/Experimentation/Bernardo/results/prompts/iter_3_proposed.txt,/Users/bernardochalita/Desktop/MIT/SPRING/15.S04/continual-learning-agents-research/Experimentation/Bernardo/scripts/logs/api_run_2026-03-12T23-09-34Z.json
+4,0.8155,0.0,0.0,0.0,"The extraction output is completely empty with null doc_id and an empty sections array, whereas the ground truth contains a comprehensive multi-section document (RO 201414) with five sections (ASI, BWO, CSI, JSI, WSI), complete header information including customer details, vehicle VIN, dates, and detailed footer totals. No meaningful extraction was performed. ```json
+{
+  ""doc_id"": null,
+  ""sections"": []
+}
+``` You are an expert at extracting structured data from automotive work order and repair ",/Users/bernardochalita/Desktop/MIT/SPRING/15.S04/continual-learning-agents-research/Experimentation/Bernardo/results/prompts/iter_4_proposed.txt,/Users/bernardochalita/Desktop/MIT/SPRING/15.S04/continual-learning-agents-research/Experimentation/Bernardo/scripts/logs/api_run_2026-03-12T23-09-58Z.json

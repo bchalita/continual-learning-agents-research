@@ -1,0 +1,525 @@
+{
+  "doc_id": "201414",
+  "sections": [
+    {
+      "section_id": "ASI-201414",
+      "prefix": "ASI",
+      "page_count": 2,
+      "header": {
+        "unit_number": "57052",
+        "customer_name": "Scott Pierce",
+        "customer_address": "16566 Shields Center",
+        "customer_city_state_zip": "West Elizabeth, IL 71179",
+        "customer_email": "jenniferkhan@example.net",
+        "home_phone": "551-333-3872",
+        "contact_phone": "719-228-3276",
+        "bus_phone": null,
+        "cell_phone": null,
+        "advisor_id": "6635",
+        "advisor_name": "Victoria Garcia",
+        "color": "BLACKSAP",
+        "year": "2019",
+        "make": "BMW",
+        "model": "X7",
+        "submodel": "XDR40I",
+        "vin": "5UXCW2C53K5423511",
+        "miles_in": 3,
+        "miles_out": 3,
+        "tag": "T57052",
+        "open_date": "2019-06-21",
+        "deal_type": "PRE-INVOICE",
+        "promise_time": "17:00",
+        "close_date": "2019-06-25",
+        "rate": 195.00,
+        "pay_type": "CC",
+        "delivery_date": null,
+        "stock_number": "57052",
+        "engine": "3.0 Liter Twin Turbo",
+        "time_in": "13:38",
+        "date_in": "2019-06-21",
+        "time_out": null,
+        "date_out": "2019-06-25",
+        "customer_number": "498382",
+        "ro_number": "201414"
+      },
+      "footer": {},
+      "content": {
+        "job": [
+          {
+            "line_letter": "A",
+            "text": "PRE DELIVERY INSPECTION",
+            "cause": null,
+            "op": [
+              {
+                "code": "PDI",
+                "text": "PDI SPOT CHECK",
+                "labor": 150.80,
+                "parts": 0.0
+              }
+            ],
+            "fc": "11999977BV",
+            "part_number": null,
+            "parts_cost": 0,
+            "parts_sale": 0,
+            "claim_type": null,
+            "labor_cost": 27.00,
+            "labor_sale": 150.80,
+            "log": [
+              {
+                "tech": "1392",
+                "date": null,
+                "time": null,
+                "miles": null,
+                "text": "VERSION 1 (EMP# 3006,25JUN19 07:10): 3 INSPECTION COMPLETE"
+              }
+            ]
+          }
+        ],
+        "bar": "AG-054466",
+        "epa": "CAD982041154",
+        "dealer_notes": "At Niello BMW we pride ourselves in our dedication of keeping our customers completely satisfied. Soon you will be contacted by BMWNA regarding this service. If you cannot answer all the questions with an excellent rating, please let us know.",
+        "labor": [
+          {
+            "date": "2019-06-21",
+            "start": "13:50",
+            "finish": "14:47",
+            "duration": 0.95,
+            "type": "w",
+            "tech": "1392",
+            "line_letter": "A",
+            "charge": null
+          },
+          {
+            "date": "2019-06-25",
+            "start": "07:11",
+            "finish": "07:11",
+            "duration": 0.0,
+            "type": "W",
+            "tech": "1392",
+            "line_letter": "A",
+            "charge": null
+          }
+        ],
+        "acct_split": [
+          {
+            "acct": "4541",
+            "sale": 150.80,
+            "cost": 27.00
+          },
+          {
+            "acct": "2220",
+            "sale": 150.80,
+            "cost": null
+          }
+        ],
+        "total_cost": 27.00,
+        "total_sale": 150.80,
+        "total_comp": null,
+        "total_labor": 150.80,
+        "total_parts": 0.0,
+        "total_other": 0.0,
+        "total_lub": 0.0,
+        "subtotal": null,
+        "total": 150.80
+      }
+    },
+    {
+      "section_id": "BWO-201414",
+      "prefix": "BWO",
+      "page_count": 1,
+      "header": {
+        "unit_number": null,
+        "customer_name": "Scott Pierce",
+        "customer_address": "16566 Shields Center",
+        "customer_city_state_zip": null,
+        "customer_email": "jenniferkhan@example.net",
+        "home_phone": "551-333-3872",
+        "contact_phone": "719-228-3276",
+        "bus_phone": null,
+        "cell_phone": null,
+        "advisor_id": null,
+        "advisor_name": null,
+        "color": null,
+        "year": "2019",
+        "make": "BMW",
+        "model": "X7",
+        "submodel": "XDR50I",
+        "vin": "5UXCW2C53K5423511",
+        "miles_in": 3,
+        "miles_out": null,
+        "tag": "T57052",
+        "open_date": "2019-06-21",
+        "deal_type": "WORKORDER",
+        "promise_time": "17:00",
+        "close_date": null,
+        "rate": 195.00,
+        "pay_type": "CC",
+        "delivery_date": "2019-06-21",
+        "stock_number": null,
+        "engine": null,
+        "time_in": "13:38",
+        "date_in": "2019-06-21",
+        "time_out": null,
+        "date_out": null,
+        "customer_number": "498382",
+        "ro_number": "201414"
+      },
+      "footer": {},
+      "content": {
+        "job": [
+          {
+            "line_letter": "A",
+            "text": "PRE DELIVERY INSPECTION",
+            "cause": null,
+            "op": [
+              {
+                "code": "PDI",
+                "text": "WPDI",
+                "labor": null,
+                "parts": null
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": null,
+            "claim_type": null,
+            "labor_cost": null,
+            "labor_sale": null,
+            "log": []
+          }
+        ],
+        "bar": null,
+        "epa": null,
+        "dealer_notes": null,
+        "labor": [],
+        "acct_split": [],
+        "total_cost": null,
+        "total_sale": null,
+        "total_comp": null,
+        "total_labor": null,
+        "total_parts": null,
+        "total_other": null,
+        "total_lub": null,
+        "subtotal": null,
+        "total": null
+      }
+    },
+    {
+      "section_id": "CSI-201414",
+      "prefix": "CSI",
+      "page_count": 1,
+      "header": {
+        "unit_number": "57052",
+        "customer_name": "Scott Pierce",
+        "customer_address": "16566 Shields Center",
+        "customer_city_state_zip": "West Elizabeth, IL 71179",
+        "customer_email": "jenniferkhan@example.net",
+        "home_phone": "551-333-3872",
+        "contact_phone": "719-228-3276",
+        "bus_phone": null,
+        "cell_phone": null,
+        "advisor_id": "6635",
+        "advisor_name": "Victoria Garcia",
+        "color": "BLACKSAP",
+        "year": "2019",
+        "make": "BMW",
+        "model": "X7",
+        "submodel": "XDR40I",
+        "vin": "5UXCW2C53K5423511",
+        "miles_in": 3,
+        "miles_out": 3,
+        "tag": "T57052",
+        "open_date": "2019-06-21",
+        "deal_type": "INVOICE",
+        "promise_time": "17:00",
+        "close_date": "2019-06-25",
+        "rate": 195.00,
+        "pay_type": "CC",
+        "delivery_date": null,
+        "stock_number": "57052",
+        "engine": "3.0 Liter Twin Turbo",
+        "time_in": "13:38",
+        "date_in": "2019-06-21",
+        "time_out": null,
+        "date_out": "2019-06-25",
+        "customer_number": "498382",
+        "ro_number": "201414"
+      },
+      "footer": {
+        "labor_amount": 0.0,
+        "parts_amount": 0.0,
+        "gas_oil_lube": 0.0,
+        "sublet_amount": 0.0,
+        "misc_charges": 0.0,
+        "total_charges": 0.0,
+        "less_insurance": 0.0,
+        "sales_tax": 0.0,
+        "please_pay": 0.0
+      },
+      "content": {
+        "job": [
+          {
+            "line_letter": "A",
+            "text": "PRE DELIVERY INSPECTION",
+            "cause": "PDI",
+            "op": [
+              {
+                "code": "PDI",
+                "text": "PDI SPOT CHECK",
+                "labor": 0.0,
+                "parts": 0.0
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": 0.0,
+            "parts_sale": 0.0,
+            "claim_type": null,
+            "labor_cost": 0.0,
+            "labor_sale": 0.0,
+            "log": []
+          }
+        ],
+        "bar": "AG-054466",
+        "epa": "CAD982041154",
+        "dealer_notes": "At Niello BMW we pride ourselves in our dedication of keeping our customers completely satisfied. Soon you will be contacted by BMWNA regarding this service. If you cannot answer all the questions with an excellent rating, please let us know.",
+        "labor": [],
+        "acct_split": [],
+        "total_cost": null,
+        "total_sale": null,
+        "total_comp": null,
+        "total_labor": 0.0,
+        "total_parts": 0.0,
+        "total_other": 0.0,
+        "total_lub": null,
+        "subtotal": null,
+        "total": 0.0
+      }
+    },
+    {
+      "section_id": "ISI-201414",
+      "prefix": "ISI",
+      "page_count": 2,
+      "header": {
+        "unit_number": "57052",
+        "customer_name": "Scott Pierce",
+        "customer_address": "16566 Shields Center",
+        "customer_city_state_zip": "West Elizabeth, IL 71179",
+        "customer_email": "jenniferkhan@example.net",
+        "home_phone": "551-333-3872",
+        "contact_phone": "719-228-3276",
+        "bus_phone": null,
+        "cell_phone": null,
+        "advisor_id": "6635",
+        "advisor_name": "Victoria Garcia",
+        "color": "BLACKSAP",
+        "year": "2019",
+        "make": "BMW",
+        "model": "X7",
+        "submodel": "XDR40I",
+        "vin": "5UXCW2C53K5423511",
+        "miles_in": 3,
+        "miles_out": 3,
+        "tag": "T57052",
+        "open_date": "2019-06-21",
+        "deal_type": "INVOICE",
+        "promise_time": "17:00",
+        "close_date": "2019-06-25",
+        "rate": 195.00,
+        "pay_type": "CC",
+        "delivery_date": null,
+        "stock_number": "57052",
+        "engine": "3.0 Liter Twin Turbo",
+        "time_in": "13:38",
+        "date_in": "2019-06-21",
+        "time_out": null,
+        "date_out": "2019-06-25",
+        "customer_number": "498382",
+        "ro_number": "201414"
+      },
+      "footer": {
+        "labor_amount": 0.0,
+        "parts_amount": 0.0,
+        "gas_oil_lube": 0.0,
+        "sublet_amount": 0.0,
+        "misc_charges": 0.0,
+        "total_charges": 0.0,
+        "less_insurance": 0.0,
+        "sales_tax": 0.0,
+        "please_pay": 0.0
+      },
+      "content": {
+        "job": [
+          {
+            "line_letter": "A",
+            "text": "PRE DELIVERY INSPECTION",
+            "cause": "PDI",
+            "op": [
+              {
+                "code": "PDI",
+                "text": "PDI SPOT CHECK",
+                "labor": 0.0,
+                "parts": 0.0
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": 0.0,
+            "parts_sale": 0.0,
+            "claim_type": null,
+            "labor_cost": 0.0,
+            "labor_sale": 0.0,
+            "log": []
+          }
+        ],
+        "bar": "AG-054466",
+        "epa": "CAD982041154",
+        "dealer_notes": "At Niello BMW we pride ourselves in our dedication of keeping our customers completely satisfied. Soon you will be contacted by BMWNA regarding this service. If you cannot answer all the questions with an excellent rating, please let us know.",
+        "labor": [],
+        "acct_split": [],
+        "total_cost": null,
+        "total_sale": null,
+        "total_comp": null,
+        "total_labor": 0.0,
+        "total_parts": 0.0,
+        "total_other": 0.0,
+        "total_lub": null,
+        "subtotal": null,
+        "total": 0.0
+      }
+    },
+    {
+      "section_id": "WSI-201414",
+      "prefix": "WSI",
+      "page_count": 2,
+      "header": {
+        "unit_number": "57052",
+        "customer_name": "Scott Pierce",
+        "customer_address": "16566 Shields Center",
+        "customer_city_state_zip": "West Elizabeth, IL 71179",
+        "customer_email": "jenniferkhan@example.net",
+        "home_phone": "551-333-3872",
+        "contact_phone": "719-228-3276",
+        "bus_phone": null,
+        "cell_phone": null,
+        "advisor_id": "6635",
+        "advisor_name": "Victoria Garcia",
+        "color": "BLACKSAP",
+        "year": "2019",
+        "make": "BMW",
+        "model": "X7",
+        "submodel": "XDR40I",
+        "vin": "5UXCW2C53K5423511",
+        "miles_in": 3,
+        "miles_out": 3,
+        "tag": "T57052",
+        "open_date": "2019-06-21",
+        "deal_type": "WARRANTY",
+        "promise_time": "17:00",
+        "close_date": "2019-06-25",
+        "rate": 195.00,
+        "pay_type": "CC",
+        "delivery_date": null,
+        "stock_number": "57052",
+        "engine": "3.0 Liter Twin Turbo",
+        "time_in": "13:38",
+        "date_in": "2019-06-21",
+        "time_out": null,
+        "date_out": "2019-06-25",
+        "customer_number": "498382",
+        "ro_number": "201414"
+      },
+      "footer": {
+        "labor_amount": 150.80,
+        "parts_amount": 0.0,
+        "gas_oil_lube": 0.0,
+        "sublet_amount": 0.0,
+        "misc_charges": 0.0,
+        "total_charges": 150.80,
+        "less_insurance": 0.0,
+        "sales_tax": 0.0,
+        "please_pay": 150.80
+      },
+      "content": {
+        "job": [
+          {
+            "line_letter": "A",
+            "text": "PRE DELIVERY INSPECTION",
+            "cause": null,
+            "op": [
+              {
+                "code": "PDI",
+                "text": "PDI SPOT CHECK",
+                "labor": 150.80,
+                "parts": 0.0
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": 0.0,
+            "parts_sale": 0.0,
+            "claim_type": null,
+            "labor_cost": 27.00,
+            "labor_sale": 150.80,
+            "log": [
+              {
+                "tech": "1392",
+                "date": null,
+                "time": null,
+                "miles": null,
+                "text": "Inspection Complete"
+              }
+            ]
+          }
+        ],
+        "bar": "AG-054466",
+        "epa": "CAD982041154",
+        "dealer_notes": "At Niello BMW we pride ourselves in our dedication of keeping our customers completely satisfied. Soon you will be contacted by BMWNA regarding this service. If you cannot answer all the questions with an excellent rating, please let us know.",
+        "labor": [
+          {
+            "date": "2019-06-21",
+            "start": "13:50",
+            "finish": "14:47",
+            "duration": 0.95,
+            "type": "w",
+            "tech": "1392",
+            "line_letter": "A",
+            "charge": null
+          },
+          {
+            "date": "2019-06-25",
+            "start": "07:11",
+            "finish": "07:11",
+            "duration": 0.0,
+            "type": "W",
+            "tech": "1392",
+            "line_letter": "A",
+            "charge": null
+          }
+        ],
+        "acct_split": [
+          {
+            "acct": "4541",
+            "sale": 150.80,
+            "cost": 27.00
+          },
+          {
+            "acct": "2220",
+            "sale": 150.80,
+            "cost": null
+          }
+        ],
+        "total_cost": 27.00,
+        "total_sale": 150.80,
+        "total_comp": null,
+        "total_labor": 150.80,
+        "total_parts": 0.0,
+        "total_other": 0.0,
+        "total_lub": 0.0,
+        "subtotal": null,
+        "total": 150.80
+      }
+    }
+  ]
+}
