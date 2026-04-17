@@ -1,0 +1,17 @@
+Analyze the provided document pages and identify the distinct sections they contain.
+
+Return ONLY valid JSON — no markdown, no explanation, no code fences:
+{
+  "sections": [
+    {
+      "prefix": "SECTION_CODE",
+      "pages": [0, 1],
+      "description": "Brief description of what this section contains."
+    }
+  ]
+}
+
+Rules:
+- pages is a 0-indexed list of integer page numbers belonging to this section
+- If section boundaries are unclear, return one section covering all pages
+- List pages in order; do not repeat a page in more than one section
