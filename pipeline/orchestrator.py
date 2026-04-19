@@ -5,6 +5,7 @@ from pathlib import Path
 import anthropic
 
 from . import config
+from .merge import merge_sections
 from .pdf_utils import pdf_to_images
 from .tools import analyze_structure, parse_section
 
@@ -27,6 +28,11 @@ def extract(
         - Each section extracted independently
         - Receives metadata from Pass 1 as shared context
         - Prevents cross-section inconsistencies (e.g., different RO# readings)
+
+      Post-processing: LLM merge (text-only, via Stack AI)
+        - Deduplicates header fields across sections
+        - Reconciles conflicts via majority vote or LLM
+        - Falls back to deterministic merge if Stack AI unavailable
 
     Returns:
         {"doc_id": str, "sections": [section_dict, ...]}
@@ -56,4 +62,8 @@ def extract(
         )
         sections.append(section_json)
 
-    return {"doc_id": doc_id, "sections": sections}
+    # ── Post-processing: merge / reconcile headers ──
+    document = {"doc_id": doc_id, "sections": sections}
+    document = merge_sections(document)
+
+    return document

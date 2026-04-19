@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Smoke tests for eval.py and batch_eval.py.
+Smoke tests for eval.py, batch_eval.py, and merge.py.
 
-Verifies the section alignment fix and batch runner work correctly
-without needing any API calls or pipeline execution.
+Verifies the section alignment fix, batch runner, and merge node work
+correctly without needing any API calls or pipeline execution.
 
 Usage:
   python Scripts/smoke_test.py
@@ -19,6 +19,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from Scripts.eval import evaluate_extraction
 from Scripts.batch_eval import batch_evaluate, print_report
+from pipeline.merge import merge_sections, _deterministic_merge
 
 
 SAMPLES_DIR = Path(__file__).resolve().parent.parent / "Data" / "Samples"
@@ -160,9 +161,141 @@ def test_section_alignment_info():
     assert sa.get("extra_in_prediction") == []
 
 
+def test_merge_single_section():
+    """Merge with <=1 section should be a no-op."""
+    print("Test: merge single section (no-op) ...")
+    doc = {"doc_id": "test", "sections": [{"prefix": "ASI", "header": {"ro_number": 123}}]}
+    result = merge_sections(doc)
+    status = PASS if result == doc else FAIL
+    print(f"  single section passthrough: {status}")
+    assert result == doc, "Single section should pass through unchanged"
+
+
+def test_merge_consistent_headers():
+    """Merge with consistent headers should keep them unchanged."""
+    print("Test: merge consistent headers ...")
+    doc = {
+        "doc_id": "test",
+        "sections": [
+            {"prefix": "ASI", "header": {"ro_number": 344098, "vin": "ABC123", "customer_name": "John"}},
+            {"prefix": "BWO", "header": {"ro_number": 344098, "vin": "ABC123", "customer_name": "John"}},
+            {"prefix": "CSI", "header": {"ro_number": 344098, "vin": "ABC123", "customer_name": "John"}},
+        ],
+    }
+    result = _deterministic_merge(doc)
+    for sec in result["sections"]:
+        h = sec["header"]
+        status = PASS if h["ro_number"] == 344098 and h["vin"] == "ABC123" else FAIL
+        print(f"  {sec['prefix']}: ro={h['ro_number']}, vin={h['vin']} {status}")
+        assert h["ro_number"] == 344098
+        assert h["vin"] == "ABC123"
+
+
+def test_merge_conflicting_headers():
+    """Merge should pick majority value when headers conflict."""
+    print("Test: merge conflicting headers (majority vote) ...")
+    doc = {
+        "doc_id": "test",
+        "sections": [
+            {"prefix": "ASI", "header": {"ro_number": 344098, "vin": "ABC123"}},
+            {"prefix": "BWO", "header": {"ro_number": 344098, "vin": "ABC123"}},
+            {"prefix": "CSI", "header": {"ro_number": 344099, "vin": "ABC123"}},  # misread
+        ],
+    }
+    result = _deterministic_merge(doc)
+    # Majority vote: 344098 appears twice, 344099 once → 344098 wins
+    for sec in result["sections"]:
+        h = sec["header"]
+        status = PASS if h["ro_number"] == 344098 else FAIL
+        print(f"  {sec['prefix']}: ro={h['ro_number']} {status}")
+        assert h["ro_number"] == 344098, f"Expected 344098, got {h['ro_number']}"
+
+
+def test_merge_null_fill():
+    """Merge should fill null values from other sections."""
+    print("Test: merge null fill ...")
+    doc = {
+        "doc_id": "test",
+        "sections": [
+            {"prefix": "ASI", "header": {"ro_number": 344098, "customer_name": None}},
+            {"prefix": "BWO", "header": {"ro_number": 344098, "customer_name": "John Doe"}},
+        ],
+    }
+    result = _deterministic_merge(doc)
+    for sec in result["sections"]:
+        h = sec["header"]
+        status = PASS if h["customer_name"] == "John Doe" else FAIL
+        print(f"  {sec['prefix']}: customer={h['customer_name']} {status}")
+        assert h["customer_name"] == "John Doe", f"Expected 'John Doe', got {h['customer_name']}"
+
+
+def test_merge_preserves_content():
+    """Merge should NOT touch section-specific content, only headers."""
+    print("Test: merge preserves section-specific content ...")
+    doc = {
+        "doc_id": "test",
+        "sections": [
+            {
+                "prefix": "ASI",
+                "header": {"ro_number": 344098},
+                "content": {"job": [{"desc": "oil change"}]},
+                "footer": {"total_charges": 150.00},
+            },
+            {
+                "prefix": "BWO",
+                "header": {"ro_number": 344098},
+                "content": {"job": [{"desc": "tire rotation"}]},
+                "footer": {"total_charges": 200.00},
+            },
+        ],
+    }
+    result = _deterministic_merge(doc)
+    asi = result["sections"][0]
+    bwo = result["sections"][1]
+    ok1 = asi["content"]["job"][0]["desc"] == "oil change"
+    ok2 = bwo["content"]["job"][0]["desc"] == "tire rotation"
+    ok3 = asi["footer"]["total_charges"] == 150.00
+    ok4 = bwo["footer"]["total_charges"] == 200.00
+    status = PASS if all([ok1, ok2, ok3, ok4]) else FAIL
+    print(f"  ASI content preserved: {ok1}, BWO content preserved: {ok2} {status}")
+    assert all([ok1, ok2, ok3, ok4]), "Section-specific content should not be modified"
+
+
+def test_merge_skips_parse_errors():
+    """Sections with _parse_error should be kept but not used for reconciliation."""
+    print("Test: merge skips parse error sections ...")
+    doc = {
+        "doc_id": "test",
+        "sections": [
+            {"prefix": "ASI", "header": {"ro_number": 344098}},
+            {"_parse_error": True, "raw": "garbage"},
+            {"prefix": "CSI", "header": {"ro_number": 344098}},
+        ],
+    }
+    result = _deterministic_merge(doc)
+    # Error section should still be present
+    error_secs = [s for s in result["sections"] if s.get("_parse_error")]
+    status = PASS if len(error_secs) == 1 else FAIL
+    print(f"  error sections preserved: {len(error_secs)} {status}")
+    assert len(error_secs) == 1
+
+
+def test_merge_on_real_gt():
+    """Deterministic merge on real GT data should not change scores."""
+    print("Test: merge on real GT (should be idempotent) ...")
+    for doc_id in ["201414", "344098", "944962"]:
+        gt = load_gt(doc_id)
+        merged = _deterministic_merge(gt)
+        report = evaluate_extraction(gt, merged)
+        score = report["score"]
+        status = PASS if score == 1.0 else FAIL
+        print(f"  {doc_id}: merged score={score:.4f} {status}")
+        assert score == 1.0, f"Merge should not degrade GT, got {score}"
+
+
 def main():
     print("=" * 60)
-    print("SMOKE TESTS — eval.py + batch_eval.py")
+    print("SMOKE TESTS — eval.py + batch_eval.py + merge.py")
     print("=" * 60)
     print()
 
@@ -175,6 +308,13 @@ def main():
         test_extra_section_penalty,
         test_batch_runner,
         test_section_alignment_info,
+        test_merge_single_section,
+        test_merge_consistent_headers,
+        test_merge_conflicting_headers,
+        test_merge_null_fill,
+        test_merge_preserves_content,
+        test_merge_skips_parse_errors,
+        test_merge_on_real_gt,
     ]
 
     passed = 0
