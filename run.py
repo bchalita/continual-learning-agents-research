@@ -5,13 +5,16 @@ Usage:
   # Single document — eval only (no optimization loop)
   python run.py --doc Data/Samples/201414.pdf --gt Data/Samples/201414.json
 
-  # Single document — optimization loop
+  # Single document — optimization loop (Erwin's original linear mode)
   python run.py --doc Data/Samples/201414.pdf --gt Data/Samples/201414.json --iterations 4
 
   # All 6 sample documents — eval only
   python run.py --all
 
-  # All 6 sample documents — optimization loop
+  # All 6 sample documents — GEPA multi-doc optimization (recommended)
+  python run.py --all --gepa --iterations 5
+
+  # All 6 sample documents — single-doc loop per document (Erwin's original)
   python run.py --all --iterations 3
 """
 
@@ -28,7 +31,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from pipeline import config
 from pipeline.orchestrator import extract
 from pipeline.evaluator import evaluate
-from pipeline.loop import run as run_loop
+from pipeline.loop import run as run_loop, run_gepa
 import anthropic
 
 
@@ -73,12 +76,19 @@ def main() -> int:
     parser.add_argument("--all", action="store_true", help="Run on all 6 samples in Data/Samples/")
     parser.add_argument("--iterations", type=int, default=0,
                         help="Number of optimization iterations (0 = eval only, no reflection)")
+    parser.add_argument("--gepa", action="store_true",
+                        help="Use multi-doc GEPA optimization (Pareto frontier + win-frequency). "
+                             "Requires --all and --iterations > 0.")
     args = parser.parse_args()
 
     if not args.doc and not args.all:
         parser.error("Provide --doc or --all")
     if args.doc and not args.gt:
         parser.error("--gt is required when using --doc")
+    if args.gepa and not args.all:
+        parser.error("--gepa requires --all (multi-doc optimization)")
+    if args.gepa and args.iterations <= 0:
+        parser.error("--gepa requires --iterations > 0")
 
     if not config.ANTHROPIC_API_KEY:
         print("Error: ANTHROPIC_API_KEY not set. Copy .env.example to .env and add your key.", file=sys.stderr)
@@ -95,10 +105,18 @@ def main() -> int:
     else:
         jobs.append((args.doc.stem, args.doc, args.gt))
 
-    for doc_id, pdf_path, gt_path in jobs:
-        if args.iterations > 0:
+    if args.gepa:
+        # Multi-doc GEPA mode
+        print(f"GEPA mode: {len(jobs)} documents × {args.iterations} iterations")
+        print(f"Documents: {[j[0] for j in jobs]}")
+        run_gepa(jobs, iterations=args.iterations)
+    elif args.iterations > 0:
+        # Single-doc loop per document (Erwin's original)
+        for doc_id, pdf_path, gt_path in jobs:
             run_loop(doc_id, pdf_path, gt_path, iterations=args.iterations)
-        else:
+    else:
+        # Eval only
+        for doc_id, pdf_path, gt_path in jobs:
             _run_single_eval(doc_id, pdf_path, gt_path, client)
 
     return 0

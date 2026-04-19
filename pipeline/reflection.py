@@ -27,6 +27,9 @@ def propose(
 ) -> dict:
     """GEPA-style reflection: propose an improved extraction prompt.
 
+    Text-only task → routes through Stack AI (Opus 4.6) for stronger reasoning.
+    Falls back to Anthropic API if Stack AI is unavailable.
+
     Returns:
         {"extraction_prompt": str}
     Falls back to the current prompt unchanged on any parse failure.
@@ -57,13 +60,19 @@ def propose(
 
     reflection_system = _load_reflection_prompt()
 
-    response = client.messages.create(
-        model=config.REFLECTION_MODEL,
-        max_tokens=4096,
-        system=reflection_system,
-        messages=[{"role": "user", "content": user_msg}],
-    )
-    raw = _strip_fences(response.content[0].text)
+    # Route through Stack AI (text-only, Opus 4.6)
+    try:
+        from . import stackai
+        raw = _strip_fences(stackai.call(reflection_system, user_msg))
+    except Exception:
+        # Fallback: direct Anthropic API
+        response = client.messages.create(
+            model=config.REFLECTION_MODEL,
+            max_tokens=4096,
+            system=reflection_system,
+            messages=[{"role": "user", "content": user_msg}],
+        )
+        raw = _strip_fences(response.content[0].text)
 
     try:
         result = json.loads(raw)

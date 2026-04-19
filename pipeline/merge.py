@@ -148,10 +148,11 @@ def _deterministic_merge(document: dict[str, Any]) -> dict[str, Any]:
     for key, values in header_values.items():
         non_null = [v for v in values if v is not None]
         if non_null:
-            # Majority vote: most frequent value wins
-            reconciled_header[key] = max(set(map(str, non_null)), key=lambda x: non_null.count(x))
-            # Try to preserve original type
-            winner_str = reconciled_header[key]
+            # Majority vote: stringify for comparison, count on stringified list
+            str_values = [str(v) for v in non_null]
+            winner_str = max(set(str_values), key=str_values.count)
+            # Preserve original type from the first matching value
+            reconciled_header[key] = winner_str
             for v in non_null:
                 if str(v) == winner_str:
                     reconciled_header[key] = v

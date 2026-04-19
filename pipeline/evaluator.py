@@ -25,7 +25,10 @@ def _llm_evaluate(
     eval_report: dict,
     client: anthropic.Anthropic,
 ) -> str:
-    """Ask Claude for a brief qualitative diagnosis of extraction failures."""
+    """Qualitative diagnosis of extraction failures. Text-only → Stack AI.
+
+    Falls back to Anthropic API if Stack AI is unavailable.
+    """
     top_issues = eval_report.get("issues", [])[:10]
     issues_text = "\n".join(
         f"  [{i['category']}:{i['kind']}] {i['path']}: expected {i['expected']!r} got {i['got']!r} (penalty {i['penalty']})"
@@ -35,7 +38,8 @@ def _llm_evaluate(
     score = eval_report.get("score", 0)
     subscores = eval_report.get("subscores", {})
 
-    user_msg = (
+    instructions = "You are an expert at diagnosing structured data extraction errors from documents. Be concise and specific."
+    prompt = (
         f"Extraction score: {score:.4f}\n"
         f"Subscores — structure: {subscores.get('structure', '?')}, "
         f"numbers: {subscores.get('numbers', '?')}, text: {subscores.get('text', '?')}\n\n"
@@ -43,11 +47,19 @@ def _llm_evaluate(
         "In 2-3 sentences, diagnose the main failure patterns and what the extraction model is getting wrong."
     )
 
+    # Route through Stack AI (text-only, Opus 4.6)
+    try:
+        from . import stackai
+        return stackai.call(instructions, prompt)
+    except Exception:
+        pass
+
+    # Fallback: direct Anthropic API
     response = client.messages.create(
         model=config.EXTRACTION_MODEL,
         max_tokens=512,
-        system="You are an expert at diagnosing structured data extraction errors from documents. Be concise and specific.",
-        messages=[{"role": "user", "content": user_msg}],
+        system=instructions,
+        messages=[{"role": "user", "content": prompt}],
     )
     return response.content[0].text.strip()
 

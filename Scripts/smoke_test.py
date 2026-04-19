@@ -20,6 +20,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from Scripts.eval import evaluate_extraction
 from Scripts.batch_eval import batch_evaluate, print_report
 from pipeline.merge import merge_sections, _deterministic_merge
+from pipeline.gepa import PromptPool, PromptCandidate
 
 
 SAMPLES_DIR = Path(__file__).resolve().parent.parent / "Data" / "Samples"
@@ -293,9 +294,125 @@ def test_merge_on_real_gt():
         assert score == 1.0, f"Merge should not degrade GT, got {score}"
 
 
+def test_gepa_pareto_dominance():
+    """Pareto dominance: A dominates B iff A >= B on all docs and A > B on at least one."""
+    print("Test: GEPA Pareto dominance ...")
+    pool = PromptPool()
+
+    a = pool.add("prompt A", iteration=1)
+    a.scores = {"doc1": 0.9, "doc2": 0.8, "doc3": 0.7}
+
+    b = pool.add("prompt B", iteration=2)
+    b.scores = {"doc1": 0.85, "doc2": 0.75, "doc3": 0.65}
+
+    # A dominates B (better on all docs)
+    ok1 = a.dominates(b)
+    ok2 = not b.dominates(a)
+    status = PASS if ok1 and ok2 else FAIL
+    print(f"  A dominates B: {ok1}, B dominates A: {not ok2} {status}")
+    assert ok1, "A should dominate B"
+    assert ok2, "B should not dominate A"
+
+
+def test_gepa_pareto_non_dominated():
+    """Two prompts that each win on different docs → both on Pareto front."""
+    print("Test: GEPA Pareto non-dominated ...")
+    pool = PromptPool()
+
+    a = pool.add("prompt A", iteration=1)
+    a.scores = {"doc1": 0.9, "doc2": 0.7}
+
+    b = pool.add("prompt B", iteration=2)
+    b.scores = {"doc1": 0.7, "doc2": 0.9}
+
+    # Neither dominates the other → both on front
+    front = pool.pareto_front
+    front_ids = {c.prompt_id for c in front}
+    ok = front_ids == {a.prompt_id, b.prompt_id}
+    status = PASS if ok else FAIL
+    print(f"  Front: {front_ids} {status}")
+    assert ok, f"Both should be on front, got {front_ids}"
+
+
+def test_gepa_win_frequency():
+    """Win frequency: count how many docs each prompt wins on."""
+    print("Test: GEPA win frequency ...")
+    pool = PromptPool()
+
+    a = pool.add("prompt A", iteration=1)
+    a.scores = {"doc1": 0.9, "doc2": 0.8, "doc3": 0.6}
+
+    b = pool.add("prompt B", iteration=2)
+    b.scores = {"doc1": 0.7, "doc2": 0.85, "doc3": 0.9}
+
+    wins = pool.win_frequencies()
+    # A wins doc1, B wins doc2 and doc3
+    ok1 = wins[a.prompt_id] == 1
+    ok2 = wins[b.prompt_id] == 2
+    status = PASS if ok1 and ok2 else FAIL
+    print(f"  A wins={wins[a.prompt_id]}, B wins={wins[b.prompt_id]} {status}")
+    assert ok1, f"A should win 1 doc, got {wins[a.prompt_id]}"
+    assert ok2, f"B should win 2 docs, got {wins[b.prompt_id]}"
+
+
+def test_gepa_worst_doc():
+    """Worst doc: the document where a prompt scores lowest."""
+    print("Test: GEPA worst doc identification ...")
+    pool = PromptPool()
+
+    a = pool.add("prompt A", iteration=1)
+    a.scores = {"doc1": 0.9, "doc2": 0.5, "doc3": 0.7}
+
+    worst = a.worst_doc()
+    ok = worst == "doc2"
+    status = PASS if ok else FAIL
+    print(f"  Worst doc: {worst} {status}")
+    assert ok, f"Worst doc should be doc2, got {worst}"
+
+
+def test_gepa_select_parent():
+    """Select parent should return a prompt from the Pareto front."""
+    print("Test: GEPA parent selection ...")
+    pool = PromptPool()
+
+    a = pool.add("prompt A", iteration=1)
+    a.scores = {"doc1": 0.9, "doc2": 0.8}
+
+    b = pool.add("prompt B", iteration=2)
+    b.scores = {"doc1": 0.7, "doc2": 0.9}
+
+    front_ids = {c.prompt_id for c in pool.pareto_front}
+    # Select 10 times — all should be from the front
+    selections = {pool.select_parent().prompt_id for _ in range(20)}
+    ok = selections.issubset(front_ids)
+    status = PASS if ok else FAIL
+    print(f"  All selections from front: {ok} {status}")
+    assert ok, f"Selections {selections} should be subset of front {front_ids}"
+
+
+def test_gepa_pool_serialization():
+    """Pool should serialize to JSON and contain summary stats."""
+    print("Test: GEPA pool serialization ...")
+    pool = PromptPool()
+
+    a = pool.add("prompt A", iteration=1)
+    a.scores = {"doc1": 0.9, "doc2": 0.8}
+
+    pool.add("prompt B (unscored)", iteration=2)
+
+    data = json.loads(pool.to_json())
+    ok1 = len(data["candidates"]) == 2
+    ok2 = data["summary"]["pool_size"] == 2
+    ok3 = data["summary"]["scored"] == 1
+    ok4 = data["summary"]["best_prompt_id"] == a.prompt_id
+    status = PASS if all([ok1, ok2, ok3, ok4]) else FAIL
+    print(f"  candidates={len(data['candidates'])}, scored={data['summary']['scored']} {status}")
+    assert all([ok1, ok2, ok3, ok4])
+
+
 def main():
     print("=" * 60)
-    print("SMOKE TESTS — eval.py + batch_eval.py + merge.py")
+    print("SMOKE TESTS — eval.py + batch_eval.py + merge.py + gepa.py")
     print("=" * 60)
     print()
 
@@ -315,6 +432,12 @@ def main():
         test_merge_preserves_content,
         test_merge_skips_parse_errors,
         test_merge_on_real_gt,
+        test_gepa_pareto_dominance,
+        test_gepa_pareto_non_dominated,
+        test_gepa_win_frequency,
+        test_gepa_worst_doc,
+        test_gepa_select_parent,
+        test_gepa_pool_serialization,
     ]
 
     passed = 0
