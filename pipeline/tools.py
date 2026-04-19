@@ -25,18 +25,26 @@ def _strip_fences(text: str) -> str:
 
 
 def analyze_structure(page_images: list[bytes], client: anthropic.Anthropic) -> dict:
-    """Tool 1: send all page images to Claude and return section boundary info.
+    """Tool 1: send all page images to Claude and return section boundaries + metadata.
+
+    Combined pass (2026-04-19, Bernardo Chalita): extracts both structure and
+    document-level metadata in a single vision call. The metadata (RO#, VIN,
+    customer, etc.) is later passed to Tool 2 as shared context so each
+    section extraction has consistent anchor values.
 
     Returns:
-        {"sections": [{"prefix": str, "pages": [int], "description": str}]}
-    Falls back to a single section covering all pages on any failure.
+        {
+            "metadata": {"ro_number": str, "vin": str, ...},
+            "sections": [{"prefix": str, "pages": [int], "description": str}]
+        }
+    Falls back to empty metadata + single section on failure.
     """
     global _structure_prompt
     if _structure_prompt is None:
         _structure_prompt = _load_prompt("structure.txt")
 
     content = [image_content_block(img) for img in page_images]
-    content.append({"type": "text", "text": "Analyze this document and return the section structure as JSON."})
+    content.append({"type": "text", "text": "Analyze this document and return the metadata and section structure as JSON."})
 
     response = client.messages.create(
         model=config.EXTRACTION_MODEL,
@@ -47,8 +55,18 @@ def analyze_structure(page_images: list[bytes], client: anthropic.Anthropic) -> 
     )
     raw = _strip_fences(response.content[0].text)
 
+    fallback_metadata: dict = {}
+    fallback = {
+        "metadata": fallback_metadata,
+        "sections": [{"prefix": "UNKNOWN", "pages": list(range(len(page_images))), "description": ""}],
+    }
+
     try:
         result = json.loads(raw)
+        # Ensure metadata exists (even if empty)
+        if "metadata" not in result or not isinstance(result.get("metadata"), dict):
+            result["metadata"] = fallback_metadata
+        # Validate sections
         if "sections" in result and isinstance(result["sections"], list) and result["sections"]:
             n = len(page_images)
             for s in result["sections"]:
@@ -56,10 +74,12 @@ def analyze_structure(page_images: list[bytes], client: anthropic.Anthropic) -> 
             result["sections"] = [s for s in result["sections"] if s.get("pages")]
             if result["sections"]:
                 return result
+        # Sections invalid but metadata might be good — keep metadata
+        return {**fallback, "metadata": result.get("metadata", fallback_metadata)}
     except (json.JSONDecodeError, KeyError, TypeError):
         pass
 
-    return {"sections": [{"prefix": "UNKNOWN", "pages": list(range(len(page_images))), "description": ""}]}
+    return fallback
 
 
 def parse_section(
@@ -67,15 +87,32 @@ def parse_section(
     section_description: str,
     extraction_prompt: str,
     client: anthropic.Anthropic,
+    metadata: dict | None = None,
 ) -> dict:
     """Tool 2: extract structured JSON for one document section.
 
-    TOOL 3 HOOK: `images` would be replaced with cropped region images
-    (header / content / footer) from a layout splitter when available.
+    Args:
+        images: Page images for this section (full DPI).
+        section_description: Brief description from Tool 1.
+        extraction_prompt: The optimizable system prompt.
+        client: Anthropic API client.
+        metadata: Document-level metadata from Tool 1 (RO#, VIN, customer, etc.).
+            Passed as context so the extraction is consistent across sections.
+            For example, if metadata says RO# is 344098, the extraction won't
+            misread it as 344099 on a blurry page.
 
     Returns a section dict or {"_parse_error": True, "raw": str} on failure.
     """
-    content = [{"type": "text", "text": f"Section structure context: {section_description}"}]
+    # Build context text with section info and shared metadata
+    context_parts = [f"Section: {section_description}"]
+    if metadata:
+        context_parts.append(
+            "Document-level metadata (shared across all sections, use as reference):\n"
+            + json.dumps(metadata, indent=2)
+        )
+    context_text = "\n\n".join(context_parts)
+
+    content = [{"type": "text", "text": context_text}]
     for img in images:
         content.append(image_content_block(img))
     content.append({"type": "text", "text": "\nReturn only the JSON object for this section."})

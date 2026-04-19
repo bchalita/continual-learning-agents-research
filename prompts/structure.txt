@@ -1,7 +1,17 @@
-Analyze the provided document pages and identify the distinct sections they contain.
+Analyze the provided document pages and identify:
+1. Document-level metadata (shared across all sections)
+2. The distinct sections the document contains
 
 Return ONLY valid JSON — no markdown, no explanation, no code fences:
 {
+  "metadata": {
+    "ro_number": "repair order number visible on the document",
+    "vin": "vehicle identification number (17 characters)",
+    "customer_name": "customer's full name",
+    "dealership_name": "dealership or service center name",
+    "vehicle": "year make model (e.g. 2019 BMW X7)",
+    "open_date": "date the repair order was opened"
+  },
   "sections": [
     {
       "prefix": "SECTION_CODE",
@@ -11,7 +21,13 @@ Return ONLY valid JSON — no markdown, no explanation, no code fences:
   ]
 }
 
-Rules:
+Rules for metadata:
+- Extract values exactly as shown — do not guess or infer
+- Use null for any field not clearly visible
+- These fields typically appear in the header area of every section
+
+Rules for sections:
+- Common BMW repair order section prefixes: ASI, BWO, CSI, ISI, JSI, WSI
 - pages is a 0-indexed list of integer page numbers belonging to this section
 - If section boundaries are unclear, return one section covering all pages
 - List pages in order; do not repeat a page in more than one section
