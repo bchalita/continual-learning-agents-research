@@ -15,6 +15,29 @@ Usage:
 
 Public API:
   evaluate_extraction(ground_truth, prediction, config=None) -> dict
+
+Changelog:
+  2026-04-19 (Bernardo Chalita) — Section-aware alignment & missing-section penalties
+    PROBLEM: The original eval compared sections by positional index (sections[0]
+    vs sections[0], etc.). This caused two critical bugs:
+      1. If the prediction reordered sections (e.g., BWO first instead of ASI),
+         every field in both sections would show as a "value" mismatch even though
+         the extraction was correct — just in a different order.
+      2. If the prediction had FEWER sections than ground truth, the missing
+         sections were recorded as a single "missing list item" issue with a
+         trivial 0.08 penalty — regardless of how many fields that section
+         contained (often 40-60 fields). This meant a prediction that missed
+         entire sections could still score >0.90.
+    FIX: Before running DeepDiff, sections are now matched by their "prefix"
+    field (ASI, BWO, CSI, etc.). Matched sections are compared field-by-field.
+    Missing sections are replaced with {} so DeepDiff naturally discovers every
+    missing field and assigns per-field penalties. Extra predicted sections are
+    similarly caught. A new "section_alignment" block in the report shows exactly
+    which sections were matched, missing, or extra.
+    IMPACT: Scores will drop for predictions that miss sections or reorder them
+    incorrectly. This is intentional — the previous scores were inflated.
+    CONFIG: Section alignment is enabled by default. To restore legacy behavior,
+    set config.section_alignment.enabled = false.
 """
 
 from __future__ import annotations
@@ -45,6 +68,16 @@ DEFAULT_CONFIG: dict[str, Any] = {
         "verbose_level": 2,
         "exclude_paths": [],
         "exclude_path_regexes": [],
+    },
+    # Section alignment config — added 2026-04-19 (Bernardo Chalita)
+    # Matches GT and prediction sections by "prefix" field before comparison.
+    # Without this, DeepDiff compares sections by positional index, which
+    # causes incorrect scoring when sections are reordered or missing.
+    "section_alignment": {
+        "enabled": True,
+        # The field used to match GT sections to prediction sections.
+        # BMW repair orders use "prefix" (ASI, BWO, CSI, JSI, WSI, ISI).
+        "match_key": "prefix",
     },
     "rubric": {
         "category_weights": {
@@ -259,6 +292,217 @@ def _apply_exclusions(issues: list[Issue], diff_cfg: dict[str, Any]) -> list[Iss
     return [it for it in issues if not any(r.search(it.path) for r in regexes)]
 
 
+# ── Section alignment (added 2026-04-19, Bernardo Chalita) ────────────
+#
+# WHY THIS EXISTS:
+#   BMW repair orders contain multiple sections (ASI, BWO, CSI, JSI, etc.),
+#   each identified by a "prefix" field. The original eval compared sections
+#   by their array index — sections[0] vs sections[0] — which caused:
+#
+#   1. ORDER SENSITIVITY: If the prediction returned [BWO, ASI] instead of
+#      [ASI, BWO], every field was flagged as wrong even though the data
+#      was correct, just reordered.
+#
+#   2. MISSING SECTION BLINDNESS: If GT had 4 sections and prediction had 1,
+#      only 1 section got compared (index 0). The other 3 were recorded as
+#      a single "missing list item" with a trivial 0.08 penalty each,
+#      regardless of how many fields (40-60) each section contained.
+#      Result: a prediction missing 75% of sections could score >0.90.
+#
+# HOW IT WORKS:
+#   Before running DeepDiff, we align sections by prefix:
+#   - GT sections [ASI, BWO, CSI, JSI] + Pred sections [BWO]
+#   - Matched: BWO ↔ BWO (compared field-by-field)
+#   - Missing from pred: ASI, CSI, JSI → replaced with {} in pred copy
+#     so DeepDiff discovers every field in those GT sections as "missing"
+#   - Extra in pred (not in GT): replaced with {} in GT copy
+#     so DeepDiff discovers every field as "extra"
+#
+# IMPACT ON SCORES:
+#   A prediction missing one section (with ~40 fields) now incurs ~40
+#   individual missing-field penalties across structure/numbers/text
+#   categories. This is intentional — the previous behavior of charging
+#   0.08 for an entire missing section was a scoring bug.
+#
+# DISABLE:
+#   Set config["section_alignment"]["enabled"] = False for legacy behavior.
+
+def _leaf_fields(obj: Any, prefix: str = "") -> list[tuple[str, Any]]:
+    """Recursively extract all non-null leaf (path, value) pairs from a nested structure.
+
+    Used to enumerate every field in a GT section that's missing from the prediction,
+    so each gets its own penalty instead of one flat penalty for the whole section.
+    """
+    if obj is None:
+        return []
+    if isinstance(obj, dict):
+        results = []
+        for k, v in obj.items():
+            path = f"{prefix}.{k}" if prefix else k
+            results.extend(_leaf_fields(v, path))
+        return results
+    if isinstance(obj, list):
+        results = []
+        for i, v in enumerate(obj):
+            path = f"{prefix}[{i}]"
+            results.extend(_leaf_fields(v, path))
+        return results
+    # Leaf value (str, int, float, bool)
+    return [(prefix, obj)]
+
+
+def _issues_for_missing_section(
+    gt_section: dict,
+    section_index: int,
+    rubric: dict[str, Any],
+    missing_is_null: bool,
+) -> list[Issue]:
+    """Generate per-field "missing" issues for a GT section absent from prediction.
+
+    Instead of one flat penalty for the whole section, we walk every leaf field
+    in the GT section and emit a "missing" issue for each non-null value. This way
+    a section with 40 fields incurs 40 penalties across structure/numbers/text,
+    which accurately reflects the information loss.
+    """
+    penalties_cfg = rubric["penalties"]
+    thresholds = rubric["severity_thresholds"]
+    issues: list[Issue] = []
+
+    prefix_code = gt_section.get("prefix", "?")
+    base_path = f"sections[{section_index}]"
+
+    for field_path, value in _leaf_fields(gt_section):
+        if missing_is_null and value is None:
+            continue
+        full_path = f"{base_path}.{field_path}"
+        cat = _categorize(full_path, value, None, "missing")
+        pen = float(penalties_cfg.get(cat, {}).get("missing", 0.03))
+        sev = (
+            "high" if pen >= thresholds.get("high", 0.07)
+            else "med" if pen >= thresholds.get("med", 0.04)
+            else "low"
+        )
+        detail = f"missing (entire {prefix_code} section absent from prediction)"
+        issues.append(Issue(cat, "missing", full_path, value, None, detail, pen, sev))
+
+    return issues
+
+
+def _issues_for_extra_section(
+    pred_section: dict,
+    section_index: int,
+    rubric: dict[str, Any],
+    missing_is_null: bool,
+) -> list[Issue]:
+    """Generate per-field "extra" issues for a predicted section not in GT."""
+    penalties_cfg = rubric["penalties"]
+    thresholds = rubric["severity_thresholds"]
+    issues: list[Issue] = []
+
+    prefix_code = pred_section.get("prefix", "?")
+    base_path = f"sections[{section_index}]"
+
+    for field_path, value in _leaf_fields(pred_section):
+        if missing_is_null and value is None:
+            continue
+        full_path = f"{base_path}.{field_path}"
+        cat = _categorize(full_path, None, value, "extra")
+        pen = float(penalties_cfg.get(cat, {}).get("extra", 0.03))
+        sev = (
+            "high" if pen >= thresholds.get("high", 0.07)
+            else "med" if pen >= thresholds.get("med", 0.04)
+            else "low"
+        )
+        detail = f"extra (predicted {prefix_code} section not in ground truth)"
+        issues.append(Issue(cat, "extra", full_path, value, None, detail, pen, sev))
+
+    return issues
+
+
+def _align_and_compare_sections(
+    gt_sections: list[dict],
+    pred_sections: list[dict],
+    match_key: str,
+    rubric: dict[str, Any],
+    diff_cfg: dict[str, Any],
+    missing_is_null: bool,
+) -> tuple[list[Issue], dict[str, Any]]:
+    """Match sections by prefix, compare matched pairs, and penalize missing/extra.
+
+    This replaces the naive positional comparison with prefix-based alignment.
+    Instead of relying on DeepDiff for missing sections (which collapses a
+    multi-field section into a single issue), we manually enumerate every leaf
+    field and create individual penalties.
+
+    Returns:
+        issues: All issues from section comparison (matched + missing + extra)
+        alignment_info: Summary of what was matched/missing/extra
+    """
+    # ── Index prediction sections by prefix ──
+    pred_by_key: dict[str, dict] = {}
+    pred_unmatched: list[dict] = []
+    for s in pred_sections:
+        key = s.get(match_key)
+        if key and key not in pred_by_key:
+            pred_by_key[key] = s
+        elif key:
+            pred_unmatched.append(s)  # duplicate prefix → extra
+        else:
+            pred_unmatched.append(s)  # no prefix → extra
+
+    # ── Match and compare ──
+    all_issues: list[Issue] = []
+    matched_prefixes: list[str] = []
+    missing_prefixes: list[str] = []
+
+    for idx, gt_s in enumerate(gt_sections):
+        key = gt_s.get(match_key, "")
+        if key in pred_by_key:
+            # MATCHED: compare this GT section vs its matching pred section
+            # using DeepDiff for accurate field-by-field comparison.
+            pred_s = pred_by_key.pop(key)
+            matched_prefixes.append(key)
+
+            dd = DeepDiff(
+                gt_s, pred_s,
+                view="tree",
+                ignore_numeric_type_changes=diff_cfg.get("ignore_numeric_type_changes", True),
+                significant_digits=diff_cfg.get("significant_digits", 2),
+                verbose_level=diff_cfg.get("verbose_level", 2),
+            )
+            section_issues = _diff_to_issues(dd, rubric, diff_cfg, missing_is_null)
+            # Prefix paths with sections[idx] for proper reporting
+            for si in section_issues:
+                si.path = f"sections[{idx}].{si.path}" if si.path else f"sections[{idx}]"
+            all_issues.extend(section_issues)
+        else:
+            # MISSING: GT section has no match in prediction.
+            # Enumerate every leaf field and create a "missing" issue for each.
+            missing_prefixes.append(key)
+            all_issues.extend(
+                _issues_for_missing_section(gt_s, idx, rubric, missing_is_null)
+            )
+
+    # ── Extra sections in prediction (not in GT) ──
+    extra_sections = list(pred_by_key.values()) + pred_unmatched
+    extra_prefixes = [s.get(match_key, "<no prefix>") for s in extra_sections]
+    for i, extra_s in enumerate(extra_sections):
+        extra_idx = len(gt_sections) + i
+        all_issues.extend(
+            _issues_for_extra_section(extra_s, extra_idx, rubric, missing_is_null)
+        )
+
+    alignment_info = {
+        "matched": matched_prefixes,
+        "missing_from_prediction": missing_prefixes,
+        "extra_in_prediction": extra_prefixes,
+        "gt_section_count": len(gt_sections),
+        "pred_section_count": len(pred_sections),
+    }
+
+    return all_issues, alignment_info
+
+
 # ── Public API ──────────────────────────────────────────────────────────
 
 def evaluate_extraction(
@@ -273,6 +517,7 @@ def evaluate_extraction(
       score      – aggregate 0‒1 quality score
       subscores  – per-category (structure, numbers, text)
       issues     – ranked list of individual discrepancies
+      section_alignment – (new) details of how sections were matched
     """
     cfg = deepcopy(DEFAULT_CONFIG)
     if config:
@@ -291,6 +536,55 @@ def evaluate_extraction(
     gt = _normalize(ground_truth, norm_cfg)
     pred = _normalize(prediction, norm_cfg)
 
+    # ── Section alignment (2026-04-19, Bernardo Chalita) ─────────────────
+    # Match sections by prefix before running DeepDiff to avoid positional
+    # comparison bugs. See docstring at top of file for full explanation.
+    #
+    # Strategy: remove "sections" from both GT and pred, handle section
+    # comparison separately via _align_and_compare_sections(), then run
+    # DeepDiff on the remaining top-level fields (doc_id, etc.) only.
+    sa_cfg = cfg.get("section_alignment", {})
+    alignment_info = None
+    section_issues: list[Issue] = []
+
+    if sa_cfg.get("enabled", True):
+        gt_sections = gt.get("sections", [])
+        pred_sections = pred.get("sections", [])
+
+        if isinstance(gt_sections, list) and isinstance(pred_sections, list):
+            match_key = sa_cfg.get("match_key", "prefix")
+            section_issues, alignment_info = _align_and_compare_sections(
+                gt_sections, pred_sections, match_key,
+                rubric, diff_cfg, missing_is_null,
+            )
+            # Remove sections from the dicts so the main DeepDiff only
+            # compares top-level fields (doc_id, etc.), avoiding double-counting.
+            gt = {k: v for k, v in gt.items() if k != "sections"}
+            pred = {k: v for k, v in pred.items() if k != "sections"}
+
+        elif isinstance(gt_sections, list) and not isinstance(pred_sections, list):
+            # Prediction has no sections array (e.g., flat JSON output).
+            # Treat every GT section as missing.
+            for idx, gt_s in enumerate(gt_sections):
+                section_issues.extend(
+                    _issues_for_missing_section(gt_s, idx, rubric, missing_is_null)
+                )
+            alignment_info = {
+                "matched": [],
+                "missing_from_prediction": [
+                    s.get("prefix", "?") for s in gt_sections
+                ],
+                "extra_in_prediction": [],
+                "gt_section_count": len(gt_sections),
+                "pred_section_count": 0,
+                "note": "prediction has no 'sections' list",
+            }
+            # Remove sections from GT to avoid double-counting in DeepDiff.
+            # Keep pred as-is so DeepDiff catches the missing "sections" key.
+            gt = {k: v for k, v in gt.items() if k != "sections"}
+    # ── End section alignment ───────────────────────────────────────────
+
+    # Run DeepDiff on remaining fields (or full objects if alignment disabled)
     dd = DeepDiff(
         gt,
         pred,
@@ -302,6 +596,9 @@ def evaluate_extraction(
     )
 
     issues = _diff_to_issues(dd, rubric, diff_cfg, missing_is_null)
+
+    # Combine section issues with top-level issues
+    issues = section_issues + issues
     issues = _apply_exclusions(issues, diff_cfg)
 
     scoring = _score(issues, rubric)
@@ -315,12 +612,19 @@ def evaluate_extraction(
         by_cat[it.category] = by_cat.get(it.category, 0) + 1
         by_kind[it.kind] = by_kind.get(it.kind, 0) + 1
 
-    return {
+    result = {
         **scoring,
         "counts_by_category": by_cat,
         "counts_by_kind": by_kind,
         "issues": [asdict(i) for i in issues[:max_issues]],
     }
+
+    # Include section alignment info so the reflection LLM (and humans)
+    # can see exactly which sections were matched, missing, or extra.
+    if alignment_info is not None:
+        result["section_alignment"] = alignment_info
+
+    return result
 
 
 # ── CLI ─────────────────────────────────────────────────────────────────
