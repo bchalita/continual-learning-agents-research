@@ -1,0 +1,2171 @@
+{
+  "iterations": [
+    {
+      "iteration": 1,
+      "timestamp": "2026-04-20T17:12:06.216164",
+      "type": "baseline",
+      "prompt_id": "p000",
+      "mean_score": 0.32799999999999996,
+      "min_score": 0.232,
+      "scores": {
+        "201414": 0.358,
+        "344098": 0.4525,
+        "629903": 0.232,
+        "678856": 0.2815,
+        "809570": 0.376,
+        "944962": 0.268
+      },
+      "subscores": {
+        "201414": {
+          "structure": 0.64,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        },
+        "344098": {
+          "structure": 0.85,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        },
+        "629903": {
+          "structure": 0.3599999999999999,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        },
+        "678856": {
+          "structure": 0.47,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        },
+        "809570": {
+          "structure": 0.6799999999999999,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        },
+        "944962": {
+          "structure": 0.43999999999999995,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        }
+      },
+      "doc_details": {
+        "201414": {
+          "score": 0.358,
+          "subscores": {
+            "structure": 0.64,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "JSI",
+              "WSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The primary failure is in **section WSI (sections[4])**: the model is completely failing to extract job-level data, missing all numeric totals (subtotal, total, total_labor, total_lub, total_other, total_parts) and the nested `wsi_labor` structure at both the job and section levels. This suggests the model either isn't parsing the WSI job block at all or is mapping it incorrectly.\n\nA secondary issue is **type handling for account numbers** in the ASI section, where numeric fields like `acct` are being returned as strings (`'4541'`) instead of integers (`4541`), indicating a consistent failure to cast numeric identifiers to their proper types.",
+          "top_issues": [
+            {
+              "path": "sections[4].content.job[0].subtotal",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[4].content.job[0].total",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[4].content.job[0].total_labor",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[4].content.job[0].total_lub",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[4].content.job[0].total_other",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            }
+          ],
+          "num_sections_predicted": 5
+        },
+        "344098": {
+          "score": 0.4525,
+          "subscores": {
+            "structure": 0.85,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "JSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The dominant failure pattern is a **type error**: the model is extracting all numeric values as strings (e.g., `'4501'` instead of `4501`, `'0.47'` instead of `0.47`) rather than as proper numeric types (integers and floats). This accounts for nearly all the scoring penalties across every section. Additionally, there is at least one missing value (`acct_split[1].cost` expected `0` but got `None`), suggesting the model also fails to extract zero-valued fields, likely treating them as absent rather than explicitly zero.",
+          "top_issues": [
+            {
+              "path": "sections[0].content.acct_split[0].acct",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.acct_split[1].acct",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.acct_split[1].cost",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.labor[0].duration",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.labor[0].tech",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            }
+          ],
+          "num_sections_predicted": 4
+        },
+        "629903": {
+          "score": 0.232,
+          "subscores": {
+            "structure": 0.3599999999999999,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "ISI",
+              "JSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The extraction model is systematically failing to populate labor-level numeric fields (cost, net, sale, total), returning `None` instead of the expected values (which are often `0` or `0.0`). This suggests the model either doesn't recognize zero-value labor entries as valid data to extract or has a structural mapping issue where labor objects are created but their numeric properties are left empty. The text subscore of 0.20 also indicates significant issues with extracting text fields across all matched sections, pointing to a broader field-mapping or parsing failure beyond just labor numerics.",
+          "top_issues": [
+            {
+              "path": "sections[0].content.job[0].op[0].labor[0].cost",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[0].op[0].labor[0].net",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[0].op[0].labor[0].sale",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[0].op[0].labor[0].total",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[1].op[0].labor[0].cost",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            }
+          ],
+          "num_sections_predicted": 5
+        },
+        "678856": {
+          "score": 0.2815,
+          "subscores": {
+            "structure": 0.47,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "JSI",
+              "WSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The primary failure is that the extraction model is systematically failing to capture numeric fields across all sections, particularly `est_advisor`, `est_amount`, and job-level financial totals (`subtotal`, `total`, `total_labor`, `total_lub`, `total_other`, `total_parts`), returning `None` instead of the actual values. This suggests the model is either not recognizing these fields in the document layout or has a schema mapping issue where it cannot locate and extract numeric data from estimate/job summary areas. The text subscore of 0.20 further indicates that even non-numeric content is being poorly extracted, pointing to a broader parsing failure rather than an isolated numeric formatting issue.",
+          "top_issues": [
+            {
+              "path": "sections[0].content.est_advisor",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.est_amount",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[4].content.est_advisor",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[4].content.est_amount",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[4].content.job[0].subtotal",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            }
+          ],
+          "num_sections_predicted": 5
+        },
+        "809570": {
+          "score": 0.376,
+          "subscores": {
+            "structure": 0.6799999999999999,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "JSI",
+              "WSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The extraction model is systematically failing to capture numeric values across multiple sections, particularly labor-related fields (net, total, subtotals) and summary totals, suggesting it either cannot parse the numeric formatting in the document or is not mapping numbers to the correct schema fields. Additionally, the model is missing structured nested objects like `wsi_labor` arrays (with tech, a_hrs, s_hrs fields), indicating it struggles with extracting labor detail sub-structures, especially in the WSI section. The combination of widespread numeric nulls and missing nested structures points to a fundamental parsing failure for tabular/line-item data rather than a simple field-mapping issue.",
+          "top_issues": [
+            {
+              "path": "sections[0].content.job[0].op[0].labor[0].net",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[0].op[0].labor[0].total",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[4].content.job[0].subtotal",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[4].content.job[0].total",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[4].content.job[0].total_labor",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            }
+          ],
+          "num_sections_predicted": 5
+        },
+        "944962": {
+          "score": 0.268,
+          "subscores": {
+            "structure": 0.43999999999999995,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "ISI",
+              "JSI",
+              "WSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The extraction model is successfully matching all six sections but is systematically failing to extract numerical and structural data within **section 5 (WSI)**, particularly job-level financial totals, labor details, and WSI-specific labor records (tech, actual hours, standard hours). This suggests the model either cannot parse the WSI section's content layout or is treating it as empty/unrecognized despite correctly identifying the section header.\n\nThe dominant failure pattern is **missing values** (not incorrect ones), indicating the model is skipping or failing to reach the nested content fields within WSI's job and labor structures rather than misreading them.",
+          "top_issues": [
+            {
+              "path": "sections[5].content.job[0].op[0].labor[0].net",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[5].content.job[0].op[0].labor[0].total",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[5].content.job[0].subtotal",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[5].content.job[0].total",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[5].content.job[0].total_labor",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            }
+          ],
+          "num_sections_predicted": 6
+        }
+      },
+      "pareto_front": [
+        "p000"
+      ],
+      "win_frequencies": {
+        "p000": 6
+      },
+      "prompt_path": "/Users/bernardochalita/Desktop/continual-learning-agents-research/results/prompts/p000_extraction.txt"
+    },
+    {
+      "iteration": 2,
+      "timestamp": "2026-04-20T17:22:28.657788",
+      "type": "mutation",
+      "parent_id": "p000",
+      "parent_mean_score": 0.32799999999999996,
+      "reflection_target_doc": "944962",
+      "reflection_target_score": 0.268,
+      "reflection_target_feedback": "The extraction model is successfully matching all six sections but is systematically failing to extract numerical and structural data within **section 5 (WSI)**, particularly job-level financial totals, labor details, and WSI-specific labor records (tech, actual hours, standard hours). This suggests the model either cannot parse the WSI section's content layout or is treating it as empty/unrecognized despite correctly identifying the section header.\n\nThe dominant failure pattern is **missing values** (not incorrect ones), indicating the model is skipping or failing to reach the nested content fields within WSI's job and labor structures rather than misreading them.",
+      "reflection_target_top_issues": [
+        {
+          "path": "sections[5].content.job[0].op[0].labor[0].net",
+          "kind": "missing",
+          "category": "numbers",
+          "expected": "90.48",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[5].content.job[0].op[0].labor[0].total",
+          "kind": "missing",
+          "category": "numbers",
+          "expected": "90.48",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[5].content.job[0].subtotal",
+          "kind": "missing",
+          "category": "numbers",
+          "expected": "0.0",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[5].content.job[0].total",
+          "kind": "missing",
+          "category": "numbers",
+          "expected": "19.8",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[5].content.job[0].total_labor",
+          "kind": "missing",
+          "category": "numbers",
+          "expected": "19.8",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[5].content.job[0].total_lub",
+          "kind": "missing",
+          "category": "numbers",
+          "expected": "0.0",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[5].content.job[0].total_other",
+          "kind": "missing",
+          "category": "numbers",
+          "expected": "0.0",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[5].content.job[0].total_parts",
+          "kind": "missing",
+          "category": "numbers",
+          "expected": "0.0",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[5].content.job[0].wsi_labor",
+          "kind": "missing",
+          "category": "structure",
+          "expected": "[{'tech': 425, 'a_hrs': 0.64, 's_hrs': 0.06}]",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[5].content.wsi_labor",
+          "kind": "missing",
+          "category": "structure",
+          "expected": "[{'tech': 425, 'a_hrs': 0.64, 's_hrs': 0.06}]",
+          "got": "None",
+          "penalty": 0.08
+        }
+      ],
+      "prompt_diff": {
+        "lines_added": 44,
+        "lines_removed": 10,
+        "added_lines": [
+          "+Footer fields (0.0 for any field not visible; all numeric as floats):",
+          "+    line_letter: string,",
+          "+    text: string or null,",
+          "+    cause: string or null,",
+          "+    op: array of operation objects, each with:",
+          "+      code: string or null,",
+          "+      text: string or null,",
+          "+      labor: array of objects with {type, hours, rate, net, total} \u2014 all numeric fields as floats,",
+          "+      parts: array of objects with {line, part_number, description, qty, cost, list, net, total} \u2014 numeric fields as floats",
+          "+    fc: string or null,",
+          "+    part_number: string or null,",
+          "+    parts_cost: float or null,",
+          "+    parts_sale: float or null,",
+          "+    claim_type: string or null,",
+          "+    auth_code: string or null,",
+          "+    labor_cost: float or null,",
+          "+    labor_sale: float or null,",
+          "+    log: array of {tech, date, time, miles, text} or [],",
+          "+    wsi_labor: array of {tech: integer, a_hrs: float, s_hrs: float} or null,",
+          "+    subtotal: float or null,"
+        ],
+        "removed_lines": [
+          "-Footer fields (0.0 for any field not visible; all numeric):",
+          "-    line_letter, text, cause,",
+          "-    op (array of: code, text, labor array, parts array),",
+          "-    fc, part_number, parts_cost, parts_sale, claim_type, auth_code,",
+          "-    labor_cost, labor_sale,",
+          "-    log (array of: tech, date, time, miles, text)",
+          "-- \"bar\", \"epa\", \"dealer_notes\": strings or null",
+          "-- \"labor\": array of (date, start, finish, duration, type, tech, line_letter, charge) or []",
+          "-- \"acct_split\": array of (acct, sale, cost) or []",
+          "-  \"total_other\", \"total_lub\", \"subtotal\", \"total\": numbers or null"
+        ],
+        "full_diff": "--- \n+++ \n@@ -23,3 +23,3 @@\n \n-Footer fields (0.0 for any field not visible; all numeric):\n+Footer fields (0.0 for any field not visible; all numeric as floats):\n   labor_amount, parts_amount, gas_oil_lube, sublet_amount, misc_charges,\n@@ -29,12 +29,46 @@\n - \"job\": array of job objects, each with:\n-    line_letter, text, cause,\n-    op (array of: code, text, labor array, parts array),\n-    fc, part_number, parts_cost, parts_sale, claim_type, auth_code,\n-    labor_cost, labor_sale,\n-    log (array of: tech, date, time, miles, text)\n-- \"bar\", \"epa\", \"dealer_notes\": strings or null\n-- \"labor\": array of (date, start, finish, duration, type, tech, line_letter, charge) or []\n-- \"acct_split\": array of (acct, sale, cost) or []\n+    line_letter: string,\n+    text: string or null,\n+    cause: string or null,\n+    op: array of operation objects, each with:\n+      code: string or null,\n+      text: string or null,\n+      labor: array of objects with {type, hours, rate, net, total} \u2014 all numeric fields as floats,\n+      parts: array of objects with {line, part_number, description, qty, cost, list, net, total} \u2014 numeric fields as floats\n+    fc: string or null,\n+    part_number: string or null,\n+    parts_cost: float or null,\n+    parts_sale: float or null,\n+    claim_type: string or null,\n+    auth_code: string or null,\n+    labor_cost: float or null,\n+    labor_sale: float or null,\n+    log: array of {tech, date, time, miles, text} or [],\n+    wsi_labor: array of {tech: integer, a_hrs: float, s_hrs: float} or null,\n+    subtotal: float or null,\n+    total: float or null,\n+    total_labor: float or null,\n+    total_parts: float or null,\n+    total_other: float or null,\n+    total_lub: float or null\n+\n+- \"bar\": string or null\n+- \"epa\": string or null\n+- \"dealer_notes\": string or null\n+- \"labor\": array of {date, start, finish, duration, type, tech, line_letter, charge} or []\n+- \"acct_split\": array of {acct: integer, sale: float, cost: float} or []\n+  IMPORTANT: \"acct\" must be an integer (e.g. 4501 not \"4501\"). \"sale\" and \"cost\" must be floats; use 0.0 if the value is blank or zero \u2014 never null.\n+- \"wsi_labor\": array of {tech: integer, a_hrs: float, s_hrs: float} or null\n+  This is a top-level content field that may also appear. Extract it if a WSI labor summary table is visible.\n - \"total_cost\", \"total_sale\", \"total_comp\", \"total_labor\", \"total_parts\",\n-  \"total_other\", \"total_lub\", \"subtotal\", \"total\": numbers or null\n+  \"total_other\", \"total_lub\", \"subtotal\", \"total\": floats or null\n+\n+IMPORTANT EXTRACTION RULES:\n+1. For WSI (Warranty Service Information) sections: carefully extract ALL job-level totals (subtotal, total, total_labor, total_parts, total_other, total_lub) even if they are 0.0. Use 0.0 for zero values, not null.\n+2. For WSI sections: extract the wsi_labor array at BOTH the job level AND the content level. Each entry has tech (integer), a_hrs (actual hours, float), s_hrs (standard hours, float).\n+3. For WSI labor arrays within operations (op[].labor[]), extract net and total as floats.\n+4. In acct_split, \"acct\" is always an integer. \"cost\" is always a float \u2014 use 0.0 if blank, never null.\n+5. All monetary amounts and hour values should be floats (e.g. 19.8, 0.0, 90.48).\n+6. Extract every section fully \u2014 do not skip or abbreviate any section regardless of type (RO, WSI, etc.).\n+7. Use null only for truly absent/invisible fields. Use 0.0 for numeric fields that are present but zero or blank.\n \n"
+      },
+      "prompt_id": "p001",
+      "deltas": {
+        "201414": {
+          "score": 0.4165,
+          "parent_score": 0.358,
+          "delta": 0.0585,
+          "status": "improved",
+          "subscores": {
+            "structure": 0.77,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "subscore_deltas": {
+            "structure": 0.13,
+            "numbers": 0.0,
+            "text": 0.0
+          }
+        },
+        "344098": {
+          "score": 0.4525,
+          "parent_score": 0.4525,
+          "delta": 0.0,
+          "status": "unchanged",
+          "subscores": {
+            "structure": 0.85,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "subscore_deltas": {
+            "structure": 0.0,
+            "numbers": 0.0,
+            "text": 0.0
+          }
+        },
+        "629903": {
+          "score": 0.358,
+          "parent_score": 0.232,
+          "delta": 0.126,
+          "status": "improved",
+          "subscores": {
+            "structure": 0.64,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "subscore_deltas": {
+            "structure": 0.28,
+            "numbers": 0.0,
+            "text": 0.0
+          }
+        },
+        "678856": {
+          "score": 0.3265,
+          "parent_score": 0.2815,
+          "delta": 0.045,
+          "status": "improved",
+          "subscores": {
+            "structure": 0.57,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "subscore_deltas": {
+            "structure": 0.1,
+            "numbers": 0.0,
+            "text": 0.0
+          }
+        },
+        "809570": {
+          "score": 0.3985,
+          "parent_score": 0.376,
+          "delta": 0.0225,
+          "status": "improved",
+          "subscores": {
+            "structure": 0.73,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "subscore_deltas": {
+            "structure": 0.05,
+            "numbers": 0.0,
+            "text": 0.0
+          }
+        },
+        "944962": {
+          "score": 0.3445,
+          "parent_score": 0.268,
+          "delta": 0.0765,
+          "status": "improved",
+          "subscores": {
+            "structure": 0.6100000000000001,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "subscore_deltas": {
+            "structure": 0.17,
+            "numbers": 0.0,
+            "text": 0.0
+          }
+        }
+      },
+      "mean_score": 0.38275,
+      "min_score": 0.3265,
+      "scores": {
+        "201414": 0.4165,
+        "344098": 0.4525,
+        "629903": 0.358,
+        "678856": 0.3265,
+        "809570": 0.3985,
+        "944962": 0.3445
+      },
+      "subscores": {
+        "201414": {
+          "structure": 0.77,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        },
+        "344098": {
+          "structure": 0.85,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        },
+        "629903": {
+          "structure": 0.64,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        },
+        "678856": {
+          "structure": 0.57,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        },
+        "809570": {
+          "structure": 0.73,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        },
+        "944962": {
+          "structure": 0.6100000000000001,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        }
+      },
+      "doc_details": {
+        "201414": {
+          "score": 0.4165,
+          "subscores": {
+            "structure": 0.77,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "JSI",
+              "WSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The primary failure is a **systematic type error**: the model is extracting numeric fields as strings (e.g., `'6635'` instead of `6635`, `'195.00'` instead of `195.0`) across virtually all number fields, accounting for the bulk of the penalties. This affects headers, labor entries, and log entries uniformly. Additionally, there is at least one **missing value** issue (a `tech` field in section 4 returned `None` instead of `1392`), suggesting occasional extraction gaps for specific nested fields.",
+          "top_issues": [
+            {
+              "path": "sections[4].content.job[0].op[0].labor[0].tech",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[0].log[0].miles",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.job[0].log[0].tech",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.labor[0].tech",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.labor[1].tech",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            }
+          ],
+          "num_sections_predicted": 5
+        },
+        "344098": {
+          "score": 0.4525,
+          "subscores": {
+            "structure": 0.85,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "JSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The primary failure is a **type error**: all numeric fields are being extracted as strings (e.g., `'1202'` instead of `1202`, `'195.00'` instead of `195.0`) rather than as proper numeric types (integers or floats). This is a systematic issue affecting every numeric field across all sections, which explains the very low numbers subscore (0.10). The model needs to cast numeric values to appropriate int/float types rather than leaving them as quoted strings.",
+          "top_issues": [
+            {
+              "path": "sections[0].content.labor[0].tech",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.labor[1].tech",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.advisor_id",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.customer_number",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.miles_in",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            }
+          ],
+          "num_sections_predicted": 4
+        },
+        "629903": {
+          "score": 0.358,
+          "subscores": {
+            "structure": 0.64,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "ISI",
+              "JSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The primary failure is a **type error**: all numeric fields (IDs, miles, rates, RO numbers, etc.) are being extracted as strings (e.g., `'4257'`) instead of as numeric types (e.g., `4257`), which accounts for the vast majority of the penalties and the very low numbers subscore.\n\nAdditionally, there is at least one **value error** where `sections[1].header.customer_number` is returning `'13478'` instead of the expected `731262`, suggesting the model is copying values from the wrong section (section 0's customer_number is bleeding into section 1). The low text subscore also indicates broader issues with text field extraction accuracy beyond just the numeric type problems.",
+          "top_issues": [
+            {
+              "path": "sections[0].header.advisor_id",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.customer_number",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.miles_in",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.miles_out",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.rate",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            }
+          ],
+          "num_sections_predicted": 5
+        },
+        "678856": {
+          "score": 0.3265,
+          "subscores": {
+            "structure": 0.57,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "JSI",
+              "WSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The extraction model is systematically failing to capture `est_advisor` and `est_amount` fields across sections, as well as `labor[].tech` values in job operations, suggesting these fields are either not being recognized in the document or are being mapped to wrong locations. Additionally, the `acct_split` array entries are being misordered or misassigned\u2014accounts 4501 and 2220 are swapped with their corresponding cost/sale values, indicating the model is incorrectly parsing the column alignment or row order in the account split table.",
+          "top_issues": [
+            {
+              "path": "sections[0].content.est_advisor",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.est_amount",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[4].content.est_advisor",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[4].content.est_amount",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[4].content.job[0].op[0].labor[0].tech",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            }
+          ],
+          "num_sections_predicted": 5
+        },
+        "809570": {
+          "score": 0.3985,
+          "subscores": {
+            "structure": 0.73,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "JSI",
+              "WSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "**Primary Issue: Numeric type errors.** The extraction model is systematically returning numbers as strings (e.g., `'309'` instead of `309`, `'195.00'` instead of `195.0`) across virtually all numeric fields\u2014IDs, mileage, rates, tech codes, and customer numbers\u2014indicating a blanket failure to cast extracted values to their proper numeric types.\n\n**Secondary Issue: Missing numeric values.** Some numeric fields are being dropped entirely (e.g., `sections[4].content.job[0].op[0].labor[0].tech` and `sections[0].content.job[0].log[0].miles`), suggesting the model occasionally fails to locate or map certain nested numeric data points, particularly within deeper job/operation/labor structures.",
+          "top_issues": [
+            {
+              "path": "sections[4].content.job[0].op[0].labor[0].tech",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[0].log[0].miles",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.job[0].log[0].tech",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.labor[0].tech",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.advisor_id",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            }
+          ],
+          "num_sections_predicted": 5
+        },
+        "944962": {
+          "score": 0.3445,
+          "subscores": {
+            "structure": 0.6100000000000001,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "ISI",
+              "JSI",
+              "WSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The primary failure is in the **account split array ordering and mapping** in section ASI: the model appears to be shifting rows or misaligning account split entries, causing account numbers, costs, and sales to be systematically offset (e.g., expected acct 4543 at index 1 but got 4551, with downstream values cascading incorrectly). This suggests the model is either skipping a row, merging rows, or misinterpreting the tabular structure of the account split data.\n\nAdditionally, a **missing numeric field** (`tech: 425`) in the WSI section's labor data indicates the model is failing to extract certain nested labor detail values, likely due to incomplete parsing of deeply nested job/operation/labor structures.",
+          "top_issues": [
+            {
+              "path": "sections[5].content.job[0].op[0].labor[0].tech",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.acct_split[1].acct",
+              "kind": "value",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.acct_split[1].cost",
+              "kind": "value",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.acct_split[1].sale",
+              "kind": "value",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.acct_split[2].acct",
+              "kind": "value",
+              "category": "numbers",
+              "penalty": 0.06
+            }
+          ],
+          "num_sections_predicted": 6
+        }
+      },
+      "pareto_front": [
+        "p001"
+      ],
+      "win_frequencies": {
+        "p000": 1,
+        "p001": 6
+      },
+      "prompt_path": "/Users/bernardochalita/Desktop/continual-learning-agents-research/results/prompts/p001_extraction.txt"
+    },
+    {
+      "iteration": 3,
+      "timestamp": "2026-04-20T17:34:33.934579",
+      "type": "mutation",
+      "parent_id": "p001",
+      "parent_mean_score": 0.38275,
+      "reflection_target_doc": "678856",
+      "reflection_target_score": 0.3265,
+      "reflection_target_feedback": "The extraction model is systematically failing to capture `est_advisor` and `est_amount` fields across sections, as well as `labor[].tech` values in job operations, suggesting these fields are either not being recognized in the document or are being mapped to wrong locations. Additionally, the `acct_split` array entries are being misordered or misassigned\u2014accounts 4501 and 2220 are swapped with their corresponding cost/sale values, indicating the model is incorrectly parsing the column alignment or row order in the account split table.",
+      "reflection_target_top_issues": [
+        {
+          "path": "sections[0].content.est_advisor",
+          "kind": "missing",
+          "category": "numbers",
+          "expected": "1237",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[0].content.est_amount",
+          "kind": "missing",
+          "category": "numbers",
+          "expected": "0.0",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[4].content.est_advisor",
+          "kind": "missing",
+          "category": "numbers",
+          "expected": "1237",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[4].content.est_amount",
+          "kind": "missing",
+          "category": "numbers",
+          "expected": "0.0",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[4].content.job[0].op[0].labor[0].tech",
+          "kind": "missing",
+          "category": "numbers",
+          "expected": "1392",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[4].content.job[1].op[0].labor[0].tech",
+          "kind": "missing",
+          "category": "numbers",
+          "expected": "1392",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[0].content.acct_split[1].acct",
+          "kind": "value",
+          "category": "numbers",
+          "expected": "4501",
+          "got": "2220",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[0].content.acct_split[1].cost",
+          "kind": "value",
+          "category": "numbers",
+          "expected": "600",
+          "got": "0.0",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[0].content.acct_split[1].sale",
+          "kind": "value",
+          "category": "numbers",
+          "expected": "0",
+          "got": "16588.0",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[0].content.acct_split[2].acct",
+          "kind": "value",
+          "category": "numbers",
+          "expected": "2220",
+          "got": "4501",
+          "penalty": 0.06
+        }
+      ],
+      "prompt_diff": {
+        "lines_added": 31,
+        "lines_removed": 4,
+        "added_lines": [
+          "+IMPORTANT HEADER NUMERIC TYPES:",
+          "+- advisor_id: INTEGER (e.g. 6925 not \"6925\")",
+          "+- customer_number: INTEGER (e.g. 182627 not \"182627\")",
+          "+- ro_number: INTEGER if numeric",
+          "+- miles_in, miles_out: INTEGER if numeric",
+          "+- year: INTEGER if numeric",
+          "+- All other header fields are strings or null.",
+          "+",
+          "+- \"est_advisor\": integer or null \u2014 Look for an \"Est Advisor\" or \"Estimator\" field in the document. Extract as integer.",
+          "+- \"est_amount\": float or null \u2014 Look for an \"Est Amount\" or \"Estimate Amount\" field. Extract as float. If present but zero or blank, use 0.0.",
+          "+      labor: array of objects with {type, tech, hours, rate, net, total}",
+          "+        - \"tech\" must be an INTEGER (e.g. 1392 not \"1392\")",
+          "+        - hours, rate, net, total must be floats",
+          "+        - type is a string",
+          "+    log: array of {tech, date, time, miles, text} or []",
+          "+      - \"tech\" must be an INTEGER (e.g. 1392 not \"1392\")",
+          "+      - \"miles\" must be an INTEGER (e.g. 4190 not \"4190\")",
+          "+      - date, time, text are strings",
+          "+    - \"tech\" must be an INTEGER (e.g. 1392 not \"1392\")",
+          "+    - date, start, finish, duration, type, line_letter, charge are strings"
+        ],
+        "removed_lines": [
+          "-      labor: array of objects with {type, hours, rate, net, total} \u2014 all numeric fields as floats,",
+          "-    log: array of {tech, date, time, miles, text} or [],",
+          "-3. For WSI labor arrays within operations (op[].labor[]), extract net and total as floats.",
+          "-4. In acct_split, \"acct\" is always an integer. \"cost\" is always a float \u2014 use 0.0 if blank, never null."
+        ],
+        "full_diff": "--- \n+++ \n@@ -23,2 +23,10 @@\n \n+IMPORTANT HEADER NUMERIC TYPES:\n+- advisor_id: INTEGER (e.g. 6925 not \"6925\")\n+- customer_number: INTEGER (e.g. 182627 not \"182627\")\n+- ro_number: INTEGER if numeric\n+- miles_in, miles_out: INTEGER if numeric\n+- year: INTEGER if numeric\n+- All other header fields are strings or null.\n+\n Footer fields (0.0 for any field not visible; all numeric as floats):\n@@ -28,2 +36,4 @@\n Content fields:\n+- \"est_advisor\": integer or null \u2014 Look for an \"Est Advisor\" or \"Estimator\" field in the document. Extract as integer.\n+- \"est_amount\": float or null \u2014 Look for an \"Est Amount\" or \"Estimate Amount\" field. Extract as float. If present but zero or blank, use 0.0.\n - \"job\": array of job objects, each with:\n@@ -35,3 +45,6 @@\n       text: string or null,\n-      labor: array of objects with {type, hours, rate, net, total} \u2014 all numeric fields as floats,\n+      labor: array of objects with {type, tech, hours, rate, net, total}\n+        - \"tech\" must be an INTEGER (e.g. 1392 not \"1392\")\n+        - hours, rate, net, total must be floats\n+        - type is a string\n       parts: array of objects with {line, part_number, description, qty, cost, list, net, total} \u2014 numeric fields as floats\n@@ -45,3 +58,6 @@\n     labor_sale: float or null,\n-    log: array of {tech, date, time, miles, text} or [],\n+    log: array of {tech, date, time, miles, text} or []\n+      - \"tech\" must be an INTEGER (e.g. 1392 not \"1392\")\n+      - \"miles\" must be an INTEGER (e.g. 4190 not \"4190\")\n+      - date, time, text are strings\n     wsi_labor: array of {tech: integer, a_hrs: float, s_hrs: float} or null,\n@@ -58,4 +74,7 @@\n - \"labor\": array of {date, start, finish, duration, type, tech, line_letter, charge} or []\n+    - \"tech\" must be an INTEGER (e.g. 1392 not \"1392\")\n+    - date, start, finish, duration, type, line_letter, charge are strings\n - \"acct_split\": array of {acct: integer, sale: float, cost: float} or []\n   IMPORTANT: \"acct\" must be an integer (e.g. 4501 not \"4501\"). \"sale\" and \"cost\" must be floats; use 0.0 if the value is blank or zero \u2014 never null.\n+  CRITICAL: Preserve the EXACT row order as shown in the document table. Do NOT reorder rows. Each row maps an account number to its sale and cost values on the SAME row. Read each row left-to-right: acct, then sale, then cost. Do not swap or reorder rows.\n - \"wsi_labor\": array of {tech: integer, a_hrs: float, s_hrs: float} or null\n@@ -68,4 +87,4 @@\n 2. For WSI sections: extract the wsi_labor array at BOTH the job level AND the content level. Each entry has tech (integer), a_hrs (actual hours, float), s_hrs (standard hours, float).\n-3. For WSI labor arrays within operations (op[].labor[]), extract net and total as floats.\n-4. In acct_split, \"acct\" is always an integer. \"cost\" is always a float \u2014 use 0.0 if blank, never null.\n+3. For WSI labor arrays within operations (op[].labor[]), extract tech as INTEGER, and net and total as floats.\n+4. In acct_split, \"acct\" is always an integer. \"cost\" is always a float \u2014 use 0.0 if blank, never null. Preserve exact row order from the document.\n 5. All monetary amounts and hour values should be floats (e.g. 19.8, 0.0, 90.48).\n@@ -73,2 +92,10 @@\n 7. Use null only for truly absent/invisible fields. Use 0.0 for numeric fields that are present but zero or blank.\n+8. NUMERIC TYPE RULES \u2014 these fields MUST be integers, not strings:\n+   - header.advisor_id, header.customer_number, header.ro_number, header.miles_in, header.miles_out\n+   - labor[].tech (in content.labor array)\n+   - job[].log[].tech, job[].log[].miles\n+   - job[].op[].labor[].tech\n+   - acct_split[].acct\n+   - wsi_labor[].tech\n+9. ALWAYS look for and extract \"est_advisor\" (integer) and \"est_amount\" (float) in the content object. These may appear as \"Est Advisor\", \"Estimator\", \"Est Amount\", \"Estimate\", or similar labels. If visible but zero, use 0 or 0.0 respectively.\n \n"
+      },
+      "prompt_id": "p002",
+      "deltas": {
+        "201414": {
+          "score": 0.448,
+          "parent_score": 0.4165,
+          "delta": 0.0315,
+          "status": "improved",
+          "subscores": {
+            "structure": 0.84,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "subscore_deltas": {
+            "structure": 0.07,
+            "numbers": 0.0,
+            "text": 0.0
+          }
+        },
+        "344098": {
+          "score": 0.4525,
+          "parent_score": 0.4525,
+          "delta": 0.0,
+          "status": "unchanged",
+          "subscores": {
+            "structure": 0.85,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "subscore_deltas": {
+            "structure": 0.0,
+            "numbers": 0.0,
+            "text": 0.0
+          }
+        },
+        "629903": {
+          "score": 0.376,
+          "parent_score": 0.358,
+          "delta": 0.018,
+          "status": "improved",
+          "subscores": {
+            "structure": 0.68,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "subscore_deltas": {
+            "structure": 0.04,
+            "numbers": 0.0,
+            "text": 0.0
+          }
+        },
+        "678856": {
+          "score": 0.2995,
+          "parent_score": 0.3265,
+          "delta": -0.027,
+          "status": "worsened",
+          "subscores": {
+            "structure": 0.51,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "subscore_deltas": {
+            "structure": -0.06,
+            "numbers": 0.0,
+            "text": 0.0
+          }
+        },
+        "809570": {
+          "score": 0.448,
+          "parent_score": 0.3985,
+          "delta": 0.0495,
+          "status": "improved",
+          "subscores": {
+            "structure": 0.84,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "subscore_deltas": {
+            "structure": 0.11,
+            "numbers": 0.0,
+            "text": 0.0
+          }
+        },
+        "944962": {
+          "score": 0.286,
+          "parent_score": 0.3445,
+          "delta": -0.0585,
+          "status": "worsened",
+          "subscores": {
+            "structure": 0.4800000000000001,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "subscore_deltas": {
+            "structure": -0.13,
+            "numbers": 0.0,
+            "text": 0.0
+          }
+        }
+      },
+      "mean_score": 0.385,
+      "min_score": 0.286,
+      "scores": {
+        "201414": 0.448,
+        "344098": 0.4525,
+        "629903": 0.376,
+        "678856": 0.2995,
+        "809570": 0.448,
+        "944962": 0.286
+      },
+      "subscores": {
+        "201414": {
+          "structure": 0.84,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        },
+        "344098": {
+          "structure": 0.85,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        },
+        "629903": {
+          "structure": 0.68,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        },
+        "678856": {
+          "structure": 0.51,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        },
+        "809570": {
+          "structure": 0.84,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        },
+        "944962": {
+          "structure": 0.4800000000000001,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        }
+      },
+      "doc_details": {
+        "201414": {
+          "score": 0.448,
+          "subscores": {
+            "structure": 0.84,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "JSI",
+              "WSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The primary failure is that the model is completely missing nested labor data within job operations (`sections[0].content.job[0].op[0].labor[0]`), failing to extract key fields like `a_hrs`, `cost`, `s_hrs`, and `sale`\u2014this accounts for the very low numbers subscore. Additionally, the model is systematically returning numeric values as strings instead of proper number types (e.g., `'195.00'` instead of `195.0`, `'57052'` instead of `57052`), indicating a pervasive type-casting issue. There's also a minor data accuracy problem where `miles` is extracted as `0` instead of `3`.",
+          "top_issues": [
+            {
+              "path": "sections[0].content.job[0].op[0].labor[0].a_hrs",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[0].op[0].labor[0].cost",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[0].op[0].labor[0].s_hrs",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[0].op[0].labor[0].sale",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[0].log[0].miles",
+              "kind": "value",
+              "category": "numbers",
+              "penalty": 0.06
+            }
+          ],
+          "num_sections_predicted": 5
+        },
+        "344098": {
+          "score": 0.4525,
+          "subscores": {
+            "structure": 0.85,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "JSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "**Primary Issue: Numeric type mismatches.** The model is consistently returning numbers as strings (e.g., `'195.00'` instead of `195.0`, `'23238'` instead of `23238`) and durations as strings instead of floats, indicating a systematic failure to cast extracted values to their proper numeric types. Additionally, the model is mishandling the `year` field (returning integer `2019` instead of string `'19'`) and hallucinating values where none exist (`miles_out` expected `None` but got `9`), suggesting issues with format normalization and null handling.",
+          "top_issues": [
+            {
+              "path": "sections[0].content.labor[0].duration",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.labor[1].duration",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.rate",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.stock_number",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.unit_number",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            }
+          ],
+          "num_sections_predicted": 4
+        },
+        "629903": {
+          "score": 0.376,
+          "subscores": {
+            "structure": 0.68,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "ISI",
+              "JSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The dominant failure pattern is **type mismatches**: numeric fields are being returned as strings (e.g., `'195.00'` instead of `195.0`, `'13478'` instead of `13478`) and vice versa (e.g., `year` expected as string `'19'` but got integer `2019`), accounting for the vast majority of penalties. There is also a **value error** where `sections[1].header.customer_number` is incorrectly populated with the stock/unit number `13478` instead of the correct value `731262`, and `miles_out` is being filled when it should be `None`, suggesting field mapping confusion across sections.",
+          "top_issues": [
+            {
+              "path": "sections[0].content.labor[0].duration",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.rate",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.stock_number",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.unit_number",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.year",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            }
+          ],
+          "num_sections_predicted": 5
+        },
+        "678856": {
+          "score": 0.2995,
+          "subscores": {
+            "structure": 0.51,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "JSI",
+              "WSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The primary failure is that the model is completely missing **labor-level fields** (`a_hrs`, `s_hrs`, `cost`, `sale`) within job operations across the first section, suggesting the extraction is not parsing the labor line-item detail within each job/op hierarchy\u2014likely skipping or failing to map an entire nested level of the data structure. Additionally, the model is misreading or misaligning **account split** rows, assigning wrong account numbers and zeroing out costs, indicating a row-mapping or column-alignment issue in the account split table. Together, these point to a systematic failure in extracting nested tabular data at the labor and account-split granularity.",
+          "top_issues": [
+            {
+              "path": "sections[0].content.job[0].op[0].labor[0].a_hrs",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[0].op[0].labor[0].cost",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[0].op[0].labor[0].s_hrs",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[0].op[0].labor[0].sale",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[1].op[0].labor[0].a_hrs",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            }
+          ],
+          "num_sections_predicted": 5
+        },
+        "809570": {
+          "score": 0.448,
+          "subscores": {
+            "structure": 0.84,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "JSI",
+              "WSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The primary failure is that numeric fields are being extracted as strings instead of proper numeric types (e.g., `'195.00'` instead of `195.0`, `'81482'` instead of `81482`, `'0.50'` instead of `0.5`), causing widespread type mismatch penalties. Additionally, the model is failing to extract key labor detail fields (`a_hrs`, `cost`, `s_hrs`, `sale`) entirely while misassigning their values to other fields\u2014specifically, `cost` (3450) and `sale` (15080) appear to be placed in `net` and `total` respectively, suggesting a column misalignment in the labor line extraction. The `miles` field in the log is also missing, indicating incomplete parsing of log/travel data.",
+          "top_issues": [
+            {
+              "path": "sections[0].content.job[0].op[0].labor[0].a_hrs",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[0].op[0].labor[0].cost",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[0].op[0].labor[0].s_hrs",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[0].op[0].labor[0].sale",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[0].log[0].miles",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            }
+          ],
+          "num_sections_predicted": 5
+        },
+        "944962": {
+          "score": 0.286,
+          "subscores": {
+            "structure": 0.4800000000000001,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "ISI",
+              "JSI",
+              "WSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The primary failure is that the extraction model is completely missing labor data for a specific job operation (job[1].op[0].labor[0]), with all four fields (a_hrs, s_hrs, cost, sale) returning None, suggesting an entire labor line was skipped during extraction. Additionally, the account split (acct_split) entries are shifted or misaligned\u2014values that should be in index 1 appear in index 2 and vice versa, with account 4543's data being replaced by 4551's data and 4551's data being replaced by what appears to be a subsequent or empty row. This points to an off-by-one indexing error or a missed row in the account split table causing all subsequent entries to shift up.",
+          "top_issues": [
+            {
+              "path": "sections[0].content.job[1].op[0].labor[0].a_hrs",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[1].op[0].labor[0].cost",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[1].op[0].labor[0].s_hrs",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.job[1].op[0].labor[0].sale",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.acct_split[1].acct",
+              "kind": "value",
+              "category": "numbers",
+              "penalty": 0.06
+            }
+          ],
+          "num_sections_predicted": 6
+        }
+      },
+      "pareto_front": [
+        "p001",
+        "p002"
+      ],
+      "win_frequencies": {
+        "p000": 1,
+        "p001": 3,
+        "p002": 4
+      },
+      "prompt_path": "/Users/bernardochalita/Desktop/continual-learning-agents-research/results/prompts/p002_extraction.txt"
+    },
+    {
+      "iteration": 4,
+      "timestamp": "2026-04-20T17:46:50.608779",
+      "type": "mutation",
+      "parent_id": "p002",
+      "parent_mean_score": 0.385,
+      "reflection_target_doc": "944962",
+      "reflection_target_score": 0.286,
+      "reflection_target_feedback": "The primary failure is that the extraction model is completely missing labor data for a specific job operation (job[1].op[0].labor[0]), with all four fields (a_hrs, s_hrs, cost, sale) returning None, suggesting an entire labor line was skipped during extraction. Additionally, the account split (acct_split) entries are shifted or misaligned\u2014values that should be in index 1 appear in index 2 and vice versa, with account 4543's data being replaced by 4551's data and 4551's data being replaced by what appears to be a subsequent or empty row. This points to an off-by-one indexing error or a missed row in the account split table causing all subsequent entries to shift up.",
+      "reflection_target_top_issues": [
+        {
+          "path": "sections[0].content.job[1].op[0].labor[0].a_hrs",
+          "kind": "missing",
+          "category": "numbers",
+          "expected": "0.64",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[0].content.job[1].op[0].labor[0].cost",
+          "kind": "missing",
+          "category": "numbers",
+          "expected": "1980",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[0].content.job[1].op[0].labor[0].s_hrs",
+          "kind": "missing",
+          "category": "numbers",
+          "expected": "0.06",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[0].content.job[1].op[0].labor[0].sale",
+          "kind": "missing",
+          "category": "numbers",
+          "expected": "9048",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[0].content.acct_split[1].acct",
+          "kind": "value",
+          "category": "numbers",
+          "expected": "4543",
+          "got": "4551",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[0].content.acct_split[1].cost",
+          "kind": "value",
+          "category": "numbers",
+          "expected": "1980",
+          "got": "3300.0",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[0].content.acct_split[1].sale",
+          "kind": "value",
+          "category": "numbers",
+          "expected": "9048",
+          "got": "19500.0",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[0].content.acct_split[2].acct",
+          "kind": "value",
+          "category": "numbers",
+          "expected": "4551",
+          "got": "2030",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[0].content.acct_split[2].cost",
+          "kind": "value",
+          "category": "numbers",
+          "expected": "3300",
+          "got": "0.0",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[0].content.acct_split[2].sale",
+          "kind": "value",
+          "category": "numbers",
+          "expected": "19500",
+          "got": "0.0",
+          "penalty": 0.06
+        }
+      ],
+      "prompt_diff": {
+        "lines_added": 17,
+        "lines_removed": 5,
+        "added_lines": [
+          "+      labor: array of objects \u2014 IMPORTANT: each labor object may contain EITHER standard RO fields OR WSI fields OR BOTH. Extract ALL fields that are visible for each labor line:",
+          "+        Standard RO labor fields: {type, tech, hours, rate, net, total}",
+          "+        WSI labor fields: {type, tech, a_hrs, s_hrs, cost, sale, net, total}",
+          "+        - hours, rate, net, total, a_hrs, s_hrs, cost, sale must be floats",
+          "+        - CRITICAL: For WSI documents, labor lines often have a_hrs (actual hours), s_hrs (standard hours), cost, and sale columns. Do NOT skip these. Extract every column visible in the labor row.",
+          "+  CRITICAL ACCT_SPLIT EXTRACTION RULES:",
+          "+  1. Preserve the EXACT row order as shown in the document table from top to bottom.",
+          "+  2. Read each row left-to-right: acct, then sale, then cost.",
+          "+  3. Do NOT skip any rows, even if sale and cost are both 0 or blank.",
+          "+  4. Do NOT reorder, sort, or group rows by account number.",
+          "+  5. If a row has an account number but blank sale/cost, include it with sale=0.0 and cost=0.0.",
+          "+  6. Count the rows carefully \u2014 the number of entries in acct_split must match the number of rows in the table.",
+          "+  7. Pay close attention to each row boundary. Tables may have tight spacing; ensure you are reading each row's values from the correct line.",
+          "+3. For WSI labor arrays within operations (op[].labor[]), extract ALL visible columns including a_hrs, s_hrs, cost, sale, net, total. Do NOT omit any column. If a labor line has cost and sale columns, include them.",
+          "+4. In acct_split, \"acct\" is always an integer. \"cost\" is always a float \u2014 use 0.0 if blank, never null. Preserve exact row order from the document. Do not skip rows.",
+          "+10. CRITICAL: When extracting labor lines inside op[].labor[], check for ALL of these possible columns: type, tech, hours, rate, net, total, a_hrs, s_hrs, cost, sale. Include every column that has a value. Do not assume a fixed set of columns \u2014 different document types show different columns.",
+          "+11. CRITICAL: For acct_split tables, go row by row from top to bottom. For each row, read the account number, then the sale value, then the cost value. If you are unsure about row boundaries, look at vertical alignment of numbers. Each distinct account number on a new line is a new row."
+        ],
+        "removed_lines": [
+          "-      labor: array of objects with {type, tech, hours, rate, net, total}",
+          "-        - hours, rate, net, total must be floats",
+          "-  CRITICAL: Preserve the EXACT row order as shown in the document table. Do NOT reorder rows. Each row maps an account number to its sale and cost values on the SAME row. Read each row left-to-right: acct, then sale, then cost. Do not swap or reorder rows.",
+          "-3. For WSI labor arrays within operations (op[].labor[]), extract tech as INTEGER, and net and total as floats.",
+          "-4. In acct_split, \"acct\" is always an integer. \"cost\" is always a float \u2014 use 0.0 if blank, never null. Preserve exact row order from the document."
+        ],
+        "full_diff": "--- \n+++ \n@@ -45,6 +45,9 @@\n       text: string or null,\n-      labor: array of objects with {type, tech, hours, rate, net, total}\n+      labor: array of objects \u2014 IMPORTANT: each labor object may contain EITHER standard RO fields OR WSI fields OR BOTH. Extract ALL fields that are visible for each labor line:\n+        Standard RO labor fields: {type, tech, hours, rate, net, total}\n+        WSI labor fields: {type, tech, a_hrs, s_hrs, cost, sale, net, total}\n         - \"tech\" must be an INTEGER (e.g. 1392 not \"1392\")\n-        - hours, rate, net, total must be floats\n+        - hours, rate, net, total, a_hrs, s_hrs, cost, sale must be floats\n         - type is a string\n+        - CRITICAL: For WSI documents, labor lines often have a_hrs (actual hours), s_hrs (standard hours), cost, and sale columns. Do NOT skip these. Extract every column visible in the labor row.\n       parts: array of objects with {line, part_number, description, qty, cost, list, net, total} \u2014 numeric fields as floats\n@@ -78,3 +81,10 @@\n   IMPORTANT: \"acct\" must be an integer (e.g. 4501 not \"4501\"). \"sale\" and \"cost\" must be floats; use 0.0 if the value is blank or zero \u2014 never null.\n-  CRITICAL: Preserve the EXACT row order as shown in the document table. Do NOT reorder rows. Each row maps an account number to its sale and cost values on the SAME row. Read each row left-to-right: acct, then sale, then cost. Do not swap or reorder rows.\n+  CRITICAL ACCT_SPLIT EXTRACTION RULES:\n+  1. Preserve the EXACT row order as shown in the document table from top to bottom.\n+  2. Read each row left-to-right: acct, then sale, then cost.\n+  3. Do NOT skip any rows, even if sale and cost are both 0 or blank.\n+  4. Do NOT reorder, sort, or group rows by account number.\n+  5. If a row has an account number but blank sale/cost, include it with sale=0.0 and cost=0.0.\n+  6. Count the rows carefully \u2014 the number of entries in acct_split must match the number of rows in the table.\n+  7. Pay close attention to each row boundary. Tables may have tight spacing; ensure you are reading each row's values from the correct line.\n - \"wsi_labor\": array of {tech: integer, a_hrs: float, s_hrs: float} or null\n@@ -87,4 +97,4 @@\n 2. For WSI sections: extract the wsi_labor array at BOTH the job level AND the content level. Each entry has tech (integer), a_hrs (actual hours, float), s_hrs (standard hours, float).\n-3. For WSI labor arrays within operations (op[].labor[]), extract tech as INTEGER, and net and total as floats.\n-4. In acct_split, \"acct\" is always an integer. \"cost\" is always a float \u2014 use 0.0 if blank, never null. Preserve exact row order from the document.\n+3. For WSI labor arrays within operations (op[].labor[]), extract ALL visible columns including a_hrs, s_hrs, cost, sale, net, total. Do NOT omit any column. If a labor line has cost and sale columns, include them.\n+4. In acct_split, \"acct\" is always an integer. \"cost\" is always a float \u2014 use 0.0 if blank, never null. Preserve exact row order from the document. Do not skip rows.\n 5. All monetary amounts and hour values should be floats (e.g. 19.8, 0.0, 90.48).\n@@ -100,2 +110,4 @@\n 9. ALWAYS look for and extract \"est_advisor\" (integer) and \"est_amount\" (float) in the content object. These may appear as \"Est Advisor\", \"Estimator\", \"Est Amount\", \"Estimate\", or similar labels. If visible but zero, use 0 or 0.0 respectively.\n+10. CRITICAL: When extracting labor lines inside op[].labor[], check for ALL of these possible columns: type, tech, hours, rate, net, total, a_hrs, s_hrs, cost, sale. Include every column that has a value. Do not assume a fixed set of columns \u2014 different document types show different columns.\n+11. CRITICAL: For acct_split tables, go row by row from top to bottom. For each row, read the account number, then the sale value, then the cost value. If you are unsure about row boundaries, look at vertical alignment of numbers. Each distinct account number on a new line is a new row.\n \n"
+      },
+      "prompt_id": "p003",
+      "deltas": {
+        "201414": {
+          "score": 0.43,
+          "parent_score": 0.448,
+          "delta": -0.018,
+          "status": "worsened",
+          "subscores": {
+            "structure": 0.8,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "subscore_deltas": {
+            "structure": -0.04,
+            "numbers": 0.0,
+            "text": 0.0
+          }
+        },
+        "344098": {
+          "score": 0.4525,
+          "parent_score": 0.4525,
+          "delta": 0.0,
+          "status": "unchanged",
+          "subscores": {
+            "structure": 0.85,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "subscore_deltas": {
+            "structure": 0.0,
+            "numbers": 0.0,
+            "text": 0.0
+          }
+        },
+        "629903": {
+          "score": 0.376,
+          "parent_score": 0.376,
+          "delta": 0.0,
+          "status": "unchanged",
+          "subscores": {
+            "structure": 0.68,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "subscore_deltas": {
+            "structure": 0.0,
+            "numbers": 0.0,
+            "text": 0.0
+          }
+        },
+        "678856": {
+          "score": 0.3895,
+          "parent_score": 0.2995,
+          "delta": 0.09,
+          "status": "improved",
+          "subscores": {
+            "structure": 0.71,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "subscore_deltas": {
+            "structure": 0.2,
+            "numbers": 0.0,
+            "text": 0.0
+          }
+        },
+        "809570": {
+          "score": 0.448,
+          "parent_score": 0.448,
+          "delta": 0.0,
+          "status": "unchanged",
+          "subscores": {
+            "structure": 0.84,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "subscore_deltas": {
+            "structure": 0.0,
+            "numbers": 0.0,
+            "text": 0.0
+          }
+        },
+        "944962": {
+          "score": 0.286,
+          "parent_score": 0.286,
+          "delta": 0.0,
+          "status": "unchanged",
+          "subscores": {
+            "structure": 0.4800000000000001,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "subscore_deltas": {
+            "structure": 0.0,
+            "numbers": 0.0,
+            "text": 0.0
+          }
+        }
+      },
+      "mean_score": 0.397,
+      "min_score": 0.286,
+      "scores": {
+        "201414": 0.43,
+        "344098": 0.4525,
+        "629903": 0.376,
+        "678856": 0.3895,
+        "809570": 0.448,
+        "944962": 0.286
+      },
+      "subscores": {
+        "201414": {
+          "structure": 0.8,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        },
+        "344098": {
+          "structure": 0.85,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        },
+        "629903": {
+          "structure": 0.68,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        },
+        "678856": {
+          "structure": 0.71,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        },
+        "809570": {
+          "structure": 0.84,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        },
+        "944962": {
+          "structure": 0.4800000000000001,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        }
+      },
+      "doc_details": {
+        "201414": {
+          "score": 0.43,
+          "subscores": {
+            "structure": 0.8,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "JSI",
+              "WSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The primary failure pattern is **numeric type handling**: the model is returning numbers as strings (e.g., `'195.00'` instead of `195.0`, `'57052'` instead of `57052`) and conversely converting string fields to integers (e.g., year `2019` instead of `'19'`), indicating it lacks proper type casting logic and doesn't preserve the expected format for year fields. Additionally, the model is misplacing or misassigning values across sections (e.g., `miles` expected as `3` in sections[0] but appearing as `None`, while sections[1] gets an unexpected `miles_out` of `3`), suggesting a field-routing or section-attribution error for shared data points.",
+          "top_issues": [
+            {
+              "path": "sections[0].content.job[0].log[0].miles",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.labor[0].duration",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.labor[1].duration",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.rate",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.stock_number",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            }
+          ],
+          "num_sections_predicted": 5
+        },
+        "344098": {
+          "score": 0.4525,
+          "subscores": {
+            "structure": 0.85,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "JSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "**Primary Issue: Numeric type mismatches.** The model is consistently returning numbers as strings (e.g., `'195.00'` instead of `195.0`, `'23238'` instead of `23238`) and durations as strings instead of floats, indicating a systematic failure to cast extracted values to their proper numeric types. Additionally, the model is mishandling edge cases\u2014converting a year to an integer (`2019` instead of the string `'19'`) and hallucinating values where none exist (`miles_out` expected `None` but got `9`). The text subscore of ~0.20 suggests significant errors in free-text fields as well, though the structural alignment is largely correct.",
+          "top_issues": [
+            {
+              "path": "sections[0].content.labor[0].duration",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.labor[1].duration",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.rate",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.stock_number",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.unit_number",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            }
+          ],
+          "num_sections_predicted": 4
+        },
+        "629903": {
+          "score": 0.376,
+          "subscores": {
+            "structure": 0.68,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "ISI",
+              "JSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "**Primary Issue: Numeric Type Mismatches.** The extraction model is consistently returning numeric values as strings (e.g., `'195.00'` instead of `195.0`, `'13478'` instead of `13478`) across nearly all numeric fields, indicating a systematic failure to cast extracted values to their proper numeric types (int/float). Additionally, the model is mishandling a few specific fields\u2014returning `2019` instead of the expected string `'19'` for year, incorrectly copying `13478` into `customer_number` where `731262` is expected, and populating `miles_out` with `173` when it should be `None`\u2014suggesting confusion between similarly positioned header fields across sections.",
+          "top_issues": [
+            {
+              "path": "sections[0].content.labor[0].duration",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.rate",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.stock_number",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.unit_number",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.year",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            }
+          ],
+          "num_sections_predicted": 5
+        },
+        "678856": {
+          "score": 0.3895,
+          "subscores": {
+            "structure": 0.71,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "JSI",
+              "WSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The primary issue is **row ordering in `acct_split`**: the model is swapping rows at indices 1 and 2 (account 4501/2220 values are reversed), indicating the extraction is misaligning or reordering tabular rows within that section. The second major pattern is a **type coercion failure**: numeric fields like `duration`, `rate`, and `stock_number` are being returned as strings instead of numbers, suggesting the model isn't casting extracted values to their proper numeric types. Fixing row ordering logic for multi-row tables and adding a numeric type-casting post-processing step would address the bulk of the score loss.",
+          "top_issues": [
+            {
+              "path": "sections[0].content.acct_split[1].acct",
+              "kind": "value",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.acct_split[1].cost",
+              "kind": "value",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.acct_split[1].sale",
+              "kind": "value",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.acct_split[2].acct",
+              "kind": "value",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.acct_split[2].cost",
+              "kind": "value",
+              "category": "numbers",
+              "penalty": 0.06
+            }
+          ],
+          "num_sections_predicted": 5
+        },
+        "809570": {
+          "score": 0.448,
+          "subscores": {
+            "structure": 0.84,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "JSI",
+              "WSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The primary issue is **type handling for numeric fields**: the model is returning numbers as strings (e.g., `'195.00'` instead of `195.0`, `'81482'` instead of `81482`) and strings as numbers (e.g., `2019` instead of `'19'` for year), indicating it's not correctly casting values to their expected types. Additionally, there's a **field misplacement problem** where data is being assigned to the wrong section\u2014`miles: 54` belongs in `sections[0].content.job[0].log[0].miles` but instead appears as `sections[1].header.miles_out`, suggesting the model is confusing where certain values should be routed across sections.",
+          "top_issues": [
+            {
+              "path": "sections[0].content.job[0].log[0].miles",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.labor[0].duration",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.rate",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.stock_number",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.unit_number",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            }
+          ],
+          "num_sections_predicted": 5
+        },
+        "944962": {
+          "score": 0.286,
+          "subscores": {
+            "structure": 0.4800000000000001,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "ISI",
+              "JSI",
+              "WSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The primary failure is a **row misalignment/shifting issue** in the `acct_split` array for section ASI. The model appears to have skipped or merged one row early in the table, causing all subsequent rows to be offset by one position\u2014values that should be in index 2 are appearing in index 1, index 3's values in index 2, and so on, with some rows getting incorrect account numbers (e.g., 4551\u21922030, 4651\u21922031).\n\nAdditionally, the shifted rows are picking up wrong cost and sale values (or defaulting to 0.0), suggesting the model is misreading the tabular structure\u2014possibly confusing column alignment or merging adjacent rows when the table layout is ambiguous.",
+          "top_issues": [
+            {
+              "path": "sections[0].content.acct_split[1].acct",
+              "kind": "value",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.acct_split[1].cost",
+              "kind": "value",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.acct_split[1].sale",
+              "kind": "value",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.acct_split[2].acct",
+              "kind": "value",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].content.acct_split[2].cost",
+              "kind": "value",
+              "category": "numbers",
+              "penalty": 0.06
+            }
+          ],
+          "num_sections_predicted": 6
+        }
+      },
+      "pareto_front": [
+        "p001",
+        "p002",
+        "p003"
+      ],
+      "win_frequencies": {
+        "p000": 1,
+        "p001": 2,
+        "p002": 4,
+        "p003": 4
+      },
+      "prompt_path": "/Users/bernardochalita/Desktop/continual-learning-agents-research/results/prompts/p003_extraction.txt"
+    }
+  ]
+}
