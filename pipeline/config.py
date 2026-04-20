@@ -11,13 +11,14 @@ ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 STACKAI_API_URL = os.environ.get("STACKAI_API_URL", "")
 STACKAI_API_KEY = os.environ.get("STACKAI_API_KEY", "")
 
-# Vision tasks (structure ID, extraction) — direct Anthropic API
+# Vision tasks (structure ID, extraction) — direct Anthropic API (Haiku 4.5)
 EXTRACTION_MODEL = "claude-haiku-4-5-20251001"
-# Text-only tasks (reflection) — routed through Stack AI when available
-REFLECTION_MODEL = "claude-sonnet-4-6"
+# Text-only tasks (eval diagnosis, reflection, merge) — Stack AI primary (Opus 4.6)
+# Fallback model if Stack AI is unavailable — Sonnet to keep costs down
+FALLBACK_TEXT_MODEL = "claude-sonnet-4-6"
 
-PDF_DPI = 100         # Extraction: needs to read fine text
-STRUCTURE_DPI = 72   # Structure analysis: thumbnails sufficient to identify sections
+PDF_DPI = 150         # Extraction: needs to read fine text and numbers
+STRUCTURE_DPI = 100   # Structure analysis: needs to read section prefix codes
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SAMPLES_DIR = REPO_ROOT / "Data" / "Samples"

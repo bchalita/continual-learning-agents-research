@@ -67,7 +67,7 @@ def propose(
     except Exception:
         # Fallback: direct Anthropic API
         response = client.messages.create(
-            model=config.REFLECTION_MODEL,
+            model=config.FALLBACK_TEXT_MODEL,
             max_tokens=4096,
             system=reflection_system,
             messages=[{"role": "user", "content": user_msg}],

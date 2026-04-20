@@ -27,7 +27,25 @@ Rules for metadata:
 - These fields typically appear in the header area of every section
 
 Rules for sections:
-- Common BMW repair order section prefixes: ASI, BWO, CSI, ISI, JSI, WSI
+- BMW repair orders use these specific section prefix codes (use ONLY these):
+    ASI = Accounting Service Invoice
+    BWO = BMW Work Order
+    CSI = Customer Service Invoice
+    ISI = Internal Service Invoice
+    JSI = Job Service Invoice
+    WSI = Warranty Service Invoice
+- How to identify sections:
+    - Some pages have the prefix code (ASI, BWO, etc.) printed explicitly in the header
+    - Invoice-type pages all say "*INVOICE*" but are distinguished by the COPY TYPE
+      printed at the bottom of the page:
+        "CUSTOMER COPY" → CSI (Customer Service Invoice)
+        "SIGNATURE COPY" → JSI (Job Service Invoice)
+        "ACCOUNTING COPY" → ASI (Accounting Service Invoice)
+        "WARRANTY COPY" → WSI (Warranty Service Invoice)
+        "INTERNAL COPY" → ISI (Internal Service Invoice)
+    - Work order pages may say "TECHNICIAN COPY" → BWO
+- Each section type appears AT MOST once per repair order — do NOT duplicate prefixes
+- Check the BOTTOM of each page for the copy type label
 - pages is a 0-indexed list of integer page numbers belonging to this section
 - If section boundaries are unclear, return one section covering all pages
 - List pages in order; do not repeat a page in more than one section

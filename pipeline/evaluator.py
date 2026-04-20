@@ -56,7 +56,7 @@ def _llm_evaluate(
 
     # Fallback: direct Anthropic API
     response = client.messages.create(
-        model=config.EXTRACTION_MODEL,
+        model=config.FALLBACK_TEXT_MODEL,
         max_tokens=512,
         system=instructions,
         messages=[{"role": "user", "content": prompt}],
