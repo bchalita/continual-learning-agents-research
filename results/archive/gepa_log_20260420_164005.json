@@ -1,0 +1,534 @@
+{
+  "iterations": [
+    {
+      "iteration": 1,
+      "timestamp": "2026-04-20T16:40:05.304297",
+      "type": "baseline",
+      "prompt_id": "p000",
+      "mean_score": 0.286,
+      "min_score": 0.286,
+      "scores": {
+        "629903": 0.286
+      },
+      "subscores": {
+        "629903": {
+          "structure": 0.48,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        }
+      },
+      "doc_details": {
+        "629903": {
+          "score": 0.286,
+          "subscores": {
+            "structure": 0.48,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "ISI",
+              "JSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The primary issue is **numeric type handling**: the model is returning numbers as strings (e.g., `'4551'` instead of `4551`, `'2.11'` instead of `2.11`, `'0.00'` instead of `0.0`), which accounts for most of the numbers subscore penalty. Second, the model is **completely missing labor entries** in sections[3] (ISI), failing to extract labor arrays for two jobs, causing significant structural penalties. The extraction needs to cast all numeric fields to proper int/float types and ensure labor records are captured even when values are zero.",
+          "top_issues": [
+            {
+              "path": "sections[3].content.job[0].op[0].labor[0]",
+              "kind": "missing",
+              "category": "structure",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[3].content.job[1].op[0].labor[0]",
+              "kind": "missing",
+              "category": "structure",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[3].content.job[1].op[0].labor[1]",
+              "kind": "missing",
+              "category": "structure",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[3].content.job[1].op[0].labor[2]",
+              "kind": "missing",
+              "category": "structure",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.acct_split[0].acct",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            }
+          ],
+          "num_sections_predicted": 5
+        }
+      },
+      "pareto_front": [
+        "p000"
+      ],
+      "win_frequencies": {
+        "p000": 1
+      },
+      "prompt_path": "/Users/bernardochalita/Desktop/continual-learning-agents-research/results/prompts/p000_extraction.txt"
+    },
+    {
+      "iteration": 2,
+      "timestamp": "2026-04-20T16:41:29.896291",
+      "type": "mutation",
+      "parent_id": "p000",
+      "parent_mean_score": 0.286,
+      "reflection_target_doc": "629903",
+      "reflection_target_score": 0.286,
+      "reflection_target_feedback": "The primary issue is **numeric type handling**: the model is returning numbers as strings (e.g., `'4551'` instead of `4551`, `'2.11'` instead of `2.11`, `'0.00'` instead of `0.0`), which accounts for most of the numbers subscore penalty. Second, the model is **completely missing labor entries** in sections[3] (ISI), failing to extract labor arrays for two jobs, causing significant structural penalties. The extraction needs to cast all numeric fields to proper int/float types and ensure labor records are captured even when values are zero.",
+      "reflection_target_top_issues": [
+        {
+          "path": "sections[3].content.job[0].op[0].labor[0]",
+          "kind": "missing",
+          "category": "structure",
+          "expected": "{'tech': 2305, 'type': 'ISPB', 'hours': 0.0, 'list': None, 'net': 0.0, 'total': 0.0}",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[3].content.job[1].op[0].labor[0]",
+          "kind": "missing",
+          "category": "structure",
+          "expected": "{'tech': 99, 'type': 'ISPB', 'hours': 0.0, 'list': None, 'net': 0.0, 'total': 0.0}",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[3].content.job[1].op[0].labor[1]",
+          "kind": "missing",
+          "category": "structure",
+          "expected": "{'tech': 2305, 'type': 'ISPB', 'hours': 0.0, 'list': None, 'net': 0.0, 'total': 0.0}",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[3].content.job[1].op[0].labor[2]",
+          "kind": "missing",
+          "category": "structure",
+          "expected": "{'tech': None, 'type': None, 'hours': 0.0, 'list': None, 'net': 0.0, 'total': 0.0}",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[0].content.acct_split[0].acct",
+          "kind": "type",
+          "category": "numbers",
+          "expected": "4551",
+          "got": "4551",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[0].content.acct_split[1].acct",
+          "kind": "type",
+          "category": "numbers",
+          "expected": "2031",
+          "got": "2031",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[0].content.acct_split[1].cost",
+          "kind": "type",
+          "category": "numbers",
+          "expected": "0",
+          "got": "None",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[0].content.job[0].op[0].labor[0].a_hrs",
+          "kind": "type",
+          "category": "numbers",
+          "expected": "2.11",
+          "got": "2.11",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[0].content.job[0].op[0].labor[0].cost",
+          "kind": "type",
+          "category": "numbers",
+          "expected": "0",
+          "got": "0",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[0].content.job[0].op[0].labor[0].net",
+          "kind": "type",
+          "category": "numbers",
+          "expected": "0.0",
+          "got": "0.00",
+          "penalty": 0.06
+        }
+      ],
+      "prompt_diff": {
+        "lines_added": 38,
+        "lines_removed": 10,
+        "added_lines": [
+          "+",
+          "+CRITICAL RULES FOR DATA TYPES:",
+          "+- ALL numeric fields MUST be JSON numbers (int or float), NEVER strings.",
+          "+- If a value looks like \"2305\", output 2305 (integer).",
+          "+- If a value looks like \"2.11\" or \"0.00\", output 2.11 or 0.0 (float).",
+          "+- Dollar amounts, hours, miles, tech IDs, account numbers \u2014 all must be numeric.",
+          "+- Use 0 or 0.0 for zero values, not null, not \"0\", not \"0.00\".",
+          "+- Use null ONLY when a field is truly absent/not visible.",
+          "+- For cost/sale fields in acct_split: use 0 if the value is zero, not null.",
+          "+",
+          "+LABOR EXTRACTION RULES:",
+          "+- In job op labor arrays, extract ALL labor line entries even if all values are zero.",
+          "+- Each labor entry in an op must be captured as an object even when hours/cost/sale are 0.",
+          "+- Look carefully at labor grids \u2014 every row with a tech number or any data is a separate entry.",
+          "+- Do NOT skip labor entries just because they have zero values.",
+          "+Footer fields (use 0.0 for any field not visible; all must be JSON numbers):",
+          "+    line_letter (string), text (string), cause (string or null),",
+          "+    op: array of operation objects, each with:",
+          "+      code (string), text (string),",
+          "+      labor: array of labor objects (MUST include all rows even if zeros), each with:"
+        ],
+        "removed_lines": [
+          "-Footer fields (0.0 for any field not visible; all numeric):",
+          "-    line_letter, text, cause,",
+          "-    op (array of: code, text, labor array, parts array),",
+          "-    fc, part_number, parts_cost, parts_sale, claim_type, auth_code,",
+          "-    labor_cost, labor_sale,",
+          "-    log (array of: tech, date, time, miles, text)",
+          "-- \"bar\", \"epa\", \"dealer_notes\": strings or null",
+          "-- \"labor\": array of (date, start, finish, duration, type, tech, line_letter, charge) or []",
+          "-- \"acct_split\": array of (acct, sale, cost) or []",
+          "-Use null for absent fields. Extract only what is clearly visible in the images."
+        ],
+        "full_diff": "--- \n+++ \n@@ -4,2 +4,17 @@\n Return ONLY valid JSON \u2014 no markdown, no code fences, no explanation.\n+\n+CRITICAL RULES FOR DATA TYPES:\n+- ALL numeric fields MUST be JSON numbers (int or float), NEVER strings.\n+- If a value looks like \"2305\", output 2305 (integer).\n+- If a value looks like \"2.11\" or \"0.00\", output 2.11 or 0.0 (float).\n+- Dollar amounts, hours, miles, tech IDs, account numbers \u2014 all must be numeric.\n+- Use 0 or 0.0 for zero values, not null, not \"0\", not \"0.00\".\n+- Use null ONLY when a field is truly absent/not visible.\n+- For cost/sale fields in acct_split: use 0 if the value is zero, not null.\n+\n+LABOR EXTRACTION RULES:\n+- In job op labor arrays, extract ALL labor line entries even if all values are zero.\n+- Each labor entry in an op must be captured as an object even when hours/cost/sale are 0.\n+- Look carefully at labor grids \u2014 every row with a tech number or any data is a separate entry.\n+- Do NOT skip labor entries just because they have zero values.\n \n@@ -23,3 +38,3 @@\n \n-Footer fields (0.0 for any field not visible; all numeric):\n+Footer fields (use 0.0 for any field not visible; all must be JSON numbers):\n   labor_amount, parts_amount, gas_oil_lube, sublet_amount, misc_charges,\n@@ -29,10 +44,23 @@\n - \"job\": array of job objects, each with:\n-    line_letter, text, cause,\n-    op (array of: code, text, labor array, parts array),\n-    fc, part_number, parts_cost, parts_sale, claim_type, auth_code,\n-    labor_cost, labor_sale,\n-    log (array of: tech, date, time, miles, text)\n-- \"bar\", \"epa\", \"dealer_notes\": strings or null\n-- \"labor\": array of (date, start, finish, duration, type, tech, line_letter, charge) or []\n-- \"acct_split\": array of (acct, sale, cost) or []\n+    line_letter (string), text (string), cause (string or null),\n+    op: array of operation objects, each with:\n+      code (string), text (string),\n+      labor: array of labor objects (MUST include all rows even if zeros), each with:\n+        tech (integer or null), type (string or null), hours (float or null),\n+        a_hrs (float or null), s_hrs (float or null),\n+        list (float or null), net (float), total (float),\n+        cost (float or int, use 0 if zero), sale (float or int, use 0 if zero)\n+      parts: array of parts objects, each with:\n+        line (int or null), part_number (string), description (string or null),\n+        qty (float or int), list (float or null), net (float or null),\n+        total (float or null), cost (float or null), sale (float or null)\n+    fc (string or null), part_number (string or null),\n+    parts_cost (float or null), parts_sale (float or null),\n+    claim_type (string or null), auth_code (string or null),\n+    labor_cost (float or null), labor_sale (float or null),\n+    log: array of log objects (each with: tech (int or null), date (string or null), time (string or null), miles (int or null), text (string or null)) or []\n+- \"bar\" (string or null), \"epa\" (string or null), \"dealer_notes\" (string or null)\n+- \"labor\": array of objects (date, start, finish, duration, type, tech, line_letter, charge) or []\n+- \"acct_split\": array of objects, each with:\n+    acct (integer), sale (float or int), cost (float or int, use 0 if zero)\n - \"total_cost\", \"total_sale\", \"total_comp\", \"total_labor\", \"total_parts\",\n@@ -40,2 +68,2 @@\n \n-Use null for absent fields. Extract only what is clearly visible in the images.+REMEMBER: Every numeric value must be a JSON number type. Never wrap numbers in quotes. Extract all labor rows including those with all-zero values."
+      },
+      "prompt_id": "p001",
+      "deltas": {
+        "629903": {
+          "score": 0.43,
+          "parent_score": 0.286,
+          "delta": 0.144,
+          "status": "improved",
+          "subscores": {
+            "structure": 0.8,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "subscore_deltas": {
+            "structure": 0.32,
+            "numbers": 0.0,
+            "text": 0.0
+          }
+        }
+      },
+      "mean_score": 0.43,
+      "min_score": 0.43,
+      "scores": {
+        "629903": 0.43
+      },
+      "subscores": {
+        "629903": {
+          "structure": 0.8,
+          "numbers": 0.09999999999999998,
+          "text": 0.19999999999999996
+        }
+      },
+      "doc_details": {
+        "629903": {
+          "score": 0.43,
+          "subscores": {
+            "structure": 0.8,
+            "numbers": 0.09999999999999998,
+            "text": 0.19999999999999996
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "ISI",
+              "JSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "The primary failure pattern is **type errors**: numeric fields like `ro_number`, `stock_number`, and `unit_number` are being extracted as strings (e.g., `'629903'`) instead of integers (`629903`), and `None` values are being returned as incorrect types \u2014 this accounts for the bulk of the penalties. Additionally, there are **value errors** where fields from one section's header are bleeding into another (e.g., `customer_number` getting `13478` instead of `731262`, and `miles_out` being populated when it should be `None`), suggesting the model is confusing which section's header data belongs where. A missing labor comp value (`0` extracted as `None`) indicates the model is also failing to recognize explicit zero values in nested job/operation structures.",
+          "top_issues": [
+            {
+              "path": "sections[0].content.job[1].op[0].labor[2].comp",
+              "kind": "missing",
+              "category": "numbers",
+              "penalty": 0.08
+            },
+            {
+              "path": "sections[0].content.acct_split[1].cost",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.ro_number",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.stock_number",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            },
+            {
+              "path": "sections[0].header.unit_number",
+              "kind": "type",
+              "category": "numbers",
+              "penalty": 0.06
+            }
+          ],
+          "num_sections_predicted": 5
+        }
+      },
+      "pareto_front": [
+        "p001"
+      ],
+      "win_frequencies": {
+        "p000": 0,
+        "p001": 1
+      },
+      "prompt_path": "/Users/bernardochalita/Desktop/continual-learning-agents-research/results/prompts/p001_extraction.txt"
+    },
+    {
+      "iteration": 3,
+      "timestamp": "2026-04-20T16:43:22.871518",
+      "type": "mutation",
+      "parent_id": "p001",
+      "parent_mean_score": 0.43,
+      "reflection_target_doc": "629903",
+      "reflection_target_score": 0.43,
+      "reflection_target_feedback": "The primary failure pattern is **type errors**: numeric fields like `ro_number`, `stock_number`, and `unit_number` are being extracted as strings (e.g., `'629903'`) instead of integers (`629903`), and `None` values are being returned as incorrect types \u2014 this accounts for the bulk of the penalties. Additionally, there are **value errors** where fields from one section's header are bleeding into another (e.g., `customer_number` getting `13478` instead of `731262`, and `miles_out` being populated when it should be `None`), suggesting the model is confusing which section's header data belongs where. A missing labor comp value (`0` extracted as `None`) indicates the model is also failing to recognize explicit zero values in nested job/operation structures.",
+      "reflection_target_top_issues": [
+        {
+          "path": "sections[0].content.job[1].op[0].labor[2].comp",
+          "kind": "missing",
+          "category": "numbers",
+          "expected": "0",
+          "got": "None",
+          "penalty": 0.08
+        },
+        {
+          "path": "sections[0].content.acct_split[1].cost",
+          "kind": "type",
+          "category": "numbers",
+          "expected": "0",
+          "got": "None",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[0].header.ro_number",
+          "kind": "type",
+          "category": "numbers",
+          "expected": "629903",
+          "got": "629903",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[0].header.stock_number",
+          "kind": "type",
+          "category": "numbers",
+          "expected": "13478",
+          "got": "13478",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[0].header.unit_number",
+          "kind": "type",
+          "category": "numbers",
+          "expected": "13478",
+          "got": "13478",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[1].header.customer_number",
+          "kind": "value",
+          "category": "numbers",
+          "expected": "731262",
+          "got": "13478",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[1].header.miles_out",
+          "kind": "type",
+          "category": "numbers",
+          "expected": "None",
+          "got": "173",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[1].header.ro_number",
+          "kind": "type",
+          "category": "numbers",
+          "expected": "629903",
+          "got": "629903",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[1].header.stock_number",
+          "kind": "type",
+          "category": "numbers",
+          "expected": "13478",
+          "got": "13478",
+          "penalty": 0.06
+        },
+        {
+          "path": "sections[1].header.unit_number",
+          "kind": "type",
+          "category": "numbers",
+          "expected": "13478",
+          "got": "13478",
+          "penalty": 0.06
+        }
+      ],
+      "prompt_diff": {
+        "lines_added": 42,
+        "lines_removed": 9,
+        "added_lines": [
+          "+- ro_number, stock_number, unit_number, customer_number, miles_in, miles_out \u2014 these are INTEGERS, not strings. Output 629903 not \"629903\". Output 13478 not \"13478\".",
+          "+- Use null ONLY when a field is truly absent/not visible in the document.",
+          "+- For cost/sale fields in acct_split: use 0 if the value is zero, NEVER null.",
+          "+- For labor fields like comp, cost, sale: use 0 if the value is zero, NEVER null.",
+          "+",
+          "+MULTI-SECTION DOCUMENTS:",
+          "+- A document may contain multiple sections (pages). Each section has its own header.",
+          "+- Extract EACH section's header independently from what is visible on THAT section/page.",
+          "+- Do NOT copy header values from one section to another. Read each section's header fields fresh.",
+          "+- If a field (like customer_number) shows a different value on a different page, use that page's value.",
+          "+- If a field (like miles_out) is not visible on a particular section, set it to null for that section.",
+          "+- Pay close attention to which numeric value corresponds to which field label on each page.",
+          "+",
+          "+HEADER FIELD IDENTIFICATION:",
+          "+- unit_number: the unit/vehicle number (integer or null)",
+          "+- stock_number: the stock number (integer or null)",
+          "+- ro_number: the repair order number (integer or null)",
+          "+- customer_number: the customer/account number \u2014 look for the label \"Customer #\" or \"Cust #\" or similar (integer or null)",
+          "+- miles_in: odometer reading at intake (integer or null)",
+          "+- miles_out: odometer reading at delivery (integer or null) \u2014 only populate if explicitly shown as miles out"
+        ],
+        "removed_lines": [
+          "-- Use null ONLY when a field is truly absent/not visible.",
+          "-- For cost/sale fields in acct_split: use 0 if the value is zero, not null.",
+          "-The JSON object must have these exact top-level keys:",
+          "-  unit_number, customer_name, customer_address, customer_city_state_zip, customer_email,",
+          "-  miles_in, miles_out, tag,",
+          "-  stock_number, customer_number, ro_number, engine",
+          "-        cost (float or int, use 0 if zero), sale (float or int, use 0 if zero)",
+          "-    acct (integer), sale (float or int), cost (float or int, use 0 if zero)",
+          "-REMEMBER: Every numeric value must be a JSON number type. Never wrap numbers in quotes. Extract all labor rows including those with all-zero values."
+        ],
+        "full_diff": "--- \n+++ \n@@ -7,2 +7,3 @@\n - ALL numeric fields MUST be JSON numbers (int or float), NEVER strings.\n+- ro_number, stock_number, unit_number, customer_number, miles_in, miles_out \u2014 these are INTEGERS, not strings. Output 629903 not \"629903\". Output 13478 not \"13478\".\n - If a value looks like \"2305\", output 2305 (integer).\n@@ -11,4 +12,22 @@\n - Use 0 or 0.0 for zero values, not null, not \"0\", not \"0.00\".\n-- Use null ONLY when a field is truly absent/not visible.\n-- For cost/sale fields in acct_split: use 0 if the value is zero, not null.\n+- Use null ONLY when a field is truly absent/not visible in the document.\n+- For cost/sale fields in acct_split: use 0 if the value is zero, NEVER null.\n+- For labor fields like comp, cost, sale: use 0 if the value is zero, NEVER null.\n+\n+MULTI-SECTION DOCUMENTS:\n+- A document may contain multiple sections (pages). Each section has its own header.\n+- Extract EACH section's header independently from what is visible on THAT section/page.\n+- Do NOT copy header values from one section to another. Read each section's header fields fresh.\n+- If a field (like customer_number) shows a different value on a different page, use that page's value.\n+- If a field (like miles_out) is not visible on a particular section, set it to null for that section.\n+- Pay close attention to which numeric value corresponds to which field label on each page.\n+\n+HEADER FIELD IDENTIFICATION:\n+- unit_number: the unit/vehicle number (integer or null)\n+- stock_number: the stock number (integer or null)\n+- ro_number: the repair order number (integer or null)\n+- customer_number: the customer/account number \u2014 look for the label \"Customer #\" or \"Cust #\" or similar (integer or null)\n+- miles_in: odometer reading at intake (integer or null)\n+- miles_out: odometer reading at delivery (integer or null) \u2014 only populate if explicitly shown as miles out\n+- Do NOT confuse stock_number with customer_number. They are different fields with different labels.\n \n@@ -19,4 +38,10 @@\n - Do NOT skip labor entries just because they have zero values.\n+- For labor objects, include a \"comp\" field (float, use 0 if zero, null only if truly absent).\n \n-The JSON object must have these exact top-level keys:\n+DATE FIELDS:\n+- Some sections may have a \"date\" field in the header. Look for any date shown on the page.\n+- Format dates as \"YYYY-MM-DD\" strings.\n+\n+The JSON output must be an object with a \"sections\" key containing an array of section objects.\n+Each section object must have these exact keys:\n - \"section_id\": string (section type code + document number if visible, otherwise code alone)\n@@ -29,3 +54,3 @@\n Header fields (null for any field not visible):\n-  unit_number, customer_name, customer_address, customer_city_state_zip, customer_email,\n+  unit_number (integer or null), customer_name, customer_address, customer_city_state_zip, customer_email,\n   home_phone, contact_phone, bus_phone, cell_phone,\n@@ -33,6 +58,7 @@\n   color, year, make, model, submodel, vin,\n-  miles_in, miles_out, tag,\n+  miles_in (integer or null), miles_out (integer or null), tag,\n   open_date, close_date, date_in, date_out, time_in, time_out, promise_time, delivery_date,\n   deal_type, pay_type, rate,\n-  stock_number, customer_number, ro_number, engine\n+  stock_number (integer or null), customer_number (integer or null), ro_number (integer or null), engine,\n+  date (string \"YYYY-MM-DD\" or null)\n \n@@ -51,3 +77,4 @@\n         list (float or null), net (float), total (float),\n-        cost (float or int, use 0 if zero), sale (float or int, use 0 if zero)\n+        cost (float or int, use 0 if zero), sale (float or int, use 0 if zero),\n+        comp (float or int, use 0 if zero)\n       parts: array of parts objects, each with:\n@@ -64,3 +91,3 @@\n - \"acct_split\": array of objects, each with:\n-    acct (integer), sale (float or int), cost (float or int, use 0 if zero)\n+    acct (integer), sale (float or int), cost (float or int, use 0 if zero \u2014 NEVER null)\n - \"total_cost\", \"total_sale\", \"total_comp\", \"total_labor\", \"total_parts\",\n@@ -68,2 +95,8 @@\n \n-REMEMBER: Every numeric value must be a JSON number type. Never wrap numbers in quotes. Extract all labor rows including those with all-zero values.+FINAL REMINDERS:\n+1. Every numeric value must be a JSON number type. NEVER wrap numbers in quotes. ro_number: 629903 NOT \"629903\".\n+2. Extract all labor rows including those with all-zero values.\n+3. In acct_split, cost must be 0 (not null) when the value is zero.\n+4. In labor objects, comp must be 0 (not null) when the value is zero.\n+5. Read each section's header independently \u2014 do not bleed values across sections.\n+6. customer_number and stock_number are DIFFERENT fields. Read the correct label for each."
+      },
+      "prompt_id": "p002",
+      "deltas": {
+        "629903": {
+          "score": 0.9325,
+          "parent_score": 0.43,
+          "delta": 0.5025,
+          "status": "improved",
+          "subscores": {
+            "structure": 0.85,
+            "numbers": 1.0,
+            "text": 1.0
+          },
+          "subscore_deltas": {
+            "structure": 0.05,
+            "numbers": 0.9,
+            "text": 0.8
+          }
+        }
+      },
+      "mean_score": 0.9325,
+      "min_score": 0.9325,
+      "scores": {
+        "629903": 0.9325
+      },
+      "subscores": {
+        "629903": {
+          "structure": 0.85,
+          "numbers": 1.0,
+          "text": 1.0
+        }
+      },
+      "doc_details": {
+        "629903": {
+          "score": 0.9325,
+          "subscores": {
+            "structure": 0.85,
+            "numbers": 1.0,
+            "text": 1.0
+          },
+          "section_alignment": {
+            "matched": [
+              "ASI",
+              "BWO",
+              "CSI",
+              "ISI",
+              "JSI"
+            ],
+            "missing": [],
+            "extra": []
+          },
+          "qualitative_feedback": "## Diagnosis\n\nThe extraction model has three recurring structural errors across all sections:\n\n1. **Date format normalization failure**: Dates are output in raw document format (`'27SEP19'`, `'29SEP19'`, `'02OCT19'`) instead of being normalized to ISO format (`'2019-09-27'`, `'2019-09-29'`, `'2019-10-02'`), and `open_date`/`close_date`/`date_in`/`date_out` are frequently swapped or set to `None`.\n\n2. **Op code misparse**: The `op.code` field should be `'NWD'` (the operation code) but the model is incorrectly extracting the job-level text (e.g., `'CAMP B611319'`, `'CAMP'`) as the op code, and concatenating the op text with the job description.\n\n3. **BWO section uses wrong customer data**: The BWO section has a different customer (Troy Liu, customer_number 731262) but the model copies the ASI section's customer (Kimberly Sanchez, customer_number 13478), and `dealer_notes`/`bar`/`epa` fields are either `None` or include extraneous prefix text (`'BAR#-AG-054466 EPA#-...'`) instead of being cleanly separated.",
+          "top_issues": [
+            {
+              "path": "sections[0]",
+              "kind": "value",
+              "category": "structure",
+              "penalty": 0.03
+            },
+            {
+              "path": "sections[1]",
+              "kind": "value",
+              "category": "structure",
+              "penalty": 0.03
+            },
+            {
+              "path": "sections[2]",
+              "kind": "value",
+              "category": "structure",
+              "penalty": 0.03
+            },
+            {
+              "path": "sections[3]",
+              "kind": "value",
+              "category": "structure",
+              "penalty": 0.03
+            },
+            {
+              "path": "sections[4]",
+              "kind": "value",
+              "category": "structure",
+              "penalty": 0.03
+            }
+          ],
+          "num_sections_predicted": 5
+        }
+      },
+      "pareto_front": [
+        "p002"
+      ],
+      "win_frequencies": {
+        "p000": 0,
+        "p001": 0,
+        "p002": 1
+      },
+      "prompt_path": "/Users/bernardochalita/Desktop/continual-learning-agents-research/results/prompts/p002_extraction.txt"
+    }
+  ]
+}
