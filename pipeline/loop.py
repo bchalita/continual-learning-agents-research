@@ -8,11 +8,17 @@ a Pareto frontier of non-dominated prompts, select parents via win-frequency.
 API call routing:
   - Vision calls (structure, extraction) → Anthropic API (Haiku 4.5)
   - Text-only calls (eval diagnosis, reflection, merge) → Stack AI (Opus 4.6)
+
+Logging:
+  - CSV: compact per-iteration scores (spreadsheet-friendly)
+  - JSON log: rich per-iteration details — prompt diffs, per-doc deltas,
+    what improved/worsened, reflection reasoning, top issues
 """
 
 from __future__ import annotations
 
 import csv
+import difflib
 import json
 from datetime import datetime
 from pathlib import Path
@@ -24,6 +30,55 @@ from .orchestrator import extract
 from .evaluator import evaluate
 from .reflection import propose
 from .gepa import PromptPool
+
+
+def _prompt_diff_summary(old_text: str, new_text: str) -> dict:
+    """Generate a human-readable summary of what changed between two prompts."""
+    old_lines = old_text.splitlines(keepends=True)
+    new_lines = new_text.splitlines(keepends=True)
+    diff = list(difflib.unified_diff(old_lines, new_lines, n=1))
+
+    added = [l.rstrip() for l in diff if l.startswith("+") and not l.startswith("+++")]
+    removed = [l.rstrip() for l in diff if l.startswith("-") and not l.startswith("---")]
+
+    return {
+        "lines_added": len(added),
+        "lines_removed": len(removed),
+        "added_lines": added[:20],  # cap at 20 for readability
+        "removed_lines": removed[:20],
+        "full_diff": "".join(diff) if len(diff) < 200 else "(diff too large, see prompt files)",
+    }
+
+
+def _score_deltas(
+    candidate_scores: dict[str, float],
+    candidate_subscores: dict[str, dict],
+    parent_scores: dict[str, float],
+    parent_subscores: dict[str, dict],
+) -> dict:
+    """Compute per-doc score deltas between candidate and parent."""
+    deltas = {}
+    for doc_id in candidate_scores:
+        c_score = candidate_scores[doc_id]
+        p_score = parent_scores.get(doc_id, 0)
+        delta = c_score - p_score
+
+        c_sub = candidate_subscores.get(doc_id, {})
+        p_sub = parent_subscores.get(doc_id, {})
+        sub_deltas = {}
+        for key in ["structure", "numbers", "text"]:
+            sub_deltas[key] = round(c_sub.get(key, 0) - p_sub.get(key, 0), 4)
+
+        status = "improved" if delta > 0.005 else ("worsened" if delta < -0.005 else "unchanged")
+        deltas[doc_id] = {
+            "score": round(c_score, 4),
+            "parent_score": round(p_score, 4),
+            "delta": round(delta, 4),
+            "status": status,
+            "subscores": c_sub,
+            "subscore_deltas": sub_deltas,
+        }
+    return deltas
 
 
 def run(
@@ -180,6 +235,7 @@ def run_gepa(
 
     timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
     csv_path = out_dir / f"gepa_optimization_{timestamp}.csv"
+    log_path = out_dir / f"gepa_log_{timestamp}.json"
 
     fieldnames = (
         ["iteration", "prompt_id", "parent_id", "mean_score", "min_score"]
@@ -188,14 +244,22 @@ def run_gepa(
     )
 
     rows: list[dict] = []
+    iteration_logs: list[dict] = []  # Rich log for analysis
 
     for i in range(1, iterations + 1):
+        iter_log: dict = {
+            "iteration": i,
+            "timestamp": datetime.utcnow().isoformat(),
+        }
+
         # ── Select parent + generate candidate ──
         if i == 1:
             # First iteration: evaluate the base prompt as-is
             candidate = pool.candidates[0]
             print(f"\n{'='*60}")
             print(f"GEPA Iteration {i}/{iterations} — evaluating base prompt ({candidate.prompt_id})")
+            iter_log["type"] = "baseline"
+            iter_log["prompt_id"] = candidate.prompt_id
         else:
             # Select parent from Pareto front
             parent = pool.select_parent()
@@ -206,15 +270,40 @@ def run_gepa(
 
             # Reflect on the parent's worst-performing document
             worst_eval = parent.eval_results.get(worst_doc, {})
+            worst_issues = worst_eval.get("eval_report", {}).get("issues", [])[:10]
+            worst_feedback = worst_eval.get("qualitative_feedback", "")
+
+            iter_log["type"] = "mutation"
+            iter_log["parent_id"] = parent.prompt_id
+            iter_log["parent_mean_score"] = parent.mean_score
+            iter_log["reflection_target_doc"] = worst_doc
+            iter_log["reflection_target_score"] = parent.scores.get(worst_doc, 0)
+            iter_log["reflection_target_feedback"] = worst_feedback
+            iter_log["reflection_target_top_issues"] = [
+                {"path": x["path"], "kind": x["kind"], "category": x["category"],
+                 "expected": str(x.get("expected", ""))[:100],
+                 "got": str(x.get("got", ""))[:100],
+                 "penalty": x["penalty"]}
+                for x in worst_issues
+            ]
+
             print(f"  Reflecting on {worst_doc} (score={parent.scores.get(worst_doc, 0):.4f})...")
+            print(f"  Feedback: {worst_feedback[:200]}...")
 
             new_prompts = propose(parent.text, worst_eval, client)
             new_text = new_prompts["extraction_prompt"]
 
+            # Log prompt diff
+            diff_info = _prompt_diff_summary(parent.text, new_text)
+            iter_log["prompt_diff"] = diff_info
+            print(f"  Prompt changes: +{diff_info['lines_added']} / -{diff_info['lines_removed']} lines")
+
             candidate = pool.add(new_text, parent_id=parent.prompt_id, iteration=i)
+            iter_log["prompt_id"] = candidate.prompt_id
             print(f"  New candidate: {candidate.prompt_id}")
 
         # ── Evaluate candidate on ALL documents ──
+        doc_details: dict[str, dict] = {}
         for doc_id, pdf_path, gt_path in doc_jobs:
             print(f"  [{doc_id}] Extracting...")
             prediction = extract(pdf_path, candidate.text, client)
@@ -234,17 +323,77 @@ def run_gepa(
             candidate.subscores[doc_id] = subscores
             candidate.eval_results[doc_id] = eval_result
 
+            # Section alignment info
+            sa = eval_report.get("section_alignment", {})
+
             print(f"  [{doc_id}] score={score:.4f} "
                   f"(S={subscores.get('structure', 0):.3f} "
                   f"N={subscores.get('numbers', 0):.3f} "
                   f"T={subscores.get('text', 0):.3f})")
 
+            # Per-doc detail for the log
+            top_issues = eval_report.get("issues", [])[:5]
+            doc_details[doc_id] = {
+                "score": score,
+                "subscores": subscores,
+                "section_alignment": {
+                    "matched": sa.get("matched", []),
+                    "missing": sa.get("missing_from_prediction", []),
+                    "extra": sa.get("extra_in_prediction", []),
+                },
+                "qualitative_feedback": eval_result.get("qualitative_feedback", ""),
+                "top_issues": [
+                    {"path": x["path"], "kind": x["kind"], "category": x["category"],
+                     "penalty": x["penalty"]}
+                    for x in top_issues
+                ],
+                "num_sections_predicted": len(prediction.get("sections", [])),
+            }
+
         # ── Save prompt ──
         prompt_path = prompts_dir / f"{candidate.prompt_id}_extraction.txt"
         prompt_path.write_text(candidate.text, encoding="utf-8")
 
+        # ── Compute deltas vs parent ──
+        if i > 1:
+            deltas = _score_deltas(
+                candidate.scores, candidate.subscores,
+                parent.scores, parent.subscores,
+            )
+            iter_log["deltas"] = deltas
+
+            mean_delta = candidate.mean_score - parent.mean_score
+            improved_docs = [d for d, v in deltas.items() if v["status"] == "improved"]
+            worsened_docs = [d for d, v in deltas.items() if v["status"] == "worsened"]
+            unchanged_docs = [d for d, v in deltas.items() if v["status"] == "unchanged"]
+
+            print(f"\n  vs parent {parent.prompt_id}:")
+            print(f"    Mean Δ: {mean_delta:+.4f}")
+            if improved_docs:
+                print(f"    Improved: {improved_docs}")
+                for d in improved_docs:
+                    print(f"      {d}: {deltas[d]['parent_score']:.4f} → {deltas[d]['score']:.4f} "
+                          f"(Δ{deltas[d]['delta']:+.4f})")
+            if worsened_docs:
+                print(f"    Worsened: {worsened_docs}")
+                for d in worsened_docs:
+                    print(f"      {d}: {deltas[d]['parent_score']:.4f} → {deltas[d]['score']:.4f} "
+                          f"(Δ{deltas[d]['delta']:+.4f})")
+            if unchanged_docs:
+                print(f"    Unchanged: {unchanged_docs}")
+
         # ── Log ──
         front = pool.pareto_front
+        iter_log["mean_score"] = candidate.mean_score
+        iter_log["min_score"] = candidate.min_score
+        iter_log["scores"] = dict(candidate.scores)
+        iter_log["subscores"] = dict(candidate.subscores)
+        iter_log["doc_details"] = doc_details
+        iter_log["pareto_front"] = [c.prompt_id for c in front]
+        iter_log["win_frequencies"] = pool.win_frequencies()
+        iter_log["prompt_path"] = str(prompt_path)
+        iteration_logs.append(iter_log)
+
         print(f"\n  Mean={candidate.mean_score:.4f}, Min={candidate.min_score:.4f}")
         print(f"  Pareto front: {[c.prompt_id for c in front]} ({len(front)} prompts)")
 
@@ -262,11 +411,13 @@ def run_gepa(
             row[f"{doc_id}_score"] = f"{candidate.scores.get(doc_id, 0):.4f}"
         rows.append(row)
 
-        # Write CSV incrementally (so partial results survive crashes)
+        # Write CSV + log incrementally (survive crashes)
         with open(csv_path, "w", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
             writer.writerows(rows)
+        with open(log_path, "w", encoding="utf-8") as f:
+            json.dump({"iterations": iteration_logs}, f, indent=2, default=str)
 
     # ── Final summary ──
     print(f"\n{'='*60}")
@@ -290,5 +441,6 @@ def run_gepa(
         f.write(pool.to_json())
     print(f"\nPool saved: {pool_path}")
     print(f"CSV saved: {csv_path}")
+    print(f"Detailed log: {log_path}")
 
     return out_dir
