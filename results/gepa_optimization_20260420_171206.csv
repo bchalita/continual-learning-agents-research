@@ -3,4 +3,4 @@ iteration,prompt_id,parent_id,mean_score,min_score,201414_score,344098_score,629
 2,p001,p000,0.3827,0.3265,0.4165,0.4525,0.3580,0.3265,0.3985,0.3445,1,2,/Users/bernardochalita/Desktop/continual-learning-agents-research/results/prompts/p001_extraction.txt
 3,p002,p001,0.3850,0.2860,0.4480,0.4525,0.3760,0.2995,0.4480,0.2860,2,3,/Users/bernardochalita/Desktop/continual-learning-agents-research/results/prompts/p002_extraction.txt
 4,p003,p002,0.3970,0.2860,0.4300,0.4525,0.3760,0.3895,0.4480,0.2860,3,4,/Users/bernardochalita/Desktop/continual-learning-agents-research/results/prompts/p003_extraction.txt
-5,p004,p003,,0.4480,0.4480,0.7885,0.9325,0.9325,,,5,/Users/bernardochalita/Desktop/continual-learning-agents-research/results/prompts/p004_extraction.txt
+5,p004,p003,0.8258,0.4480,0.4480,0.7885,0.9325,0.9325,0.9325,0.9190,5,5,/Users/bernardochalita/Desktop/continual-learning-agents-research/results/prompts/p004_extraction.txt

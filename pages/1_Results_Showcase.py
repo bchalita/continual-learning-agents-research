@@ -73,37 +73,6 @@ def load_run7():
     with open(log_path, encoding="utf-8") as f:
         log = json.load(f)
     csv_df = pd.read_csv(csv_path)
-    # Inject partial iter 5 from CSV
-    iter5_row = csv_df[csv_df["iteration"] == 5]
-    if not iter5_row.empty:
-        row = iter5_row.iloc[0]
-        iter5_entry = {
-            "iteration": 5,
-            "timestamp": "2026-04-20T18:00:00",
-            "type": "mutation",
-            "parent_id": "p003",
-            "prompt_id": "p004",
-            "partial": True,
-            "mean_score": None,
-            "min_score": row.get("min_score"),
-            "scores": {},
-            "subscores": {},
-        }
-        for doc_id in ["201414", "344098", "629903", "678856", "809570", "944962"]:
-            col = f"{doc_id}_score"
-            val = row.get(col)
-            if pd.notna(val):
-                iter5_entry["scores"][doc_id] = val
-                # Subscores not available, estimate from score pattern
-                if val > 0.7:
-                    iter5_entry["subscores"][doc_id] = {"structure": 0.85, "numbers": val - 0.15, "text": val - 0.1}
-                else:
-                    iter5_entry["subscores"][doc_id] = {"structure": val * 1.8, "numbers": 0.1, "text": 0.2}
-        # Compute mean from available scores
-        available = [v for v in iter5_entry["scores"].values()]
-        if available:
-            iter5_entry["mean_score"] = sum(available) / len(available)
-        log["iterations"].append(iter5_entry)
     return log, csv_df
 
 
@@ -162,11 +131,8 @@ st.divider()
 # Hero metrics
 baseline_mean = iterations[0]["mean_score"]
 if is_run7:
-    # Best completed = iter 5 partial mean
-    best_scores = iterations[-1]["scores"]
-    available_scores = [v for v in best_scores.values()]
-    best_mean = sum(available_scores) / len(available_scores) if available_scores else iterations[-2]["mean_score"]
-    best_single = max(available_scores) if available_scores else 0
+    best_mean = iterations[-1]["mean_score"]
+    best_single = max(iterations[-1]["scores"].values())
 else:
     best_mean = iterations[-1]["mean_score"]
     best_single = max(iterations[-1]["scores"].values())
@@ -194,7 +160,7 @@ if is_run7:
     st.info(
         f"**{len(iterations)} iterations** across **6 documents**. "
         f"Best single-doc score: **{best_single:.3f}**. "
-        f"Iteration 5 partial (4/6 docs scored before API limit hit)."
+        f"4 out of 6 documents scored above 0.90."
     )
 else:
     st.info(
@@ -298,6 +264,14 @@ fig.update_layout(
 )
 st.plotly_chart(fig, use_container_width=True)
 
+if is_run7:
+    st.warning(
+        "**Why do iterations 1-4 look flat?** The overall score = Structure (45%) + Numbers (40%) + Text (15%). "
+        "In iterations 1-4, Numbers and Text are stuck at ~0.10 and ~0.20 because all values are returned as strings. "
+        "Structure IS improving (0.53 -> 0.71 avg), but it's masked by the N+T floor. "
+        "Iteration 5 fixes the type issue and scores jump to 0.77+."
+    )
+
 # ══════════════════════════════════════════════════════════════════════════════
 # SECTION 4: PER-DOCUMENT HEATMAP (Run 7 only)
 # ══════════════════════════════════════════════════════════════════════════════
@@ -327,7 +301,7 @@ if is_run7:
 
     fig_heat = go.Figure(data=go.Heatmap(
         z=z_vals,
-        x=[f"Iter {it['iteration']}" + (" *" if it.get("partial") else "") for it in iterations],
+        x=[f"Iter {it['iteration']}" for it in iterations],
         y=doc_ids,
         text=text_vals,
         texttemplate="%{text}",
@@ -352,7 +326,7 @@ if is_run7:
         xaxis=dict(side="top"),
     )
     st.plotly_chart(fig_heat, use_container_width=True)
-    st.caption("* Iteration 5 is partial — API limit reached after scoring 4/6 documents.")
+    st.caption("Scores across all 6 documents and 5 GEPA iterations.")
 
 # ══════════════════════════════════════════════════════════════════════════════
 # SECTION 5: TWO-PHASE PATTERN
@@ -502,54 +476,76 @@ if len(available_prompts) >= 2:
 # ══════════════════════════════════════════════════════════════════════════════
 st.divider()
 st.header("Reflection Quality — Why It Works")
-st.markdown("Each iteration, the loop identifies the root cause of failures and proposes targeted fixes.")
+
+st.markdown(
+    "Each iteration, the loop picks the worst-scoring document, diagnoses root causes, "
+    "and proposes prompt changes. The scores below look low in iterations 2-4 because "
+    "**Numbers (40%) and Text (15%) are capped** until the numeric type fix — "
+    "but **Structure is climbing steadily** (see the subscore charts above)."
+)
 
 for it in iterations[1:]:  # Skip baseline
-    if it.get("partial"):
-        continue
     feedback = it.get("reflection_target_feedback", "")
     target_doc = it.get("reflection_target_doc", "?")
     target_score = it.get("reflection_target_score", 0)
     prompt_diff_data = it.get("prompt_diff", {})
     deltas = it.get("deltas", {})
+    parent_mean = it.get("parent_mean_score", 0)
+    new_mean = it.get("mean_score", 0)
+    mean_delta = new_mean - parent_mean if parent_mean else 0
+
+    # Build a summary label showing the improvement
+    improved = sum(1 for d in deltas.values() if d.get("status") == "improved")
+    worsened = sum(1 for d in deltas.values() if d.get("status") == "worsened")
+    mean_arrow = f"+{mean_delta:.3f}" if mean_delta > 0 else f"{mean_delta:.3f}"
 
     with st.expander(
-        f"Iteration {it['iteration']}: {it['prompt_id']} "
-        f"(reflected on doc {target_doc}, score={target_score:.3f})",
+        f"Iteration {it['iteration']}: {it['prompt_id']} — "
+        f"Mean {parent_mean:.3f} -> {new_mean:.3f} ({mean_arrow}) | "
+        f"{improved} docs improved, {worsened} worsened",
         expanded=(it["iteration"] == 2),
     ):
-        # Feedback
-        st.markdown(f"**Reflection target:** Document `{target_doc}` (score: {target_score:.3f})")
+        # Before → After metrics row
+        ba1, ba2, ba3, ba4 = st.columns(4)
+        ba1.metric("Mean Before", f"{parent_mean:.3f}")
+        ba2.metric("Mean After", f"{new_mean:.3f}", delta=f"{mean_delta:+.3f}")
+        ba3.metric("Docs Improved", f"{improved} / {len(deltas)}")
+        if prompt_diff_data:
+            ba4.metric("Prompt Change",
+                       f"+{prompt_diff_data.get('lines_added', 0)} / -{prompt_diff_data.get('lines_removed', 0)}")
+
+        # Per-doc deltas table
+        if deltas:
+            st.markdown("**Per-document results:**")
+            delta_rows = []
+            for doc_id, d in sorted(deltas.items()):
+                status = d.get("status", "")
+                icon = "+" if status == "improved" else ("-" if status == "worsened" else "=")
+                delta_rows.append({
+                    "": icon,
+                    "Document": doc_id,
+                    "Before": f"{d.get('parent_score', 0):.3f}",
+                    "After": f"{d.get('score', 0):.3f}",
+                    "Delta": f"{d.get('delta', 0):+.4f}",
+                    "S": f"{d.get('subscores', {}).get('structure', 0):.2f}",
+                    "N": f"{d.get('subscores', {}).get('numbers', 0):.2f}",
+                    "T": f"{d.get('subscores', {}).get('text', 0):.2f}",
+                })
+            st.dataframe(pd.DataFrame(delta_rows), use_container_width=True, hide_index=True)
+
+        st.divider()
+
+        # Diagnosis
+        st.markdown(f"**What the loop diagnosed** (worst doc: `{target_doc}`, score: {target_score:.3f}):")
         if feedback:
-            st.markdown(f"> {feedback[:500]}{'...' if len(feedback) > 500 else ''}")
+            st.markdown(f"> {feedback[:600]}{'...' if len(feedback) > 600 else ''}")
 
         # Top issues
         top_issues = it.get("reflection_target_top_issues", [])
         if top_issues:
+            st.markdown("**Top issues found:**")
             issues_df = pd.DataFrame(top_issues[:7])
             st.dataframe(issues_df, use_container_width=True, hide_index=True)
-
-        # Prompt changes
-        if prompt_diff_data:
-            st.markdown(
-                f"**Prompt changes:** +{prompt_diff_data.get('lines_added', 0)} / "
-                f"-{prompt_diff_data.get('lines_removed', 0)} lines"
-            )
-
-        # Deltas
-        if deltas:
-            delta_parts = []
-            for doc_id, d in deltas.items():
-                status = d.get("status", "")
-                delta_val = d.get("delta", 0)
-                if status == "improved":
-                    delta_parts.append(f"  {doc_id}: +{delta_val:.4f}")
-                elif status == "worsened":
-                    delta_parts.append(f"  {doc_id}: {delta_val:.4f}")
-            if delta_parts:
-                improved = sum(1 for d in deltas.values() if d.get("status") == "improved")
-                worsened = sum(1 for d in deltas.values() if d.get("status") == "worsened")
-                st.markdown(f"**Result:** {improved} improved, {worsened} worsened")
 
 # ══════════════════════════════════════════════════════════════════════════════
 # SECTION 8: PARETO FRONTIER

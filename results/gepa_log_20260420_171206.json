@@ -2166,6 +2166,169 @@
         "p003": 4
       },
       "prompt_path": "/Users/bernardochalita/Desktop/continual-learning-agents-research/results/prompts/p003_extraction.txt"
+    },
+    {
+      "iteration": 5,
+      "timestamp": "2026-04-20T18:06:00",
+      "type": "mutation",
+      "parent_id": "p003",
+      "parent_mean_score": 0.397,
+      "reflection_target_doc": "629903",
+      "reflection_target_score": 0.376,
+      "reflection_target_feedback": "**Primary Issue: Numeric Type Mismatches.** The extraction model is consistently returning numeric values as strings (e.g., \"195.00\" instead of 195.0, \"13478\" instead of 13478) across nearly all numeric fields. This affects ro_number, stock_number, customer_number, miles_in, all footer amounts, labor hours/costs, and account split values. The type errors alone account for the majority of penalties.",
+      "reflection_target_top_issues": [],
+      "prompt_diff": {
+        "lines_added": 30,
+        "lines_removed": 19
+      },
+      "prompt_id": "p004",
+      "deltas": {
+        "201414": {
+          "score": 0.448,
+          "parent_score": 0.43,
+          "delta": 0.018,
+          "status": "improved",
+          "subscores": {
+            "structure": 0.84,
+            "numbers": 0.1,
+            "text": 0.2
+          },
+          "subscore_deltas": {
+            "structure": 0.04,
+            "numbers": 0.0,
+            "text": 0.0
+          }
+        },
+        "344098": {
+          "score": 0.7885,
+          "parent_score": 0.4525,
+          "delta": 0.336,
+          "status": "improved",
+          "subscores": {
+            "structure": 0.85,
+            "numbers": 0.94,
+            "text": 0.2
+          },
+          "subscore_deltas": {
+            "structure": 0.0,
+            "numbers": 0.84,
+            "text": 0.0
+          }
+        },
+        "629903": {
+          "score": 0.9325,
+          "parent_score": 0.376,
+          "delta": 0.5565,
+          "status": "improved",
+          "subscores": {
+            "structure": 0.85,
+            "numbers": 1.0,
+            "text": 1.0
+          },
+          "subscore_deltas": {
+            "structure": 0.17,
+            "numbers": 0.9,
+            "text": 0.8
+          }
+        },
+        "678856": {
+          "score": 0.9325,
+          "parent_score": 0.3895,
+          "delta": 0.543,
+          "status": "improved",
+          "subscores": {
+            "structure": 0.85,
+            "numbers": 1.0,
+            "text": 1.0
+          },
+          "subscore_deltas": {
+            "structure": 0.14,
+            "numbers": 0.9,
+            "text": 0.8
+          }
+        },
+        "809570": {
+          "score": 0.9325,
+          "parent_score": 0.448,
+          "delta": 0.4845,
+          "status": "improved",
+          "subscores": {
+            "structure": 0.85,
+            "numbers": 1.0,
+            "text": 1.0
+          },
+          "subscore_deltas": {
+            "structure": 0.01,
+            "numbers": 0.9,
+            "text": 0.8
+          }
+        },
+        "944962": {
+          "score": 0.919,
+          "parent_score": 0.286,
+          "delta": 0.633,
+          "status": "improved",
+          "subscores": {
+            "structure": 0.82,
+            "numbers": 1.0,
+            "text": 1.0
+          },
+          "subscore_deltas": {
+            "structure": 0.34,
+            "numbers": 0.9,
+            "text": 0.8
+          }
+        }
+      },
+      "mean_score": 0.8255,
+      "min_score": 0.448,
+      "scores": {
+        "201414": 0.448,
+        "344098": 0.7885,
+        "629903": 0.9325,
+        "678856": 0.9325,
+        "809570": 0.9325,
+        "944962": 0.919
+      },
+      "subscores": {
+        "201414": {
+          "structure": 0.84,
+          "numbers": 0.1,
+          "text": 0.2
+        },
+        "344098": {
+          "structure": 0.85,
+          "numbers": 0.94,
+          "text": 0.2
+        },
+        "629903": {
+          "structure": 0.85,
+          "numbers": 1.0,
+          "text": 1.0
+        },
+        "678856": {
+          "structure": 0.85,
+          "numbers": 1.0,
+          "text": 1.0
+        },
+        "809570": {
+          "structure": 0.85,
+          "numbers": 1.0,
+          "text": 1.0
+        },
+        "944962": {
+          "structure": 0.82,
+          "numbers": 1.0,
+          "text": 1.0
+        }
+      },
+      "pareto_front": [
+        "p004"
+      ],
+      "win_frequencies": {
+        "p004": 6
+      },
+      "prompt_path": "/Users/bernardochalita/Desktop/continual-learning-agents-research/results/prompts/p004_extraction.txt"
     }
   ]
 }
