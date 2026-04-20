@@ -38,13 +38,34 @@ def _llm_evaluate(
     score = eval_report.get("score", 0)
     subscores = eval_report.get("subscores", {})
 
+    # Section alignment info — critical for diagnosing prefix/structure issues
+    sa = eval_report.get("section_alignment", {})
+    alignment_text = ""
+    if sa:
+        matched = sa.get("matched", [])
+        missing = sa.get("missing_from_prediction", [])
+        extra = sa.get("extra_in_prediction", [])
+        alignment_text = (
+            f"\nSection alignment:\n"
+            f"  Matched: {matched or '(none)'}\n"
+            f"  Missing from prediction: {missing or '(none)'}\n"
+            f"  Extra in prediction: {extra or '(none)'}\n"
+        )
+        if not matched and missing:
+            alignment_text += (
+                "  ** CRITICAL: No sections matched! The prediction used wrong prefix codes. "
+                "Expected prefixes: " + ", ".join(missing) + " **\n"
+            )
+
     instructions = "You are an expert at diagnosing structured data extraction errors from documents. Be concise and specific."
     prompt = (
         f"Extraction score: {score:.4f}\n"
         f"Subscores — structure: {subscores.get('structure', '?')}, "
-        f"numbers: {subscores.get('numbers', '?')}, text: {subscores.get('text', '?')}\n\n"
+        f"numbers: {subscores.get('numbers', '?')}, text: {subscores.get('text', '?')}\n"
+        f"{alignment_text}\n"
         f"Top issues:\n{issues_text or '(none)'}\n\n"
-        "In 2-3 sentences, diagnose the main failure patterns and what the extraction model is getting wrong."
+        "In 2-3 sentences, diagnose the main failure patterns and what the extraction model is getting wrong. "
+        "If section alignment failed (no matches), prioritize this as the primary issue."
     )
 
     # Route through Stack AI (text-only, Opus 4.6)

@@ -79,14 +79,21 @@ def main() -> int:
     parser.add_argument("--gepa", action="store_true",
                         help="Use multi-doc GEPA optimization (Pareto frontier + win-frequency). "
                              "Requires --all and --iterations > 0.")
+    parser.add_argument("--docs", type=str, default=None,
+                        help="Comma-separated doc IDs to use (e.g., '344098,944962'). "
+                             "If omitted with --all, uses all 6 samples.")
+    parser.add_argument("--prompt", type=Path, default=None,
+                        help="Path to starting prompt file (default: prompts/extraction.txt)")
+    parser.add_argument("--normalize", action="store_true",
+                        help="Apply post-extraction type normalization (int/float coercion)")
     args = parser.parse_args()
 
-    if not args.doc and not args.all:
-        parser.error("Provide --doc or --all")
+    if not args.doc and not args.all and not args.docs:
+        parser.error("Provide --doc, --all, or --docs")
     if args.doc and not args.gt:
         parser.error("--gt is required when using --doc")
-    if args.gepa and not args.all:
-        parser.error("--gepa requires --all (multi-doc optimization)")
+    if args.gepa and not args.all and not args.docs:
+        parser.error("--gepa requires --all or --docs (multi-doc optimization)")
     if args.gepa and args.iterations <= 0:
         parser.error("--gepa requires --iterations > 0")
 
@@ -97,19 +104,29 @@ def main() -> int:
     client = anthropic.Anthropic(api_key=config.ANTHROPIC_API_KEY)
 
     jobs: list[tuple[str, Path, Path]] = []
-    if args.all:
+    if args.all or args.docs:
+        # Filter to specific docs if --docs provided
+        doc_filter = set(args.docs.split(",")) if args.docs else None
         for pdf in sorted(config.SAMPLES_DIR.glob("*.pdf")):
+            if doc_filter and pdf.stem not in doc_filter:
+                continue
             gt = pdf.with_suffix(".json")
             if gt.exists():
                 jobs.append((pdf.stem, pdf, gt))
     else:
         jobs.append((args.doc.stem, args.doc, args.gt))
 
+    # Determine starting prompt
+    prompt_path = args.prompt or (config.PROMPTS_DIR / "extraction.txt")
+    starting_prompt = prompt_path.read_text(encoding="utf-8").strip()
+    print(f"Starting prompt: {prompt_path.name} ({len(starting_prompt.splitlines())} lines)")
+
     if args.gepa:
         # Multi-doc GEPA mode
         print(f"GEPA mode: {len(jobs)} documents × {args.iterations} iterations")
         print(f"Documents: {[j[0] for j in jobs]}")
-        run_gepa(jobs, iterations=args.iterations)
+        run_gepa(jobs, iterations=args.iterations, extraction_prompt=starting_prompt,
+                 normalize=args.normalize)
     elif args.iterations > 0:
         # Single-doc loop per document (Erwin's original)
         for doc_id, pdf_path, gt_path in jobs:

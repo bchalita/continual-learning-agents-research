@@ -54,6 +54,13 @@ class PromptCandidate:
             return None
         return min(self.scores, key=self.scores.get)
 
+    def bottom_docs(self, n: int = 2) -> list[str]:
+        """Return the n worst-scoring doc_ids, sorted worst-first."""
+        if not self.scores:
+            return []
+        sorted_docs = sorted(self.scores, key=self.scores.get)
+        return sorted_docs[:n]
+
     def dominates(self, other: PromptCandidate) -> bool:
         """True if self >= other on ALL docs and self > other on at least one.
 

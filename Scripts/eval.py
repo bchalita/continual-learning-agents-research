@@ -363,6 +363,10 @@ def _issues_for_missing_section(
     in the GT section and emit a "missing" issue for each non-null value. This way
     a section with 40 fields incurs 40 penalties across structure/numbers/text,
     which accurately reflects the information loss.
+
+    Additionally, emits a structure penalty for the section itself being absent,
+    since a missing section is fundamentally a structural failure regardless of
+    what data types it contained.
     """
     penalties_cfg = rubric["penalties"]
     thresholds = rubric["severity_thresholds"]
@@ -370,6 +374,21 @@ def _issues_for_missing_section(
 
     prefix_code = gt_section.get("prefix", "?")
     base_path = f"sections[{section_index}]"
+
+    # Structural penalty for the entire section being missing.
+    # This ensures "structure" subscore is properly penalized when sections
+    # don't match, not just numbers/text.
+    struct_pen = float(penalties_cfg.get("structure", {}).get("missing", 0.08))
+    struct_sev = (
+        "high" if struct_pen >= thresholds.get("high", 0.07)
+        else "med" if struct_pen >= thresholds.get("med", 0.04)
+        else "low"
+    )
+    issues.append(Issue(
+        "structure", "missing", base_path, prefix_code, None,
+        f"entire {prefix_code} section absent from prediction",
+        struct_pen, struct_sev,
+    ))
 
     for field_path, value in _leaf_fields(gt_section):
         if missing_is_null and value is None:
@@ -401,6 +420,19 @@ def _issues_for_extra_section(
 
     prefix_code = pred_section.get("prefix", "?")
     base_path = f"sections[{section_index}]"
+
+    # Structural penalty for the extra section existing
+    struct_pen = float(penalties_cfg.get("structure", {}).get("extra", 0.04))
+    struct_sev = (
+        "high" if struct_pen >= thresholds.get("high", 0.07)
+        else "med" if struct_pen >= thresholds.get("med", 0.04)
+        else "low"
+    )
+    issues.append(Issue(
+        "structure", "extra", base_path, None, prefix_code,
+        f"predicted {prefix_code} section not in ground truth",
+        struct_pen, struct_sev,
+    ))
 
     for field_path, value in _leaf_fields(pred_section):
         if missing_is_null and value is None:

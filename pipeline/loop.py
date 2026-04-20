@@ -20,6 +20,7 @@ from __future__ import annotations
 import csv
 import difflib
 import json
+import random
 from datetime import datetime
 from pathlib import Path
 
@@ -184,6 +185,7 @@ def run_gepa(
     iterations: int,
     output_dir: Path | None = None,
     extraction_prompt: str | None = None,
+    normalize: bool = False,
 ) -> Path:
     """Run multi-document GEPA optimization loop.
 
@@ -263,10 +265,15 @@ def run_gepa(
         else:
             # Select parent from Pareto front
             parent = pool.select_parent()
-            worst_doc = parent.worst_doc()
+            # Reflection diversity: randomly pick from bottom-2 docs
+            # (prevents repeated identical feedback on the same worst doc)
+            bottom = parent.bottom_docs(n=2)
+            worst_doc = random.choice(bottom) if bottom else parent.worst_doc()
             print(f"\n{'='*60}")
             print(f"GEPA Iteration {i}/{iterations}")
-            print(f"  Parent: {parent.prompt_id} (mean={parent.mean_score:.4f}, worst={worst_doc})")
+            print(f"  Parent: {parent.prompt_id} (mean={parent.mean_score:.4f}, worst={parent.worst_doc()})")
+            if worst_doc != parent.worst_doc():
+                print(f"  Diversity: reflecting on {worst_doc} (2nd worst) instead of {parent.worst_doc()}")
 
             # Reflect on the parent's worst-performing document
             worst_eval = parent.eval_results.get(worst_doc, {})
@@ -306,7 +313,7 @@ def run_gepa(
         doc_details: dict[str, dict] = {}
         for doc_id, pdf_path, gt_path in doc_jobs:
             print(f"  [{doc_id}] Extracting...")
-            prediction = extract(pdf_path, candidate.text, client)
+            prediction = extract(pdf_path, candidate.text, client, normalize=normalize)
 
             # Save prediction
             pred_path = out_dir / f"{candidate.prompt_id}_{doc_id}_prediction.json"

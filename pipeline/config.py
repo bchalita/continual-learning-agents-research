@@ -11,8 +11,8 @@ ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 STACKAI_API_URL = os.environ.get("STACKAI_API_URL", "")
 STACKAI_API_KEY = os.environ.get("STACKAI_API_KEY", "")
 
-# Vision tasks (structure ID, extraction) — direct Anthropic API (Haiku 4.5)
-EXTRACTION_MODEL = "claude-haiku-4-5-20251001"
+# Vision tasks (structure ID, extraction) — direct Anthropic API (Sonnet 4.6)
+EXTRACTION_MODEL = "claude-sonnet-4-6"
 # Text-only tasks (eval diagnosis, reflection, merge) — Stack AI primary (Opus 4.6)
 # Fallback model if Stack AI is unavailable — Sonnet to keep costs down
 FALLBACK_TEXT_MODEL = "claude-sonnet-4-6"

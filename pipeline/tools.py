@@ -52,6 +52,7 @@ def analyze_structure(page_images: list[bytes], client: anthropic.Anthropic) -> 
         system=[{"type": "text", "text": _structure_prompt, "cache_control": {"type": "ephemeral"}}],
         messages=[{"role": "user", "content": content}],
         extra_headers={"anthropic-beta": "prompt-caching-2024-07-31"},
+        timeout=300.0,
     )
     raw = _strip_fences(response.content[0].text)
 
@@ -123,6 +124,7 @@ def parse_section(
         system=[{"type": "text", "text": extraction_prompt, "cache_control": {"type": "ephemeral"}}],
         messages=[{"role": "user", "content": content}],
         extra_headers={"anthropic-beta": "prompt-caching-2024-07-31"},
+        timeout=300.0,
     )
     raw = _strip_fences(response.content[0].text)
 
