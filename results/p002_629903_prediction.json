@@ -1,0 +1,833 @@
+{
+  "doc_id": "629903",
+  "sections": [
+    {
+      "section_id": "ASI-629903",
+      "prefix": "ASI",
+      "page_count": 1,
+      "header": {
+        "unit_number": "13478",
+        "customer_name": "Kimberly Sanchez",
+        "customer_address": "537 Wilkerson Row",
+        "customer_city_state_zip": "Shawnstad, GA 49021",
+        "customer_email": "tracie31@example.com",
+        "home_phone": "897-484-8018",
+        "contact_phone": "387-810-1226",
+        "bus_phone": "282-781-4893",
+        "cell_phone": "724-523-8849",
+        "advisor_id": 4257,
+        "advisor_name": "Cynthia Allen",
+        "color": "BLACKSAP",
+        "year": 2019,
+        "make": "BMW",
+        "model": "X7",
+        "submodel": "XDR40I",
+        "vin": "5UXCW2C53K9600133",
+        "miles_in": 173,
+        "miles_out": 173,
+        "tag": "T13478",
+        "open_date": "27SEP19",
+        "close_date": null,
+        "date_in": "27SEP19",
+        "date_out": "02OCT19",
+        "time_in": "16:35",
+        "time_out": "09:53",
+        "promise_time": "17:00 27SEP19",
+        "delivery_date": "02OCT19",
+        "deal_type": "DD",
+        "pay_type": "CC",
+        "rate": "195.00",
+        "stock_number": "13478",
+        "customer_number": 13478,
+        "ro_number": 629903,
+        "engine": "3.0_Liter_Twin_Turbo"
+      },
+      "footer": {
+        "labor_amount": 0.0,
+        "parts_amount": 0.0,
+        "gas_oil_lube": 0.0,
+        "sublet_amount": 0.0,
+        "misc_charges": 0.0,
+        "total_charges": 0.0,
+        "less_insurance": 0.0,
+        "sales_tax": 0.0,
+        "please_pay": 0.0
+      },
+      "content": {
+        "est_advisor": null,
+        "est_amount": null,
+        "job": [
+          {
+            "line_letter": "A",
+            "text": "CAMP B611319 REQUESTED DUEL STORAGE",
+            "cause": "F",
+            "op": [
+              {
+                "code": "NWD",
+                "text": "NO WORK DONE AT THIS TIME",
+                "labor": [
+                  {
+                    "type": "ISPB",
+                    "tech": 2305,
+                    "hours": 2.11,
+                    "rate": 0.0,
+                    "net": 0.0,
+                    "total": 0.0
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": 0.0,
+            "parts_sale": 0.0,
+            "claim_type": null,
+            "auth_code": null,
+            "labor_cost": 0.0,
+            "labor_sale": 0.0,
+            "log": [],
+            "wsi_labor": null,
+            "subtotal": null,
+            "total": 0.0,
+            "total_labor": 0.0,
+            "total_parts": 0.0,
+            "total_other": null,
+            "total_lub": null
+          },
+          {
+            "line_letter": "B",
+            "text": "CAMP B651919 REQUESTED",
+            "cause": "F",
+            "op": [
+              {
+                "code": "NWD",
+                "text": "NO WORK DONE AT THIS TIME",
+                "labor": [
+                  {
+                    "type": "ISPB",
+                    "tech": 99,
+                    "hours": 0.0,
+                    "rate": 0.0,
+                    "net": 0.0,
+                    "total": 0.0
+                  },
+                  {
+                    "type": "ISPB",
+                    "tech": 2305,
+                    "hours": 0.0,
+                    "rate": 0.0,
+                    "net": 0.0,
+                    "total": 0.0
+                  },
+                  {
+                    "type": null,
+                    "tech": 0,
+                    "hours": 0.0,
+                    "rate": 0.0,
+                    "net": 0.0,
+                    "total": 0.0
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": 0.0,
+            "parts_sale": 0.0,
+            "claim_type": null,
+            "auth_code": null,
+            "labor_cost": 0.0,
+            "labor_sale": 0.0,
+            "log": [],
+            "wsi_labor": null,
+            "subtotal": null,
+            "total": 0.0,
+            "total_labor": 0.0,
+            "total_parts": 0.0,
+            "total_other": null,
+            "total_lub": null
+          }
+        ],
+        "bar": "ARD 054466",
+        "epa": "CAD 982041154",
+        "dealer_notes": "At Niello BMW we pride ourselves in our dedication of keeping our customers completely satisfied. Soon you will be contacted by BMWNA regarding this service. If you cannot answer all the questions with an excellent rating, please let us know.",
+        "labor": [
+          {
+            "date": "10-01-19",
+            "start": "10:55",
+            "finish": "13:02",
+            "duration": "2.11",
+            "type": "W",
+            "tech": 2305,
+            "line_letter": "A",
+            "charge": null
+          }
+        ],
+        "acct_split": [
+          {
+            "acct": 4551,
+            "sale": 0.0,
+            "cost": 0.0
+          },
+          {
+            "acct": 2031,
+            "sale": 0.0,
+            "cost": 0.0
+          }
+        ],
+        "wsi_labor": null,
+        "total_cost": 0.0,
+        "total_sale": 0.0,
+        "total_comp": 0.0,
+        "total_labor": 0.0,
+        "total_parts": 0.0,
+        "total_other": null,
+        "total_lub": null,
+        "subtotal": null,
+        "total": 0.0
+      }
+    },
+    {
+      "section_id": "BWO-629903",
+      "prefix": "BWO",
+      "page_count": 1,
+      "header": {
+        "unit_number": "13478",
+        "customer_name": "Kimberly Sanchez",
+        "customer_address": "537 Wilkerson Row",
+        "customer_city_state_zip": "Shawnstad, GA 49021",
+        "customer_email": "tracie31@example.com",
+        "home_phone": "897-484-8018",
+        "contact_phone": "387-810-1226",
+        "bus_phone": "282-781-4893",
+        "cell_phone": "724-523-8849",
+        "advisor_id": 4257,
+        "advisor_name": "Cynthia Allen",
+        "color": "BLACKSAP",
+        "year": 2019,
+        "make": "BMW",
+        "model": "X7",
+        "submodel": "XDR40I",
+        "vin": "5UXCW2C53K9600133",
+        "miles_in": 173,
+        "miles_out": 173,
+        "tag": "T13478",
+        "open_date": "27SEP19",
+        "close_date": null,
+        "date_in": "27SEP19",
+        "date_out": "02OCT19",
+        "time_in": "16:35",
+        "time_out": "09:53",
+        "promise_time": "17:00 27SEP19",
+        "delivery_date": "02OCT19",
+        "deal_type": "DD",
+        "pay_type": "CC",
+        "rate": "195.00",
+        "stock_number": "13478",
+        "customer_number": 13478,
+        "ro_number": 629903,
+        "engine": "3.0_Liter_Twin_Turbo"
+      },
+      "footer": {
+        "labor_amount": 0.0,
+        "parts_amount": 0.0,
+        "gas_oil_lube": 0.0,
+        "sublet_amount": 0.0,
+        "misc_charges": 0.0,
+        "total_charges": 0.0,
+        "less_insurance": 0.0,
+        "sales_tax": 0.0,
+        "please_pay": 0.0
+      },
+      "content": {
+        "est_advisor": null,
+        "est_amount": null,
+        "job": [
+          {
+            "line_letter": "A",
+            "text": "CAMP B611319 REQUESTED DUEL STORAGE",
+            "cause": null,
+            "op": [
+              {
+                "code": "61",
+                "text": "CAMP B611319 REQUESTED DUEL STORAGE",
+                "labor": [
+                  {
+                    "type": "W94",
+                    "tech": null,
+                    "hours": null,
+                    "rate": null,
+                    "net": null,
+                    "total": null
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": null,
+            "claim_type": null,
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": null,
+            "log": [],
+            "wsi_labor": null,
+            "subtotal": null,
+            "total": null,
+            "total_labor": null,
+            "total_parts": null,
+            "total_other": null,
+            "total_lub": null
+          },
+          {
+            "line_letter": "B",
+            "text": "CAMP B651919 REQUESTED",
+            "cause": null,
+            "op": [
+              {
+                "code": "61",
+                "text": "CAMP B651919 REQUESTED",
+                "labor": [
+                  {
+                    "type": "W94",
+                    "tech": null,
+                    "hours": null,
+                    "rate": null,
+                    "net": null,
+                    "total": null
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": null,
+            "claim_type": null,
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": null,
+            "log": [],
+            "wsi_labor": null,
+            "subtotal": null,
+            "total": null,
+            "total_labor": null,
+            "total_parts": null,
+            "total_other": null,
+            "total_lub": null
+          }
+        ],
+        "bar": "ARD 054466",
+        "epa": "CAD 982041154",
+        "dealer_notes": null,
+        "labor": [],
+        "acct_split": [],
+        "wsi_labor": null,
+        "total_cost": null,
+        "total_sale": null,
+        "total_comp": null,
+        "total_labor": null,
+        "total_parts": null,
+        "total_other": null,
+        "total_lub": null,
+        "subtotal": null,
+        "total": null
+      }
+    },
+    {
+      "section_id": "CSI-629903",
+      "prefix": "CSI",
+      "page_count": 1,
+      "header": {
+        "unit_number": "13478",
+        "customer_name": "Kimberly Sanchez",
+        "customer_address": "537 Wilkerson Row",
+        "customer_city_state_zip": "Shawnstad, GA 49021",
+        "customer_email": "tracie31@example.com",
+        "home_phone": "897-484-8018",
+        "contact_phone": "387-810-1226",
+        "bus_phone": "282-781-4893",
+        "cell_phone": "724-523-8849",
+        "advisor_id": 4257,
+        "advisor_name": "Cynthia Allen",
+        "color": "BLACKSAP",
+        "year": 2019,
+        "make": "BMW",
+        "model": "X7",
+        "submodel": "XDR40I",
+        "vin": "5UXCW2C53K9600133",
+        "miles_in": 173,
+        "miles_out": 173,
+        "tag": "T13478",
+        "open_date": "27SEP19",
+        "close_date": null,
+        "date_in": "27SEP19",
+        "date_out": "02OCT19",
+        "time_in": "16:35",
+        "time_out": "09:53",
+        "promise_time": "17:00 27SEP19",
+        "delivery_date": "02OCT19",
+        "deal_type": "DD",
+        "pay_type": "CC",
+        "rate": "195.00",
+        "stock_number": "13478",
+        "customer_number": 13478,
+        "ro_number": 629903,
+        "engine": "3.0_Liter_Twin_Turbo"
+      },
+      "footer": {
+        "labor_amount": 0.0,
+        "parts_amount": 0.0,
+        "gas_oil_lube": 0.0,
+        "sublet_amount": 0.0,
+        "misc_charges": 0.0,
+        "total_charges": 0.0,
+        "less_insurance": 0.0,
+        "sales_tax": 0.0,
+        "please_pay": 0.0
+      },
+      "content": {
+        "est_advisor": null,
+        "est_amount": null,
+        "job": [
+          {
+            "line_letter": "A",
+            "text": "CAMP B611319 REQUESTED DUEL STORAGE",
+            "cause": "F",
+            "op": [
+              {
+                "code": "NWD",
+                "text": "NO WORK DONE AT THIS TIME",
+                "labor": [
+                  {
+                    "type": "ISPB",
+                    "tech": 2305,
+                    "hours": null,
+                    "rate": null,
+                    "net": null,
+                    "total": null
+                  }
+                ],
+                "parts": [],
+                "fc": null,
+                "part_number": null,
+                "parts_cost": null,
+                "parts_sale": null,
+                "claim_type": null,
+                "auth_code": null,
+                "labor_cost": null,
+                "labor_sale": null
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": 0.0,
+            "claim_type": null,
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": 0.0,
+            "log": [],
+            "wsi_labor": null,
+            "subtotal": null,
+            "total": 0.0,
+            "total_labor": 0.0,
+            "total_parts": 0.0,
+            "total_other": 0.0,
+            "total_lub": null
+          },
+          {
+            "line_letter": "B",
+            "text": "CAMP B651919 REQUESTED",
+            "cause": "F",
+            "op": [
+              {
+                "code": "NWD",
+                "text": "NO WORK DONE AT THIS TIME",
+                "labor": [
+                  {
+                    "type": "ISPB",
+                    "tech": 99,
+                    "hours": null,
+                    "rate": null,
+                    "net": null,
+                    "total": null
+                  },
+                  {
+                    "type": "ISPB",
+                    "tech": 2305,
+                    "hours": null,
+                    "rate": null,
+                    "net": null,
+                    "total": null
+                  }
+                ],
+                "parts": [],
+                "fc": null,
+                "part_number": null,
+                "parts_cost": null,
+                "parts_sale": null,
+                "claim_type": null,
+                "auth_code": null,
+                "labor_cost": null,
+                "labor_sale": null
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": 0.0,
+            "claim_type": null,
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": 0.0,
+            "log": [],
+            "wsi_labor": null,
+            "subtotal": null,
+            "total": 0.0,
+            "total_labor": 0.0,
+            "total_parts": 0.0,
+            "total_other": 0.0,
+            "total_lub": null
+          }
+        ],
+        "bar": "ARD 054466",
+        "epa": "CAD 982041154",
+        "dealer_notes": "BAR#-AG-054466 EPA#- CAD982041154\nAt Niello BMW we pride ourselves in our dedication of keeping our customers completely satisfied. Soon you will be contacted by BMWNA regarding this service. If you cannot answer all the questions with an excellent rating, please let us know.",
+        "labor": [],
+        "acct_split": [],
+        "wsi_labor": null,
+        "total_cost": null,
+        "total_sale": null,
+        "total_comp": null,
+        "total_labor": 0.0,
+        "total_parts": 0.0,
+        "total_other": null,
+        "total_lub": null,
+        "subtotal": null,
+        "total": 0.0
+      }
+    },
+    {
+      "section_id": "ISI-629903",
+      "prefix": "ISI",
+      "page_count": 1,
+      "header": {
+        "unit_number": "13478",
+        "customer_name": "Kimberly Sanchez",
+        "customer_address": "537 Wilkerson Row",
+        "customer_city_state_zip": "Shawnstad, GA 49021",
+        "customer_email": "tracie31@example.com",
+        "home_phone": "897-484-8018",
+        "contact_phone": "387-810-1226",
+        "bus_phone": "282-781-4893",
+        "cell_phone": "724-523-8849",
+        "advisor_id": 4257,
+        "advisor_name": "Cynthia Allen",
+        "color": "BLACKSAP",
+        "year": 2019,
+        "make": "BMW",
+        "model": "X7",
+        "submodel": "XDR40I",
+        "vin": "5UXCW2C53K9600133",
+        "miles_in": 173,
+        "miles_out": 173,
+        "tag": "T13478",
+        "open_date": "27SEP19",
+        "close_date": null,
+        "date_in": "27SEP19",
+        "date_out": "02OCT19",
+        "time_in": "16:35",
+        "time_out": "09:53",
+        "promise_time": "17:00 27SEP19",
+        "delivery_date": "02OCT19",
+        "deal_type": "DD",
+        "pay_type": "CC",
+        "rate": "195.00",
+        "stock_number": "13478",
+        "customer_number": 13478,
+        "ro_number": 629903,
+        "engine": "3.0_Liter_Twin_Turbo"
+      },
+      "footer": {
+        "labor_amount": 0.0,
+        "parts_amount": 0.0,
+        "gas_oil_lube": 0.0,
+        "sublet_amount": 0.0,
+        "misc_charges": 0.0,
+        "total_charges": 0.0,
+        "less_insurance": 0.0,
+        "sales_tax": 0.0,
+        "please_pay": 0.0
+      },
+      "content": {
+        "est_advisor": null,
+        "est_amount": null,
+        "job": [
+          {
+            "line_letter": "A",
+            "text": "CAMP B611319 REQUESTED DUEL STORAGE",
+            "cause": "F",
+            "op": [
+              {
+                "code": "NWD",
+                "text": "NO WORK DONE AT THIS TIME",
+                "labor": [
+                  {
+                    "type": "ISPB",
+                    "tech": 2305,
+                    "hours": 0.0,
+                    "rate": 0.0,
+                    "net": 0.0,
+                    "total": 0.0
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": "F",
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": null,
+            "claim_type": null,
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": null,
+            "log": [],
+            "wsi_labor": null,
+            "subtotal": null,
+            "total": null,
+            "total_labor": null,
+            "total_parts": null,
+            "total_other": null,
+            "total_lub": null
+          },
+          {
+            "line_letter": "B",
+            "text": "CAMP B651919 REQUESTED",
+            "cause": "F",
+            "op": [
+              {
+                "code": "NWD",
+                "text": "NO WORK DONE AT THIS TIME",
+                "labor": [
+                  {
+                    "type": "ISPB",
+                    "tech": 99,
+                    "hours": 0.0,
+                    "rate": 0.0,
+                    "net": 0.0,
+                    "total": 0.0
+                  },
+                  {
+                    "type": "ISPB",
+                    "tech": 2305,
+                    "hours": 0.0,
+                    "rate": 0.0,
+                    "net": 0.0,
+                    "total": 0.0
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": "F",
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": null,
+            "claim_type": null,
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": null,
+            "log": [],
+            "wsi_labor": null,
+            "subtotal": null,
+            "total": 0.0,
+            "total_labor": null,
+            "total_parts": null,
+            "total_other": null,
+            "total_lub": null
+          }
+        ],
+        "bar": "ARD 054466",
+        "epa": "CAD 982041154",
+        "dealer_notes": "BAR#-AG-054466 EPA#- CAD982041154\nAt Niello BMW we pride ourselves in our dedication of keeping our customers completely satisfied. Soon you will be contacted by BMWNA regarding this service. If you cannot answer all the questions with an excellent rating, please let us know.",
+        "labor": [],
+        "acct_split": [],
+        "wsi_labor": null,
+        "total_cost": 0.0,
+        "total_sale": 0.0,
+        "total_comp": 0.0,
+        "total_labor": null,
+        "total_parts": null,
+        "total_other": null,
+        "total_lub": null,
+        "subtotal": null,
+        "total": null
+      }
+    },
+    {
+      "section_id": "JSI-629903",
+      "prefix": "JSI",
+      "page_count": 1,
+      "header": {
+        "unit_number": "13478",
+        "customer_name": "Kimberly Sanchez",
+        "customer_address": "537 Wilkerson Row",
+        "customer_city_state_zip": "Shawnstad, GA 49021",
+        "customer_email": "tracie31@example.com",
+        "home_phone": "897-484-8018",
+        "contact_phone": "387-810-1226",
+        "bus_phone": "282-781-4893",
+        "cell_phone": "724-523-8849",
+        "advisor_id": 4257,
+        "advisor_name": "Cynthia Allen",
+        "color": "BLACKSAP",
+        "year": 2019,
+        "make": "BMW",
+        "model": "X7",
+        "submodel": "XDR40I",
+        "vin": "5UXCW2C53K9600133",
+        "miles_in": 173,
+        "miles_out": 173,
+        "tag": "T13478",
+        "open_date": "27SEP19",
+        "close_date": null,
+        "date_in": "27SEP19",
+        "date_out": "02OCT19",
+        "time_in": "16:35",
+        "time_out": "09:53",
+        "promise_time": "17:00 27SEP19",
+        "delivery_date": "02OCT19",
+        "deal_type": "DD",
+        "pay_type": "CC",
+        "rate": "195.00",
+        "stock_number": "13478",
+        "customer_number": 13478,
+        "ro_number": 629903,
+        "engine": "3.0_Liter_Twin_Turbo"
+      },
+      "footer": {
+        "labor_amount": 0.0,
+        "parts_amount": 0.0,
+        "gas_oil_lube": 0.0,
+        "sublet_amount": 0.0,
+        "misc_charges": 0.0,
+        "total_charges": 0.0,
+        "less_insurance": 0.0,
+        "sales_tax": 0.0,
+        "please_pay": 0.0
+      },
+      "content": {
+        "est_advisor": null,
+        "est_amount": null,
+        "job": [
+          {
+            "line_letter": "A",
+            "text": "CAMP B611319 REQUESTED DUEL STORAGE",
+            "cause": "F",
+            "op": [
+              {
+                "code": "NWD",
+                "text": "NO WORK DONE AT THIS TIME",
+                "labor": [
+                  {
+                    "type": "ISPB",
+                    "tech": 2305,
+                    "hours": 0.0,
+                    "rate": 0.0,
+                    "net": 0.0,
+                    "total": 0.0
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": 0.0,
+            "claim_type": null,
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": 0.0,
+            "log": [],
+            "wsi_labor": null,
+            "subtotal": null,
+            "total": 0.0,
+            "total_labor": 0.0,
+            "total_parts": 0.0,
+            "total_other": 0.0,
+            "total_lub": null
+          },
+          {
+            "line_letter": "B",
+            "text": "CAMP B651919 REQUESTED",
+            "cause": "F",
+            "op": [
+              {
+                "code": "NWD",
+                "text": "NO WORK DONE AT THIS TIME",
+                "labor": [
+                  {
+                    "type": "ISPB",
+                    "tech": 99,
+                    "hours": 0.0,
+                    "rate": 0.0,
+                    "net": 0.0,
+                    "total": 0.0
+                  },
+                  {
+                    "type": "ISPB",
+                    "tech": 2305,
+                    "hours": 0.0,
+                    "rate": 0.0,
+                    "net": 0.0,
+                    "total": 0.0
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": 0.0,
+            "claim_type": null,
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": 0.0,
+            "log": [],
+            "wsi_labor": null,
+            "subtotal": null,
+            "total": 0.0,
+            "total_labor": 0.0,
+            "total_parts": 0.0,
+            "total_other": 0.0,
+            "total_lub": null
+          }
+        ],
+        "bar": "ARD 054466",
+        "epa": "CAD 982041154",
+        "dealer_notes": "BAR#-AG-054466 EPA#- CAD982041154\nAt Niello BMW we pride ourselves in our dedication of keeping our customers completely satisfied. Soon you will be contacted by BMWNA regarding this service. If you cannot answer all the questions with an excellent rating, please let us know.",
+        "labor": [],
+        "acct_split": [],
+        "wsi_labor": null,
+        "total_cost": null,
+        "total_sale": null,
+        "total_comp": null,
+        "total_labor": 0.0,
+        "total_parts": 0.0,
+        "total_other": 0.0,
+        "total_lub": null,
+        "subtotal": null,
+        "total": 0.0
+      }
+    }
+  ]
+}

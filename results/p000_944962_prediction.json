@@ -1,0 +1,1216 @@
+{
+  "doc_id": "944962",
+  "sections": [
+    {
+      "section_id": "ASI-944962",
+      "prefix": "ASI",
+      "page_count": 2,
+      "header": {
+        "unit_number": "30926",
+        "customer_name": "Shannon Jones",
+        "customer_address": "8963 Jennifer Locks",
+        "customer_city_state_zip": "North Jessicaland, WV 70323",
+        "customer_email": "davidalvarez@example.net",
+        "home_phone": "533-215-0983",
+        "contact_phone": "547-938-2997",
+        "bus_phone": null,
+        "cell_phone": null,
+        "advisor_id": "7924",
+        "advisor_name": "Shannon Jones",
+        "color": "BLACKSAP",
+        "year": "19",
+        "make": "BMW",
+        "model": "X7",
+        "submodel": "XDR40I",
+        "vin": "5UXCW2C53K8637940",
+        "miles_in": "173",
+        "miles_out": "173",
+        "tag": "TY373",
+        "open_date": "10SEP19",
+        "close_date": "27SEP19",
+        "date_in": "10SEP19",
+        "date_out": "27SEP19",
+        "time_in": "09:49 10SEP19",
+        "time_out": "15:30 27SEP19",
+        "promise_time": "17:00 10SEP19",
+        "delivery_date": "27SEP19",
+        "deal_type": "DD",
+        "pay_type": "CC",
+        "rate": "195.00",
+        "stock_number": "30926",
+        "customer_number": "895667",
+        "ro_number": "944962",
+        "engine": "3.0_Liter_Twin_Turbo"
+      },
+      "footer": {
+        "labor_amount": 0.0,
+        "parts_amount": 0.0,
+        "gas_oil_lube": 0.0,
+        "sublet_amount": 0.0,
+        "misc_charges": 0.0,
+        "total_charges": 0.0,
+        "less_insurance": 0.0,
+        "sales_tax": 0.0,
+        "please_pay": 0.0
+      },
+      "content": {
+        "job": [
+          {
+            "line_letter": "A",
+            "text": "ANNEX SHOP REPAIR",
+            "cause": null,
+            "op": [
+              {
+                "code": null,
+                "text": "ANNEX ANNEX SHOP REPAIR",
+                "labor": [
+                  {
+                    "tech": "425",
+                    "type": "C",
+                    "a_hrs": "0.00",
+                    "s_hrs": "0.00",
+                    "cost": "0",
+                    "sale": "0",
+                    "comp": null,
+                    "list": null,
+                    "net": "0.00",
+                    "total": "0.00"
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": null,
+            "claim_type": null,
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": null,
+            "log": []
+          },
+          {
+            "line_letter": "B",
+            "text": "B611319 Service Action: Dual Storage System B61 13 19 00-Open",
+            "cause": "RECALL",
+            "op": [
+              {
+                "code": "0068617",
+                "text": "CHECKING 12V DUAL STORAGE SYSTEM",
+                "labor": [
+                  {
+                    "tech": "425",
+                    "type": "WBS",
+                    "a_hrs": "0.64",
+                    "s_hrs": "0.06",
+                    "cost": "1980",
+                    "sale": "9048",
+                    "comp": null,
+                    "list": null,
+                    "net": "90.48",
+                    "total": "90.48"
+                  }
+                ],
+                "parts": [
+                  {
+                    "part_number": null,
+                    "count": "0",
+                    "cost": "0",
+                    "sale": "0",
+                    "type": "TPARTS"
+                  }
+                ]
+              }
+            ],
+            "fc": "0061180500",
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": null,
+            "claim_type": "1W",
+            "auth_code": null,
+            "labor_cost": "1980",
+            "labor_sale": "9048",
+            "log": [
+              {
+                "tech": "425",
+                "date": "10SEP19",
+                "time": "11:59",
+                "miles": "173",
+                "text": "SOFTWARE NOT AVAILABLE AT THIS TIME."
+              },
+              {
+                "tech": "425",
+                "date": "27SEP19",
+                "time": "09:49",
+                "miles": "173",
+                "text": "PER SIB 61 13 19 PERFORMED BATTERY TEST. PASSED AND NO WORK NEEDED."
+              }
+            ]
+          },
+          {
+            "line_letter": "C",
+            "text": "REPLACE BATTERY WARNING PRESENT. REPLACE AND REGISTER NEW BATTERY MA001 REPLACED AND REGISTERED NEW BATTERY. FAULTS FOR ION BATTERY PRESENT. ORDERED BATTERY. WIL REPLACE WHEN PARTS ARRIVE",
+            "cause": null,
+            "op": [
+              {
+                "code": null,
+                "text": "REPLACE BATTERY",
+                "labor": [
+                  {
+                    "tech": "425",
+                    "type": "IB",
+                    "a_hrs": "1.55",
+                    "s_hrs": "1.00",
+                    "cost": "3300",
+                    "sale": "19500",
+                    "comp": null,
+                    "list": null,
+                    "net": "195.00",
+                    "total": "195.00"
+                  }
+                ],
+                "parts": [
+                  {
+                    "part_number": "61-21-2-353-813 EP",
+                    "description": "BATTERY 80AH:612010",
+                    "count": null,
+                    "cost": "11940",
+                    "sale": "19900",
+                    "comp": "0",
+                    "list": "199.00",
+                    "net": "199.00",
+                    "total": "199.00"
+                  }
+                ]
+              }
+            ],
+            "fc": null,
+            "part_number": "61-21-2-353-813 EP",
+            "parts_cost": null,
+            "parts_sale": null,
+            "claim_type": null,
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": null,
+            "log": [
+              {
+                "tech": "425",
+                "date": "10SEP19",
+                "time": "11:59",
+                "miles": "173",
+                "text": "REPLACED BATTERY AND REGISTERED. VEHICLE WAS TOTALLY DEAD. DRIVER ASSISTANCE MALFUNCTION WARNING WAS ON. CLEARED FAULTS AND WARNINGS ARE NOW GONE BUT DO HAVE FAULT FOR ION BATTERY NEEDS TO BE REPLACED."
+              },
+              {
+                "tech": "1237",
+                "date": "27SEP19",
+                "time": "08:00",
+                "miles": "173",
+                "text": "REPLACED BATTERY AND REGISTERED. VEHICLE WAS TOTALLY DEAD. DRIVER ASSISTANCE MALFUNCTION WARNING WAS ON. CLEARED FAULTS AND WARNINGS ARE NOW GONE BUT DO HAVE FAULT FOR ION BATTERY NEEDS TO BE REPLACED. ION BATTERY ORDERED"
+              }
+            ]
+          },
+          {
+            "line_letter": "D",
+            "text": "CHECK AND INFLATE EACH VEHICLES TIRES TO THE RECOMMENDED TIRE PRESSURE RATING. DOCUMENT EACH TIRE PRESSURE MEASUREMENTS AFTER THE SERVICES ARE PERFORMED. TPC CHECK AND INFLATE EACH VEHICLES TIRES TO THE RECOMMENDED TIRE PRESSURE RATING. DOCUMENT EACH TIRE PRESSURE MEASUREMENTS AFTER THE SERVICES ARE PERFORMED.",
+            "cause": null,
+            "op": [
+              {
+                "code": null,
+                "text": "TPC CHECK AND INFLATE EACH VEHICLES TIRES TO THE RECOMMENDED TIRE PRESSURE RATING. DOCUMENT EACH TIRE PRESSURE MEASUREMENTS AFTER THE SERVICES ARE PERFORMED.",
+                "labor": [
+                  {
+                    "tech": "425",
+                    "type": "C",
+                    "a_hrs": "0.02",
+                    "s_hrs": "0.00",
+                    "cost": "0",
+                    "sale": "0",
+                    "comp": null,
+                    "list": null,
+                    "net": "0.00",
+                    "total": "0.00"
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": null,
+            "claim_type": null,
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": null,
+            "log": [
+              {
+                "tech": "425",
+                "date": "10SEP19",
+                "time": "12:00",
+                "miles": "173",
+                "text": "SET TIRE PRESSURE"
+              }
+            ]
+          }
+        ],
+        "bar": "ARD 054466",
+        "epa": "CAD 982041154",
+        "dealer_notes": "At Niello BMW we pride ourselves in our dedication of keeping our customers completely satisfied. Soon you will be contacted by BMWNA regarding this service. If you cannot answer all the questions with an excellent rating, please let us know.",
+        "labor": [
+          {
+            "date": "09-10-19",
+            "start": "10:25",
+            "finish": "10:25",
+            "duration": "0.00",
+            "type": "W",
+            "tech": "425",
+            "line_letter": "A",
+            "charge": null
+          },
+          {
+            "date": null,
+            "start": "10:26",
+            "finish": "11:59",
+            "duration": "1.55",
+            "type": "W",
+            "tech": "425",
+            "line_letter": "C",
+            "charge": null
+          },
+          {
+            "date": null,
+            "start": "11:59",
+            "finish": "11:59",
+            "duration": "0.00",
+            "type": "W",
+            "tech": "425",
+            "line_letter": "B",
+            "charge": null
+          },
+          {
+            "date": null,
+            "start": "11:59",
+            "finish": "12:00",
+            "duration": "0.02",
+            "type": "W",
+            "tech": "425",
+            "line_letter": "D",
+            "charge": null
+          },
+          {
+            "date": "09-27-19",
+            "start": "09:11",
+            "finish": "09:49",
+            "duration": "0.64",
+            "type": "W",
+            "tech": "425",
+            "line_letter": "B",
+            "charge": null
+          }
+        ],
+        "acct_split": [
+          {
+            "acct": "4501",
+            "sale": 0,
+            "cost": 0
+          },
+          {
+            "acct": "4543",
+            "sale": 9048,
+            "cost": 1980
+          },
+          {
+            "acct": "4551",
+            "sale": 19500,
+            "cost": 3300
+          },
+          {
+            "acct": "4651",
+            "sale": 19900,
+            "cost": 11940
+          },
+          {
+            "acct": "2030",
+            "sale": 0,
+            "cost": null
+          },
+          {
+            "acct": "2220",
+            "sale": 9048,
+            "cost": null
+          },
+          {
+            "acct": "2031",
+            "sale": 39400,
+            "cost": null
+          }
+        ],
+        "total_cost": 17220,
+        "total_sale": 48448,
+        "total_comp": 0,
+        "total_labor": null,
+        "total_parts": null,
+        "total_other": null,
+        "total_lub": null,
+        "subtotal": null,
+        "total": null
+      }
+    },
+    {
+      "section_id": "BWO-944962",
+      "prefix": "BWO",
+      "page_count": 1,
+      "header": {
+        "unit_number": "30926",
+        "customer_name": "Shannon Jones",
+        "customer_address": "8963 Jennifer Locks",
+        "customer_city_state_zip": "North Jessicaland, WV 70323",
+        "customer_email": "davidalvarez@example.net",
+        "home_phone": "533-215-0983",
+        "contact_phone": "547-938-2997",
+        "bus_phone": null,
+        "cell_phone": null,
+        "advisor_id": "7924",
+        "advisor_name": "Shannon Jones",
+        "color": "BLACKSAP",
+        "year": "19",
+        "make": "BMW",
+        "model": "X7",
+        "submodel": "XDR40I",
+        "vin": "5UXCW2C53K8637940",
+        "miles_in": "173",
+        "miles_out": "173",
+        "tag": "TY373",
+        "open_date": "10SEP19",
+        "close_date": "27SEP19",
+        "date_in": "10SEP19",
+        "date_out": "27SEP19",
+        "time_in": "09:49 10SEP19",
+        "time_out": "15:30 27SEP19",
+        "promise_time": "17:00 10SEP19",
+        "delivery_date": "27SEP19",
+        "deal_type": "DD",
+        "pay_type": "CC",
+        "rate": "195.00",
+        "stock_number": "30926",
+        "customer_number": "895667",
+        "ro_number": "944962",
+        "engine": "3.0_Liter_Twin_Turbo"
+      },
+      "footer": {
+        "labor_amount": 0.0,
+        "parts_amount": 0.0,
+        "gas_oil_lube": 0.0,
+        "sublet_amount": 0.0,
+        "misc_charges": 0.0,
+        "total_charges": 0.0,
+        "less_insurance": 0.0,
+        "sales_tax": 0.0,
+        "please_pay": 0.0
+      },
+      "content": {
+        "job": [
+          {
+            "line_letter": "A",
+            "text": "ANNEX SHOP REPAIR",
+            "cause": null,
+            "op": [
+              {
+                "code": "ANNEX",
+                "text": "ANNEX SHOP REPAIR",
+                "labor": [],
+                "parts": []
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": null,
+            "claim_type": "C",
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": null,
+            "log": []
+          },
+          {
+            "line_letter": "B",
+            "text": "B611319 Service Action: Dual Storage System B61 13 19 00-Open",
+            "cause": null,
+            "op": [
+              {
+                "code": "MA001",
+                "text": "B611319 Service Action: Dual Storage System B61 13 19 00-Open",
+                "labor": [
+                  {
+                    "tech": "W94"
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": null,
+            "claim_type": "W94",
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": null,
+            "log": []
+          },
+          {
+            "line_letter": "C",
+            "text": "REPLACE BATTERY WARNING PRESENT. REPLACE AND REGISTER NEW BATTERY",
+            "cause": null,
+            "op": [
+              {
+                "code": "MA001",
+                "text": "REPLACE BATTERY WARNING PRESENT. REPLACE AND REGISTER NEW BATTERY",
+                "labor": [
+                  {
+                    "tech": "IB"
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": null,
+            "claim_type": "IB",
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": null,
+            "log": []
+          },
+          {
+            "line_letter": "D",
+            "text": "CHECK AND INFLATE EACH VEHICLES TIRES TO THE RECOMMENDED TIRE PRESSURE RATING. DOCUMENT EACH TIRE PRESSURE MEASUREMENTS AFTER THE SERVICES ARE PERFORMED.",
+            "cause": null,
+            "op": [
+              {
+                "code": "TPC",
+                "text": "CHECK AND INFLATE EACH VEHICLES TIRES TO THE RECOMMENDED TIRE PRESSURE RATING. DOCUMENT EACH TIRE PRESSURE MEASUREMENTS AFTER THE SERVICES ARE PERFORMED.",
+                "labor": [],
+                "parts": []
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": null,
+            "claim_type": "C",
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": null,
+            "log": []
+          }
+        ],
+        "bar": "ARD 054466",
+        "epa": "CAD 982041154",
+        "dealer_notes": null,
+        "labor": [],
+        "acct_split": [],
+        "total_cost": null,
+        "total_sale": null,
+        "total_comp": null,
+        "total_labor": null,
+        "total_parts": null,
+        "total_other": null,
+        "total_lub": null,
+        "subtotal": null,
+        "total": null
+      }
+    },
+    {
+      "section_id": "CSI-944962",
+      "prefix": "CSI",
+      "page_count": 2,
+      "header": {
+        "unit_number": "30926",
+        "customer_name": "Shannon Jones",
+        "customer_address": "8963 Jennifer Locks",
+        "customer_city_state_zip": "North Jessicaland, WV 70323",
+        "customer_email": "davidalvarez@example.net",
+        "home_phone": "533-215-0983",
+        "contact_phone": "547-938-2997",
+        "bus_phone": null,
+        "cell_phone": null,
+        "advisor_id": "7924",
+        "advisor_name": "Shannon Jones",
+        "color": "BLACKSAP",
+        "year": "19",
+        "make": "BMW",
+        "model": "X7",
+        "submodel": "XDR40I",
+        "vin": "5UXCW2C53K8637940",
+        "miles_in": "173",
+        "miles_out": "173",
+        "tag": "TY373",
+        "open_date": "10SEP19",
+        "close_date": "27SEP19",
+        "date_in": "10SEP19",
+        "date_out": "27SEP19",
+        "time_in": "09:49 10SEP19",
+        "time_out": "15:30 27SEP19",
+        "promise_time": "17:00 10SEP19",
+        "delivery_date": "27SEP19",
+        "deal_type": "DD",
+        "pay_type": "CC",
+        "rate": "195.00",
+        "stock_number": "30926",
+        "customer_number": "895667",
+        "ro_number": "944962",
+        "engine": "3.0_Liter_Twin_Turbo"
+      },
+      "footer": {
+        "labor_amount": 0.0,
+        "parts_amount": 0.0,
+        "gas_oil_lube": 0.0,
+        "sublet_amount": 0.0,
+        "misc_charges": 0.0,
+        "total_charges": 0.0,
+        "less_insurance": 0.0,
+        "sales_tax": 0.0,
+        "please_pay": 0.0
+      },
+      "content": {
+        "job": [
+          {
+            "line_letter": "A",
+            "text": "ANNEX SHOP REPAIR",
+            "cause": null,
+            "op": [
+              {
+                "code": "ANNEX",
+                "text": "ANNEX SHOP REPAIR",
+                "labor": [
+                  {
+                    "tech": "425",
+                    "type": "C"
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": 0.0,
+            "claim_type": null,
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": 0.0
+          },
+          {
+            "line_letter": "B",
+            "text": "B611319 Service Action: Dual Storage System B61 13 19 00-Open",
+            "cause": "RECALL",
+            "op": [
+              {
+                "code": "0068617",
+                "text": "CHECKING 12V DUAL STORAGE SYSTEM",
+                "labor": [
+                  {
+                    "tech": "425",
+                    "type": "WBS"
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": "0061180500",
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": 0.0,
+            "claim_type": "1W",
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": 0.0
+          },
+          {
+            "line_letter": "C",
+            "text": "REPLACE BATTERY WARNING PRESENT. REPLACE AND REGISTER NEW BATTERY MA001 REPLACED AND REGISTERED NEW BATTERY. FAULTS FOR ION BATTERY PRESENT. ORDERED BATTERY. WIL REPLACE WHEN PARTS ARRIVE",
+            "cause": null,
+            "op": [
+              {
+                "code": "1 61-21-2-353-813",
+                "text": "EP BATTERY 80AH:612010",
+                "labor": [
+                  {
+                    "tech": "425",
+                    "type": "IB"
+                  }
+                ],
+                "parts": [
+                  {
+                    "part_number": "61-21-2-353-813",
+                    "description": "EP BATTERY 80AH:612010"
+                  }
+                ]
+              }
+            ],
+            "fc": null,
+            "part_number": "61-21-2-353-813",
+            "parts_cost": null,
+            "parts_sale": 0.0,
+            "claim_type": null,
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": 0.0
+          },
+          {
+            "line_letter": "D",
+            "text": "CHECK AND INFLATE EACH VEHICLES TIRES TO THE RECOMMENDED TIRE PRESSURE RATING. DOCUMENT EACH TIRE PRESSURE MEASUREMENTS AFTER THE SERVICES ARE PERFORMED.",
+            "cause": null,
+            "op": [
+              {
+                "code": "TPC",
+                "text": "CHECK AND INFLATE EACH VEHICLES TIRES TO THE RECOMMENDED TIRE PRESSURE RATING. DOCUMENT EACH TIRE PRESSURE MEASUREMENTS AFTER THE SERVICES ARE PERFORMED.",
+                "labor": [
+                  {
+                    "tech": "425",
+                    "type": "C"
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": 0.0,
+            "claim_type": null,
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": 0.0
+          }
+        ],
+        "bar": "ARD 054466",
+        "epa": "CAD 982041154",
+        "dealer_notes": "At Niello BMW we pride ourselves in our dedication of keeping our customers completely satisfied. Soon you will be contacted by BMWNA regarding this service. If you cannot answer all the questions with an excellent rating, please let us know.",
+        "labor": [],
+        "acct_split": [],
+        "total_cost": null,
+        "total_sale": null,
+        "total_comp": null,
+        "total_labor": 0.0,
+        "total_parts": 0.0,
+        "total_other": 0.0,
+        "total_lub": null,
+        "subtotal": null,
+        "total": 0.0
+      }
+    },
+    {
+      "section_id": "ISI-944962",
+      "prefix": "ISI",
+      "page_count": 1,
+      "header": {
+        "unit_number": "30926",
+        "customer_name": "Shannon Jones",
+        "customer_address": "8963 Jennifer Locks",
+        "customer_city_state_zip": "North Jessicaland, WV 70323",
+        "customer_email": "davidalvarez@example.net",
+        "home_phone": "533-215-0983",
+        "contact_phone": "547-938-2997",
+        "bus_phone": null,
+        "cell_phone": null,
+        "advisor_id": "7924",
+        "advisor_name": "Shannon Jones",
+        "color": "BLACKSAP",
+        "year": "19",
+        "make": "BMW",
+        "model": "X7",
+        "submodel": "XDR40I",
+        "vin": "5UXCW2C53K8637940",
+        "miles_in": "173",
+        "miles_out": "173",
+        "tag": "TY373",
+        "open_date": "10SEP19",
+        "close_date": "27SEP19",
+        "date_in": "10SEP19",
+        "date_out": "27SEP19",
+        "time_in": "09:49 10SEP19",
+        "time_out": "15:30 27SEP19",
+        "promise_time": "17:00 10SEP19",
+        "delivery_date": "27SEP19",
+        "deal_type": "DD",
+        "pay_type": "CC",
+        "rate": "195.00",
+        "stock_number": "30926",
+        "customer_number": "895667",
+        "ro_number": "944962",
+        "engine": "3.0_Liter_Twin_Turbo"
+      },
+      "footer": {
+        "labor_amount": 195.0,
+        "parts_amount": 199.0,
+        "gas_oil_lube": 0.0,
+        "sublet_amount": 0.0,
+        "misc_charges": 0.0,
+        "total_charges": 394.0,
+        "less_insurance": 0.0,
+        "sales_tax": 0.0,
+        "please_pay": 394.0
+      },
+      "content": {
+        "job": [
+          {
+            "line_letter": "C",
+            "text": "REPLACE BATTERY WARNING PRESENT. REPLACE AND REGISTER NEW BATTERY",
+            "cause": "MA001 REPLACED AND REGISTERED NEW BATTERY. FAULTS FOR ION BATTERY PRESENT. ORDERED BATTERY. WIL REPLACE WHEN PARTS ARRIVE",
+            "op": [
+              {
+                "code": "425",
+                "text": "IB",
+                "labor": [
+                  {
+                    "hours": "1.00",
+                    "list": null,
+                    "net": "195.00",
+                    "total": "195.00"
+                  }
+                ],
+                "parts": []
+              },
+              {
+                "code": null,
+                "text": null,
+                "labor": [],
+                "parts": [
+                  {
+                    "part_number": "61-21-2-353-813",
+                    "description": "EP BATTERY 80AH:612010",
+                    "quantity": "1",
+                    "list": "199.00",
+                    "net": "199.00",
+                    "total": "199.00"
+                  }
+                ]
+              }
+            ],
+            "fc": null,
+            "part_number": "61-21-2-353-813",
+            "parts_cost": null,
+            "parts_sale": 199.0,
+            "claim_type": null,
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": 195.0,
+            "log": [
+              {
+                "tech": "173",
+                "date": null,
+                "time": null,
+                "miles": null,
+                "text": "REPLACED BATTERY AND REGISTERED. VEHICLE WAS TOTALLY DEAD. DRIVER ASSISTANCE MALFUNCTION WARNING WAS ON. CLEARED FAULTS AND WARNINGS ARE NOW GONE BUT DO HAVE FAULT FOR ION BATTERY NEEDS TO BE REPLACED. ION BATTERY ORDERED"
+              }
+            ]
+          }
+        ],
+        "bar": "BAR#-AG-054466",
+        "epa": "EPA#- CAD982041154",
+        "dealer_notes": "At Niello BMW we pride ourselves in our dedication of keeping our customers completely satisfied. Soon you will be contacted by BMWNA regarding this service. If you cannot answer all the questions with an excellent rating, please let us know.",
+        "labor": [],
+        "acct_split": [],
+        "total_cost": 15240,
+        "total_sale": 39400,
+        "total_comp": 0,
+        "total_labor": 195.0,
+        "total_parts": 199.0,
+        "total_other": null,
+        "total_lub": null,
+        "subtotal": 394.0,
+        "total": 394.0
+      }
+    },
+    {
+      "section_id": "JSI-944962",
+      "prefix": "JSI",
+      "page_count": 2,
+      "header": {
+        "unit_number": "30926",
+        "customer_name": "Shannon Jones",
+        "customer_address": "8963 Jennifer Locks",
+        "customer_city_state_zip": "North Jessicaland, WV 70323",
+        "customer_email": "davidalvarez@example.net",
+        "home_phone": "533-215-0983",
+        "contact_phone": "547-938-2997",
+        "bus_phone": null,
+        "cell_phone": null,
+        "advisor_id": "7924",
+        "advisor_name": "Shannon Jones",
+        "color": "BLACKSAP",
+        "year": "19",
+        "make": "BMW",
+        "model": "X7",
+        "submodel": "XDR40I",
+        "vin": "5UXCW2C53K8637940",
+        "miles_in": "173",
+        "miles_out": "173",
+        "tag": "TY373",
+        "open_date": "10SEP19",
+        "close_date": "27SEP19",
+        "date_in": "10SEP19",
+        "date_out": "27SEP19",
+        "time_in": "09:49 10SEP19",
+        "time_out": "15:30 27SEP19",
+        "promise_time": "17:00 10SEP19",
+        "delivery_date": "27SEP19",
+        "deal_type": "DD",
+        "pay_type": "CC",
+        "rate": "195.00",
+        "stock_number": "30926",
+        "customer_number": "895667",
+        "ro_number": "944962",
+        "engine": "3.0_Liter_Twin_Turbo"
+      },
+      "footer": {
+        "labor_amount": 0.0,
+        "parts_amount": 0.0,
+        "gas_oil_lube": 0.0,
+        "sublet_amount": 0.0,
+        "misc_charges": 0.0,
+        "total_charges": 0.0,
+        "less_insurance": 0.0,
+        "sales_tax": 0.0,
+        "please_pay": 0.0
+      },
+      "content": {
+        "job": [
+          {
+            "line_letter": "A",
+            "text": "ANNEX SHOP REPAIR",
+            "cause": null,
+            "op": [
+              {
+                "code": "ANNEX",
+                "text": "ANNEX SHOP REPAIR",
+                "labor": [
+                  {
+                    "tech": "425",
+                    "type": "C",
+                    "hours": null
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": 0.0,
+            "claim_type": null,
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": 0.0,
+            "log": []
+          },
+          {
+            "line_letter": "B",
+            "text": "B611319 Service Action: Dual Storage System B61 13 19 00-Open",
+            "cause": "RECALL",
+            "op": [
+              {
+                "code": "0068617",
+                "text": "CHECKING 12V DUAL STORAGE SYSTEM",
+                "labor": [
+                  {
+                    "tech": "425",
+                    "type": "WBS",
+                    "hours": null
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": "0061180500",
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": 0.0,
+            "claim_type": "1W",
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": 0.0,
+            "log": [
+              {
+                "tech": null,
+                "date": null,
+                "time": null,
+                "miles": null,
+                "text": "173 PER SIB 61 13 19 PERFORMED BATTERY TEST. PASSED AND NO WORK NEEDED."
+              }
+            ]
+          },
+          {
+            "line_letter": "C",
+            "text": "REPLACE BATTERY WARNING PRESENT. REPLACE AND REGISTER NEW BATTERY",
+            "cause": null,
+            "op": [
+              {
+                "code": "MA001",
+                "text": "REPLACED AND REGISTERED NEW BATTERY. FAULTS FOR ION BATTERY PRESENT. ORDERED BATTERY. WIL REPLACE WHEN PARTS ARRIVE",
+                "labor": [
+                  {
+                    "tech": "425",
+                    "type": "IB",
+                    "hours": null
+                  }
+                ],
+                "parts": [
+                  {
+                    "quantity": "1",
+                    "part_number": "61-21-2-353-813",
+                    "description": "EP BATTERY 80AH:612010",
+                    "list": null,
+                    "net": null,
+                    "total": null
+                  }
+                ]
+              }
+            ],
+            "fc": null,
+            "part_number": "61-21-2-353-813",
+            "parts_cost": null,
+            "parts_sale": 0.0,
+            "claim_type": null,
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": 0.0,
+            "log": [
+              {
+                "tech": null,
+                "date": null,
+                "time": null,
+                "miles": null,
+                "text": "173 REPLACED BATTERY AND REGISTERED. VEHICLE WAS TOTALLY DEAD. DRIVER ASSISTANCE MALFUNCTION WARNING WAS ON. CLEARED FAULTS AND WARNINGS ARE NOW GONE BUT DO HAVE FAULT FOR ION BATTERY NEEDS TO BE REPLACED. ION BATTERY ORDERED"
+              }
+            ]
+          },
+          {
+            "line_letter": "D",
+            "text": "CHECK AND INFLATE EACH VEHICLES TIRES TO THE RECOMMENDED TIRE PRESSURE RATING. DOCUMENT EACH TIRE PRESSURE MEASUREMENTS AFTER THE SERVICES ARE PERFORMED.",
+            "cause": null,
+            "op": [
+              {
+                "code": "TPC",
+                "text": "CHECK AND INFLATE EACH VEHICLES TIRES TO THE RECOMMENDED TIRE PRESSURE RATING. DOCUMENT EACH TIRE PRESSURE MEASUREMENTS AFTER THE SERVICES ARE PERFORMED.",
+                "labor": [
+                  {
+                    "tech": "425",
+                    "type": "C",
+                    "hours": null
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": null,
+            "part_number": null,
+            "parts_cost": null,
+            "parts_sale": 0.0,
+            "claim_type": null,
+            "auth_code": null,
+            "labor_cost": null,
+            "labor_sale": 0.0,
+            "log": [
+              {
+                "tech": null,
+                "date": null,
+                "time": null,
+                "miles": null,
+                "text": "173 SET TIRE PRESSURE"
+              }
+            ]
+          }
+        ],
+        "bar": "BAR#-AG-054466",
+        "epa": "EPA#- CAD982041154",
+        "dealer_notes": "At Niello BMW we pride ourselves in our dedication of keeping our customers completely satisfied. Soon you will be contacted by BMWNA regarding this service. If you cannot answer all the questions with an excellent rating, please let us know.",
+        "labor": [],
+        "acct_split": [],
+        "total_cost": null,
+        "total_sale": null,
+        "total_comp": null,
+        "total_labor": 0.0,
+        "total_parts": 0.0,
+        "total_other": 0.0,
+        "total_lub": null,
+        "subtotal": null,
+        "total": 0.0
+      }
+    },
+    {
+      "section_id": "WSI-944962",
+      "prefix": "WSI",
+      "page_count": 2,
+      "header": {
+        "unit_number": "30926",
+        "customer_name": "Shannon Jones",
+        "customer_address": "8963 Jennifer Locks",
+        "customer_city_state_zip": "North Jessicaland, WV 70323",
+        "customer_email": "davidalvarez@example.net",
+        "home_phone": "533-215-0983",
+        "contact_phone": "547-938-2997",
+        "bus_phone": null,
+        "cell_phone": null,
+        "advisor_id": "7924",
+        "advisor_name": "Shannon Jones",
+        "color": "BLACKSAP",
+        "year": "19",
+        "make": "BMW",
+        "model": "X7",
+        "submodel": "XDR40I",
+        "vin": "5UXCW2C53K8637940",
+        "miles_in": "173",
+        "miles_out": "173",
+        "tag": "TY373",
+        "open_date": "10SEP19",
+        "close_date": "27SEP19",
+        "date_in": "10SEP19",
+        "date_out": "27SEP19",
+        "time_in": "09:49 10SEP19",
+        "time_out": "15:30 27SEP19",
+        "promise_time": "17:00 10SEP19",
+        "delivery_date": "27SEP19",
+        "deal_type": "DD",
+        "pay_type": "CC",
+        "rate": "195.00",
+        "stock_number": "30926",
+        "customer_number": "895667",
+        "ro_number": "944962",
+        "engine": "3.0_Liter_Twin_Turbo"
+      },
+      "footer": {
+        "labor_amount": 90.48,
+        "parts_amount": 0.0,
+        "gas_oil_lube": 0.0,
+        "sublet_amount": 0.0,
+        "misc_charges": 0.0,
+        "total_charges": 90.48,
+        "less_insurance": 0.0,
+        "sales_tax": 0.0,
+        "please_pay": 90.48
+      },
+      "content": {
+        "job": [
+          {
+            "line_letter": "B",
+            "text": "B611319 Service Action: Dual Storage System B61 13 19 00-Open",
+            "cause": "RECALL",
+            "op": [
+              {
+                "code": "0068617",
+                "text": "CHECKING 12V DUAL STORAGE SYSTEM",
+                "labor": [
+                  {
+                    "tech": "425",
+                    "type": "WBS",
+                    "hours": "0.06"
+                  }
+                ],
+                "parts": []
+              }
+            ],
+            "fc": "0061180500",
+            "part_number": null,
+            "parts_cost": 0.0,
+            "parts_sale": 0.0,
+            "claim_type": "1W",
+            "auth_code": null,
+            "labor_cost": 19.8,
+            "labor_sale": 90.48,
+            "log": [
+              {
+                "tech": "425",
+                "date": null,
+                "time": null,
+                "miles": "173",
+                "text": "PER SIB 61 13 19 PERFORMED BATTERY TEST. PASSED AND NO WORK NEEDED."
+              }
+            ]
+          }
+        ],
+        "bar": "BAR#-AG-054466",
+        "epa": "EPA#- CAD982041154",
+        "dealer_notes": "At Niello BMW we pride ourselves in our dedication of keeping our customers completely satisfied. Soon you will be contacted by BMWNA regarding this service. If you cannot answer all the questions with an excellent rating, please let us know.",
+        "labor": [
+          {
+            "date": "09-10-19",
+            "start": "10:25",
+            "finish": "10:25",
+            "duration": 0.0,
+            "type": "W",
+            "tech": "425",
+            "line_letter": "A",
+            "charge": null
+          },
+          {
+            "date": null,
+            "start": "10:26",
+            "finish": "11:59",
+            "duration": 1.55,
+            "type": "W",
+            "tech": "425",
+            "line_letter": "C",
+            "charge": null
+          },
+          {
+            "date": null,
+            "start": "11:59",
+            "finish": "11:59",
+            "duration": 0.0,
+            "type": "W",
+            "tech": "425",
+            "line_letter": "B",
+            "charge": null
+          },
+          {
+            "date": null,
+            "start": "11:59",
+            "finish": "12:00",
+            "duration": 0.02,
+            "type": "W",
+            "tech": "425",
+            "line_letter": "D",
+            "charge": null
+          },
+          {
+            "date": "09-27-19",
+            "start": "09:11",
+            "finish": "09:49",
+            "duration": 0.64,
+            "type": "W",
+            "tech": "425",
+            "line_letter": "B",
+            "charge": null
+          }
+        ],
+        "acct_split": [
+          {
+            "acct": "4543",
+            "sale": 9048.0,
+            "cost": 1980.0
+          },
+          {
+            "acct": "2220",
+            "sale": 9048.0,
+            "cost": null
+          }
+        ],
+        "total_cost": 1980.0,
+        "total_sale": 9048.0,
+        "total_comp": 0.0,
+        "total_labor": 90.48,
+        "total_parts": 0.0,
+        "total_other": null,
+        "total_lub": null,
+        "subtotal": null,
+        "total": 90.48
+      }
+    }
+  ]
+}
