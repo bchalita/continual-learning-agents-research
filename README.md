@@ -10,7 +10,7 @@ Closed-loop system that improves AI agents **without retraining models**. The sy
 
 ```bash
 # 1. Clone the repo (this branch)
-git clone -b bernardo/improved-pipeline https://github.com/bchalita/continual-learning-agents-research.git
+git clone -b bernardo/improved-pipeline https://github.com/barathvelmu/continual-learning-agents-research.git
 cd continual-learning-agents-research
 
 # 2. Install dependencies (including Streamlit)
