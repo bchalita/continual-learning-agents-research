@@ -67,11 +67,18 @@ with st.sidebar:
     st.title("⚙️ Pipeline Config")
     st.divider()
 
-    # API key status
-    if not config.ANTHROPIC_API_KEY:
-        st.error("**ANTHROPIC_API_KEY** not found.\nCopy `.env.example` → `.env` and add your key.")
+    # API key — accept from env or let the user paste one in
+    api_key = config.ANTHROPIC_API_KEY or ""
+    api_key = st.text_input(
+        "Anthropic API Key",
+        value=api_key,
+        type="password",
+        help="Get yours at https://console.anthropic.com/settings/keys",
+    )
+    if not api_key:
+        st.warning("Enter your Anthropic API key above to run the pipeline.")
         st.stop()
-    st.success("API key loaded ✓")
+    st.success("API key set ✓")
 
     # Document selector
     samples = load_samples()
@@ -186,7 +193,7 @@ if not run_button:
     st.stop()
 
 # ── Load ground truth and base prompts ───────────────────────────────────────
-client = anthropic.Anthropic(api_key=config.ANTHROPIC_API_KEY)
+client = anthropic.Anthropic(api_key=api_key)
 
 with open(gt_path, encoding="utf-8") as f:
     ground_truth = json.load(f)

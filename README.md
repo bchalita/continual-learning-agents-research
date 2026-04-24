@@ -6,29 +6,25 @@ Closed-loop system that improves AI agents **without retraining models**. The sy
 
 ---
 
-## Quick Start
-
-### 1. Install dependencies
+## Quick Start — Run the Demo Locally
 
 ```bash
+# 1. Clone the repo (this branch)
+git clone -b bernardo/improved-pipeline https://github.com/bchalita/continual-learning-agents-research.git
+cd continual-learning-agents-research
+
+# 2. Install dependencies (including Streamlit)
 pip install -r requirements.txt
-```
 
-### 2. Set your API key
-
-```bash
-cp .env.example .env
-# Open .env and add your Anthropic API key:
-# ANTHROPIC_API_KEY=sk-ant-...
-```
-
-### 3. Run the interactive app
-
-```bash
+# 3. Launch the app
 streamlit run app.py
 ```
 
+The app will open in your browser (usually `http://localhost:8501`). Paste your **Anthropic API key** directly into the sidebar — no `.env` file needed. You can get a key at [console.anthropic.com/settings/keys](https://console.anthropic.com/settings/keys).
+
 Pick a document and number of iterations in the sidebar, then click **▶ Run Pipeline**. The app shows every step in real time: PDF thumbnails → structure analysis → per-section extraction → eval scores → prompt diff → score chart.
+
+> **Note:** If `streamlit` is not on your PATH after installing, run `python -m streamlit run app.py` instead.
 
 ---
 
