@@ -91,10 +91,10 @@ results/         Auto-created; gitignored
 
 | Role | Model |
 |------|-------|
-| Structure analysis (Tool 1) | `claude-haiku-4-5-20251001` |
-| JSON extraction (Tool 2) | `claude-haiku-4-5-20251001` |
-| LLM evaluator | `claude-haiku-4-5-20251001` |
-| Reflection / prompt optimization | `claude-sonnet-4-6` |
+| Structure analysis (Tool 1) | `claude-sonnet-4-6` |
+| JSON extraction (Tool 2) | `claude-sonnet-4-6` |
+| LLM evaluator | `claude-opus-4-6` |
+| Reflection / prompt optimization | `claude-opus-4-6` |
 
 ---
 
